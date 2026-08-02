@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
 import { Smile, Shield, Tag, HeartHandshake } from 'lucide-react';
 
 interface PersonalityCardProps {
@@ -31,15 +30,18 @@ export const PersonalityCard: React.FC<PersonalityCardProps> = ({
       case 'topics':
         return <Tag className="w-5 h-5 text-[#FF9A3C]" />;
       case 'relationship':
-        return <HeartHandshake className="w-5 h-5 text-[#9D8FFF]" />;
+        return <HeartHandshake className="w-5 h-5 text-[#C5A880]" />;
     }
   };
 
   return (
-    <Card className="p-5 flex flex-col justify-between h-full bg-[#14141F] border-[#1E1E30]">
+    <Card 
+      className="p-5 flex flex-col justify-between h-full bg-evoke-card border-evoke-border"
+      borderTheme={type === 'relationship' || type === 'humor' ? 'gold' : 'violet'}
+    >
       <div>
         <div className="flex items-center justify-between mb-3">
-          <div className="w-9 h-9 rounded-[8px] bg-[#0F0F1A] border border-[#1E1E30] flex items-center justify-center">
+          <div className="w-9 h-9 rounded-[8px] bg-evoke-surface border border-evoke-border flex items-center justify-center">
             {getIcon()}
           </div>
           {confidence && (
@@ -49,13 +51,13 @@ export const PersonalityCard: React.FC<PersonalityCardProps> = ({
           )}
         </div>
 
-        <h4 className="text-xs uppercase tracking-wider text-[#9090A8] font-medium mb-1">
+        <h4 className="text-xs uppercase tracking-wider text-evoke-text-secondary font-semibold mb-1">
           {title}
         </h4>
 
         {badgeValue && (
           <div className="my-2">
-            <span className="font-syne font-bold text-base text-[#F0F0F8]">
+            <span className="font-syne font-bold text-base text-evoke-text-primary">
               {badgeValue}
             </span>
           </div>
@@ -66,7 +68,7 @@ export const PersonalityCard: React.FC<PersonalityCardProps> = ({
             {tags.map((t) => (
               <span
                 key={t}
-                className="text-[11px] px-2.5 py-1 rounded-[100px] bg-[#0F0F1A] border border-[#1E1E30] text-[#F0F0F8]"
+                className="text-[11px] px-2.5 py-1 rounded-[100px] bg-evoke-surface border border-evoke-border text-evoke-text-primary font-medium"
               >
                 #{t}
               </span>
@@ -75,7 +77,7 @@ export const PersonalityCard: React.FC<PersonalityCardProps> = ({
         )}
 
         {description && (
-          <p className="text-xs text-[#9090A8] font-light leading-relaxed mt-2">
+          <p className="text-xs text-evoke-text-secondary font-light leading-relaxed mt-2">
             {description}
           </p>
         )}

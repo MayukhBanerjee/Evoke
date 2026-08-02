@@ -13,13 +13,13 @@ import { VoicePreview } from '@/components/vault/VoicePreview';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { MessageSquare, Plus, ArrowRight, History, Shield, Heart } from 'lucide-react';
+import { MessageSquare, Plus, ArrowRight, History } from 'lucide-react';
 
 export default function VaultPage() {
   const { activeVault, vaults, setActiveVaultId } = useEvoke();
 
   return (
-    <main className="min-h-screen bg-[#080810] text-[#F0F0F8] pt-28 pb-16 relative">
+    <main className="min-h-screen bg-evoke-bg text-evoke-text-primary pt-28 pb-16 relative transition-colors duration-300">
       <Navbar />
 
       {/* Vault Container */}
@@ -27,16 +27,16 @@ export default function VaultPage() {
         
         {/* Vault Switcher Header */}
         {vaults.length > 1 && (
-          <div className="flex items-center gap-3 overflow-x-auto pb-2">
-            <span className="text-xs text-[#9090A8] uppercase font-mono">Switch Vault:</span>
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
+            <span className="text-xs text-evoke-text-secondary uppercase font-mono">Switch Vault:</span>
             {vaults.map((v) => (
               <button
                 key={v.id}
                 onClick={() => setActiveVaultId(v.id)}
-                className={`px-3 py-1.5 rounded-[100px] text-xs font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-[100px] text-xs font-semibold transition-all ${
                   v.id === activeVault.id
-                    ? 'bg-[#7C6AFF] text-white shadow-glow'
-                    : 'bg-[#0F0F1A] border border-[#1E1E30] text-[#9090A8] hover:text-[#F0F0F8]'
+                    ? 'bg-[#C5A880] text-[#080810] shadow-glow-gold'
+                    : 'bg-evoke-surface border border-evoke-border text-evoke-text-secondary hover:text-evoke-text-primary'
                 }`}
               >
                 {v.name} ({v.relationship})
@@ -46,32 +46,32 @@ export default function VaultPage() {
         )}
 
         {/* Page Top Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#1E1E30]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-evoke-border">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="font-syne font-extrabold text-3xl sm:text-4xl text-[#F0F0F8]">
+              <h1 className="font-syne font-extrabold text-3xl sm:text-4xl text-evoke-text-primary">
                 {activeVault.name}
               </h1>
-              <Badge variant="status" className="text-xs">
+              <Badge variant="gold" className="text-xs">
                 {activeVault.relationship}
               </Badge>
             </div>
-            <p className="text-xs sm:text-sm text-[#9090A8] font-light max-w-xl">
+            <p className="text-xs sm:text-sm text-evoke-text-secondary font-light max-w-xl">
               {activeVault.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <CompletenessScore score={activeVault.completenessScore} />
 
             <Link href="/onboard">
-              <Button variant="ghost" size="md" icon={<Plus className="w-4 h-4 text-[#7C6AFF]" />}>
+              <Button variant="ghost" size="md" icon={<Plus className="w-4 h-4 text-[#C5A880]" />}>
                 Add Memories
               </Button>
             </Link>
 
             <Link href="/converse">
-              <Button variant="primary" size="md" icon={<MessageSquare className="w-4 h-4" />}>
+              <Button variant="gold" size="md" icon={<MessageSquare className="w-4 h-4" />}>
                 Converse
               </Button>
             </Link>
@@ -83,7 +83,7 @@ export default function VaultPage() {
 
         {/* 4 Personality Cards Row */}
         <div>
-          <h3 className="font-syne text-lg font-bold text-[#F0F0F8] mb-4">
+          <h3 className="font-syne text-lg font-bold text-evoke-text-primary mb-4">
             Extracted Personality Traits
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -126,15 +126,15 @@ export default function VaultPage() {
         )}
 
         {/* Recent Conversations Section */}
-        <div className="space-y-4 pt-4 border-t border-[#1E1E30]">
+        <div className="space-y-4 pt-4 border-t border-evoke-border">
           <div className="flex items-center justify-between">
-            <h3 className="font-syne text-lg font-bold text-[#F0F0F8] flex items-center gap-2">
-              <History className="w-5 h-5 text-[#7C6AFF]" />
+            <h3 className="font-syne text-lg font-bold text-evoke-text-primary flex items-center gap-2">
+              <History className="w-5 h-5 text-[#C5A880]" />
               Recent Echo Exchanges
             </h3>
 
             <Link href="/converse">
-              <span className="text-xs text-[#7C6AFF] hover:text-[#9D8FFF] font-medium flex items-center gap-1">
+              <span className="text-xs text-[#C5A880] hover:text-[#D4B890] font-semibold flex items-center gap-1">
                 Open Conversation Space <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </Link>
@@ -142,13 +142,13 @@ export default function VaultPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {activeVault.recentConversations.map((conv) => (
-              <Card key={conv.id} className="p-5 border-[#1E1E30] flex flex-col justify-between">
+              <Card key={conv.id} className="p-5 border-evoke-border bg-evoke-card flex flex-col justify-between" hoverEffect={true} borderTheme="gold">
                 <div>
-                  <div className="flex items-center justify-between text-xs text-[#9090A8] font-mono mb-2">
+                  <div className="flex items-center justify-between text-xs text-evoke-text-secondary font-mono mb-2">
                     <span>{conv.timestamp}</span>
                     {conv.duration && <span>{conv.duration}</span>}
                   </div>
-                  <p className="text-xs text-[#F0F0F8] font-light italic leading-relaxed mb-4">
+                  <p className="text-xs text-evoke-text-primary font-light italic leading-relaxed mb-4">
                     "{conv.snippet}"
                   </p>
                 </div>

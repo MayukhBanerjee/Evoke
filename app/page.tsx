@@ -9,7 +9,7 @@ import { Footer } from '@/components/landing/Footer';
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[#080810] text-[#F0F0F8] overflow-hidden">
+    <main className="min-h-screen bg-evoke-bg text-evoke-text-primary overflow-hidden transition-colors duration-300">
       <Navbar />
       <Hero />
       <HowItWorks />

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,18 +11,21 @@ const config: Config = {
     extend: {
       colors: {
         evoke: {
-          bg: "#080810",
-          surface: "#0F0F1A",
-          card: "#14141F",
-          border: "#1E1E30",
+          bg: "var(--bg-color)",
+          surface: "var(--surface-color)",
+          card: "var(--card-color)",
+          border: "var(--border-color)",
           "accent-primary": "#7C6AFF",
           "accent-hover": "#9D8FFF",
           "accent-soft": "rgba(124, 106, 255, 0.10)",
           mint: "#4ECCA3",
           amber: "#FF9A3C",
-          "text-primary": "#F0F0F8",
-          "text-secondary": "#9090A8",
-          "text-muted": "#55556A",
+          gold: "#C5A880",
+          "gold-hover": "#D4B890",
+          "gold-soft": "rgba(197, 168, 128, 0.12)",
+          "text-primary": "var(--text-primary)",
+          "text-secondary": "var(--text-secondary)",
+          "text-muted": "var(--text-muted)",
         },
       },
       fontFamily: {
@@ -38,10 +42,12 @@ const config: Config = {
         glow: "0 0 20px rgba(124, 106, 255, 0.25)",
         "glow-lg": "0 0 35px rgba(124, 106, 255, 0.35)",
         "glow-mint": "0 0 20px rgba(78, 204, 163, 0.25)",
+        "glow-gold": "0 0 20px rgba(197, 168, 128, 0.30)",
         "input-focus": "0 0 0 3px rgba(124, 106, 255, 0.15)",
       },
       backgroundImage: {
         "hero-gradient": "linear-gradient(135deg, #7C6AFF 0%, #4ECCA3 100%)",
+        "gold-gradient": "linear-gradient(135deg, #C5A880 0%, #E6C594 100%)",
         "card-gradient": "linear-gradient(180deg, rgba(20, 20, 31, 0.8) 0%, rgba(15, 15, 26, 0.9) 100%)",
       },
       keyframes: {

@@ -12,7 +12,7 @@ const INITIAL_VAULTS: PersonalityVault[] = [
     completenessScore: 94,
     createdAt: "2025-11-14",
     lastConversationDate: "Yesterday at 9:42 PM",
-    voiceSampleUrl: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg", // standard sample placeholder
+    voiceSampleUrl: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg",
     humorStyle: {
       style: "Dry & Sarcastic",
       confidence: 96,
@@ -171,6 +171,8 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
   ]
 };
 
+type Theme = 'dark' | 'light';
+
 interface EvokeContextType {
   vaults: PersonalityVault[];
   activeVault: PersonalityVault;
@@ -179,6 +181,8 @@ interface EvokeContextType {
   messages: Message[];
   addMessage: (content: string) => void;
   isGeneratingEcho: boolean;
+  theme: Theme;
+  toggleTheme: () => void;
 }
 
 const EvokeContext = createContext<EvokeContextType | undefined>(undefined);
@@ -188,8 +192,29 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [activeVaultId, setActiveVaultId] = useState<string>("vault-1");
   const [messagesMap, setMessagesMap] = useState<Record<string, Message[]>>(INITIAL_MESSAGES);
   const [isGeneratingEcho, setIsGeneratingEcho] = useState(false);
+  
+  // Theme state defaulting to 'dark'
+  const [theme, setTheme] = useState<Theme>('dark');
 
-  // Sync active vault
+  // Load theme and apply DOM attributes
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('evoke-theme') as Theme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.className = savedTheme;
+    } else {
+      // Default to dark mode
+      document.documentElement.className = 'dark';
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('evoke-theme', nextTheme);
+    document.documentElement.className = nextTheme;
+  };
+
   const activeVault = vaults.find(v => v.id === activeVaultId) || vaults[0];
   const messages = messagesMap[activeVaultId] || [];
 
@@ -210,7 +235,6 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     setIsGeneratingEcho(true);
 
-    // Simulate realistic AI echo response with voice personality synthesis delay
     setTimeout(() => {
       let echoText = "";
       const lower = content.toLowerCase();
@@ -301,7 +325,9 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         createNewVault,
         messages,
         addMessage,
-        isGeneratingEcho
+        isGeneratingEcho,
+        theme,
+        toggleTheme
       }}
     >
       {children}

@@ -6,16 +6,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEvoke } from '@/lib/store';
 import { MessageBubble } from './MessageBubble';
 import { Button } from '../ui/Button';
-import { ArrowLeft, Send, Sparkles, User, History, Shield, Mic } from 'lucide-react';
+import { ArrowLeft, Send, Sparkles, User, History, Shield, Sun, Moon } from 'lucide-react';
 
 export const ConversationUI: React.FC = () => {
-  const { activeVault, messages, addMessage, isGeneratingEcho } = useEvoke();
+  const { activeVault, messages, addMessage, isGeneratingEcho, theme, toggleTheme } = useEvoke();
   const [inputText, setInputText] = useState('');
   const [showEntranceNotice, setShowEntranceNotice] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Fade entrance notice after 2.5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowEntranceNotice(false);
@@ -23,7 +22,6 @@ export const ConversationUI: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Scroll to bottom when messages update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isGeneratingEcho]);
@@ -43,11 +41,11 @@ export const ConversationUI: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-screen flex bg-[#080810] text-[#F0F0F8] overflow-hidden relative">
+    <div className="w-full h-screen flex bg-evoke-bg text-evoke-text-primary overflow-hidden relative transition-colors duration-300">
       {/* Subtle Slow-moving Radial Warmth Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#7C6AFF]/10 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#C5A880]/8 via-transparent to-transparent pointer-events-none" />
 
-      {/* Brief 2-second Entrance Fade-in Banner */}
+      {/* Entrance Fade-in Banner */}
       <AnimatePresence>
         {showEntranceNotice && (
           <motion.div
@@ -55,55 +53,76 @@ export const ConversationUI: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
-            className="absolute top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 rounded-pill bg-[#7C6AFF]/15 border border-[#7C6AFF]/30 text-xs text-[#F0F0F8] font-medium backdrop-blur-md shadow-glow flex items-center gap-2"
+            className="absolute top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-2.5 rounded-pill bg-[#C5A880]/15 border border-[#C5A880]/30 text-xs text-evoke-text-primary font-semibold backdrop-blur-md shadow-glow-gold flex items-center gap-2"
           >
-            <Sparkles className="w-4 h-4 text-[#7C6AFF]" />
+            <Sparkles className="w-4 h-4 text-[#C5A880]" />
             You're speaking with {activeVault.name}'s echo
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* LEFT SIDEBAR (20% width on desktop) */}
-      <aside className="hidden lg:flex w-72 shrink-0 border-r border-[#1E1E30] bg-[#0F0F1A] p-6 flex-col justify-between z-20">
+      {/* LEFT SIDEBAR */}
+      <aside className="hidden lg:flex w-72 shrink-0 border-r border-evoke-border bg-evoke-surface p-6 flex-col justify-between z-20">
         <div className="space-y-6">
           {/* Top Back Link */}
           <Link
             href="/vault"
-            className="inline-flex items-center gap-2 text-xs text-[#9090A8] hover:text-[#F0F0F8] transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-evoke-text-secondary hover:text-evoke-text-primary transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Personality Vault
           </Link>
 
           {/* Profile Card Sidebar Header */}
-          <div className="p-4 rounded-[14px] bg-[#14141F] border border-[#1E1E30] flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-[#7C6AFF]/20 border border-[#7C6AFF] flex items-center justify-center shrink-0 shadow-glow">
-              <User className="w-6 h-6 text-[#7C6AFF]" />
+          <div className="p-4 rounded-[14px] bg-evoke-card border border-evoke-border flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-[#C5A880]/15 border border-[#C5A880]/40 flex items-center justify-center shrink-0 shadow-glow-gold">
+              <User className="w-6 h-6 text-[#C5A880]" />
             </div>
             <div>
-              <h3 className="font-syne font-bold text-sm text-[#F0F0F8] line-clamp-1">
+              <h3 className="font-syne font-bold text-sm text-evoke-text-primary line-clamp-1">
                 {activeVault.name}
               </h3>
-              <p className="text-xs text-[#4ECCA3] font-mono">
+              <p className="text-xs text-[#C5A880] font-semibold">
                 {activeVault.relationship}
               </p>
             </div>
           </div>
 
+          {/* Theme switcher integrated in conversation side area */}
+          <div className="flex items-center justify-between p-3 rounded-[10px] bg-evoke-card border border-evoke-border text-xs text-evoke-text-secondary">
+            <span>Theme Preference:</span>
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-[100px] bg-evoke-surface border border-evoke-border text-evoke-text-primary hover:border-[#7C6AFF]/50 transition-colors"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-[#FF9A3C]" />
+                  <span>Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-[#7C6AFF]" />
+                  <span>Dark</span>
+                </>
+              )}
+            </button>
+          </div>
+
           {/* Persona Hints */}
           <div className="space-y-2">
-            <p className="text-[11px] font-mono text-[#55556A] uppercase tracking-wider">
+            <p className="text-[11px] font-mono text-evoke-text-muted uppercase tracking-wider">
               Echo Profile Traits
             </p>
-            <div className="p-3 rounded-[10px] bg-[#14141F]/60 border border-[#1E1E30] text-xs text-[#9090A8] space-y-1">
-              <p><span className="text-[#F0F0F8]">Humor:</span> {activeVault.humorStyle.style}</p>
-              <p><span className="text-[#F0F0F8]">Advice:</span> {activeVault.adviceTone.tone}</p>
+            <div className="p-3 rounded-[10px] bg-evoke-card border border-evoke-border text-xs text-evoke-text-secondary space-y-1">
+              <p><span className="text-evoke-text-primary font-semibold">Humor:</span> {activeVault.humorStyle.style}</p>
+              <p><span className="text-evoke-text-primary font-semibold">Advice:</span> {activeVault.adviceTone.tone}</p>
             </div>
           </div>
 
           {/* Recent Timestamps */}
           <div className="space-y-3">
-            <p className="text-[11px] font-mono text-[#55556A] uppercase tracking-wider flex items-center gap-1.5">
+            <p className="text-[11px] font-mono text-evoke-text-muted uppercase tracking-wider flex items-center gap-1.5">
               <History className="w-3.5 h-3.5" />
               Recent Conversations
             </p>
@@ -111,44 +130,49 @@ export const ConversationUI: React.FC = () => {
               {activeVault.recentConversations.map((c) => (
                 <div
                   key={c.id}
-                  className="p-2.5 rounded-[8px] bg-[#14141F]/40 border border-[#1E1E30]/50 text-xs text-[#9090A8] hover:border-[#7C6AFF]/30 transition-colors"
+                  className="p-2.5 rounded-[8px] bg-evoke-card border border-evoke-border/50 text-xs text-evoke-text-secondary hover:border-[#C5A880]/30 transition-colors"
                 >
-                  <p className="font-mono text-[10px] text-[#7C6AFF]">{c.timestamp}</p>
-                  <p className="truncate font-light text-[#F0F0F8] mt-0.5">{c.snippet}</p>
+                  <p className="font-mono text-[10px] text-[#C5A880]">{c.timestamp}</p>
+                  <p className="truncate font-light text-evoke-text-primary mt-0.5">{c.snippet}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-[#1E1E30] text-[11px] text-[#55556A] font-mono flex items-center gap-1">
+        <div className="pt-4 border-t border-evoke-border text-[11px] text-evoke-text-muted font-mono flex items-center gap-1">
           <Shield className="w-3.5 h-3.5 text-[#4ECCA3]" />
           Consent Vault Active
         </div>
       </aside>
 
-      {/* RIGHT MAIN CONVERSATION AREA (80%) */}
+      {/* RIGHT MAIN CONVERSATION AREA */}
       <main className="flex-grow flex flex-col justify-between h-full relative z-10">
         {/* Mobile Header */}
-        <header className="lg:hidden p-4 border-b border-[#1E1E30] bg-[#0F0F1A] flex items-center justify-between">
-          <Link href="/vault" className="text-xs text-[#9090A8] flex items-center gap-1">
+        <header className="lg:hidden p-4 border-b border-evoke-border bg-evoke-surface flex items-center justify-between">
+          <Link href="/vault" className="text-xs text-evoke-text-secondary flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" /> Vault
           </Link>
-          <span className="font-syne font-bold text-sm text-[#F0F0F8]">
+          <span className="font-syne font-bold text-sm text-evoke-text-primary">
             {activeVault.name}'s Echo
           </span>
-          <span className="w-2 h-2 rounded-full bg-[#4ECCA3]" />
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-[8px] bg-evoke-card border border-evoke-border flex items-center justify-center text-evoke-text-primary"
+          >
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-[#FF9A3C]" /> : <Moon className="w-3.5 h-3.5 text-[#7C6AFF]" />}
+          </button>
         </header>
 
         {/* Scrollable Conversation Stream */}
         <div className="flex-grow overflow-y-auto px-6 md:px-16 py-8 space-y-6">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center max-w-md mx-auto my-auto">
-              <Sparkles className="w-10 h-10 text-[#7C6AFF]/40 mb-4" />
-              <p className="font-syne text-xl text-[#F0F0F8] mb-2">
+              <Sparkles className="w-10 h-10 text-[#C5A880]/40 mb-4 animate-pulse" />
+              <p className="font-syne text-xl text-evoke-text-primary mb-2">
                 This space is quiet and ready.
               </p>
-              <p className="text-xs text-[#9090A8] font-light">
+              <p className="text-xs text-evoke-text-secondary font-light">
                 Say something to {activeVault.name}. Their echo will respond in their voice and words.
               </p>
             </div>
@@ -157,16 +181,16 @@ export const ConversationUI: React.FC = () => {
               <React.Fragment key={msg.id}>
                 <MessageBubble message={msg} echoName={activeVault.name.split(' ')[0]} />
                 {idx < messages.length - 1 && (
-                  <div className="w-full h-px bg-[#1E1E30]/40 my-2" />
+                  <div className="w-full h-px bg-evoke-border/40 my-2" />
                 )}
               </React.Fragment>
             ))
           )}
 
-          {/* Typing / Generating Indicator */}
+          {/* Typing Indicator */}
           {isGeneratingEcho && (
-            <div className="py-4 flex items-center gap-3 text-xs text-[#7C6AFF] font-mono animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-[#7C6AFF]" />
+            <div className="py-4 flex items-center gap-3 text-xs text-[#C5A880] font-mono animate-pulse">
+              <span className="w-2 h-2 rounded-full bg-[#C5A880]" />
               <span>{activeVault.name}'s echo is synthesizing a response...</span>
             </div>
           )}
@@ -175,32 +199,32 @@ export const ConversationUI: React.FC = () => {
         </div>
 
         {/* FIXED BOTTOM INPUT AREA */}
-        <div className="p-6 md:px-16 bg-[#080810]/95 backdrop-blur-md border-t border-[#1E1E30]">
+        <div className="p-6 md:px-16 bg-evoke-bg/95 backdrop-blur-md border-t border-evoke-border">
           <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-2">
-            <div className="relative flex items-center bg-[#0F0F1A] border border-[#1E1E30] rounded-[10px] focus-within:border-[#7C6AFF] focus-within:ring-2 focus-within:ring-[#7C6AFF]/20 transition-all p-2">
+            <div className="relative flex items-center bg-evoke-surface border border-evoke-border rounded-[10px] focus-within:border-[#C5A880] focus-within:ring-2 focus-within:ring-[#C5A880]/15 transition-all p-2">
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={`Say something to ${activeVault.name.split(' ')[0]}...`}
                 rows={2}
-                className="w-full bg-transparent text-sm text-[#F0F0F8] placeholder-[#55556A] focus:outline-none resize-none px-3 py-1.5"
+                className="w-full bg-transparent text-sm text-evoke-text-primary placeholder-evoke-text-muted focus:outline-none resize-none px-3 py-1.5"
               />
 
               <div className="flex items-center gap-2 pr-2 shrink-0">
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="gold"
                   size="md"
                   disabled={!inputText.trim() || isGeneratingEcho}
-                  icon={<Send className="w-4 h-4" />}
+                  icon={<Send className="w-4 h-4 text-[#080810]" />}
                 >
                   Send
                 </Button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-[#55556A] font-mono px-1">
+            <div className="flex items-center justify-between text-[11px] text-evoke-text-muted font-mono px-1">
               <span>Responses shaped by {activeVault.name}'s personality profile</span>
               <span>Powered by Groq + ElevenLabs</span>
             </div>

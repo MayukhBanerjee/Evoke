@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
-import { Mic, UploadCloud, CheckCircle2, Play, Pause, RefreshCw, Volume2 } from 'lucide-react';
+import { Mic, UploadCloud, CheckCircle2, Play, Pause, RefreshCw } from 'lucide-react';
 
 interface VoiceUploaderProps {
   onFileSelect: (fileName: string, duration: number) => void;
@@ -46,7 +46,6 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
       setFileUploaded(true);
       onFileSelect(file.name, 75);
     } else {
-      // Demo fallback
       const demoName = "Dad_Story_Recording_2023.mp3";
       setFileName(demoName);
       setFileUploaded(true);
@@ -59,7 +58,7 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
       {!fileUploaded ? (
         <div className="flex flex-col gap-4">
           {/* Drag and Drop Zone */}
-          <label className="relative flex flex-col items-center justify-center p-10 border-2 border-dashed border-[#1E1E30] hover:border-[#7C6AFF]/60 rounded-[14px] bg-[#0F0F1A] hover:bg-[#14141F] transition-all cursor-pointer group">
+          <label className="relative flex flex-col items-center justify-center p-10 border-2 border-dashed border-evoke-border hover:border-[#7C6AFF]/60 rounded-[14px] bg-evoke-surface hover:bg-evoke-card transition-all cursor-pointer group">
             <input
               type="file"
               accept=".mp3,.wav,.m4a"
@@ -70,14 +69,14 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
               <Mic className="w-7 h-7 text-[#7C6AFF]" />
             </div>
 
-            <p className="font-syne font-bold text-base text-[#F0F0F8] mb-1">
+            <p className="font-syne font-bold text-base text-evoke-text-primary mb-1">
               Drag & drop voice audio file here
             </p>
-            <p className="text-xs text-[#9090A8] font-light mb-4">
+            <p className="text-xs text-evoke-text-secondary font-light mb-4">
               Supports MP3, WAV, M4A — minimum 60 seconds recommended
             </p>
 
-            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[10px] bg-[#7C6AFF]/15 text-[#9D8FFF] text-xs font-medium border border-[#7C6AFF]/30">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[10px] bg-[#7C6AFF]/15 text-[#7C6AFF] dark:text-[#9D8FFF] text-xs font-semibold border border-[#7C6AFF]/30">
               <UploadCloud className="w-4 h-4" />
               Browse Files
             </span>
@@ -85,13 +84,13 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
 
           {/* Secondary Option: Record Directly */}
           <div className="relative flex items-center justify-center my-2">
-            <span className="h-px bg-[#1E1E30] w-full" />
-            <span className="absolute px-3 bg-[#14141F] text-xs text-[#55556A] uppercase font-mono tracking-wider">
+            <span className="h-px bg-evoke-border w-full" />
+            <span className="absolute px-3 bg-evoke-surface border border-evoke-border rounded-[100px] py-0.5 text-xs text-evoke-text-muted uppercase font-mono tracking-wider">
               Or Record Live
             </span>
           </div>
 
-          <div className="p-6 rounded-[14px] bg-[#0F0F1A] border border-[#1E1E30] flex flex-col items-center justify-center gap-4 text-center">
+          <div className="p-6 rounded-[14px] bg-evoke-surface border border-evoke-border flex flex-col items-center justify-center gap-4 text-center">
             {isRecording ? (
               <div className="flex flex-col items-center gap-3">
                 <div className="relative flex items-center justify-center">
@@ -100,7 +99,7 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
                     <Mic className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <p className="text-xs text-red-400 font-mono font-medium">
+                <p className="text-xs text-red-500 dark:text-red-400 font-mono font-medium">
                   Recording Live ({recordTime}s)
                 </p>
                 {/* Live Waveform Pulse */}
@@ -134,14 +133,14 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
         </div>
       ) : (
         /* Waveform Visualization of Uploaded File */
-        <Card className="p-6 border-[#4ECCA3]/40 bg-[#0F0F1A]">
+        <Card className="p-6 border-[#4ECCA3]/40 bg-evoke-surface" hoverEffect={false}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#4ECCA3]/10 border border-[#4ECCA3]/30 flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5 text-[#4ECCA3]" />
               </div>
               <div>
-                <h4 className="font-syne font-bold text-sm text-[#F0F0F8]">
+                <h4 className="font-syne font-bold text-sm text-evoke-text-primary">
                   {fileName}
                 </h4>
                 <p className="text-xs text-[#4ECCA3] font-mono">
@@ -160,8 +159,7 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
             </Button>
           </div>
 
-          {/* Audio Waveform Canvas Representation */}
-          <div className="p-4 rounded-[10px] bg-[#14141F] border border-[#1E1E30] flex items-center gap-4">
+          <div className="p-4 rounded-[10px] bg-evoke-card border border-evoke-border flex items-center gap-4">
             <button
               onClick={() => setIsPlayingPreview(!isPlayingPreview)}
               className="w-10 h-10 rounded-full bg-[#7C6AFF] hover:bg-[#9D8FFF] text-white flex items-center justify-center shrink-0 transition-all shadow-glow"
@@ -188,7 +186,7 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
               ))}
             </div>
 
-            <span className="text-xs font-mono text-[#9090A8] shrink-0">
+            <span className="text-xs font-mono text-evoke-text-secondary shrink-0">
               {isPlayingPreview ? '0:14 / 1:24' : '1:24'}
             </span>
           </div>

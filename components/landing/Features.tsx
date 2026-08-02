@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/Card';
-import { Mic, Brain, ShieldCheck, Zap, MessageSquare, Sprout } from 'lucide-react';
 
 const FEATURES = [
   {
@@ -46,13 +45,13 @@ const FEATURES = [
 
 export const Features: React.FC = () => {
   return (
-    <section id="features" className="py-24 relative z-10 bg-[#080810]/60">
+    <section id="features" className="py-24 relative z-10 bg-evoke-bg transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-xs uppercase tracking-widest text-[#4ECCA3] font-medium mb-3">
+          <h2 className="text-xs uppercase tracking-widest text-[#4ECCA3] font-semibold mb-3">
             Built With Reverence
           </h2>
-          <h3 className="font-syne text-3xl sm:text-4xl font-bold text-[#F0F0F8]">
+          <h3 className="font-syne text-3xl sm:text-4xl font-bold text-evoke-text-primary">
             Crafted for Emotional Authenticity
           </h3>
         </div>
@@ -66,21 +65,24 @@ export const Features: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.1 }}
             >
-              <Card className="h-full flex flex-col justify-between p-6 hover:border-[#7C6AFF]/40">
+              <Card 
+                className="h-full flex flex-col justify-between p-6 bg-evoke-card border-evoke-border"
+                borderTheme={idx % 2 === 0 ? 'gold' : 'violet'}
+              >
                 <div>
-                  <div className="text-3xl mb-4 p-3 w-fit rounded-[10px] bg-[#0F0F1A] border border-[#1E1E30]">
+                  <div className="text-3xl mb-4 p-3 w-fit rounded-[10px] bg-evoke-surface border border-evoke-border">
                     {feature.icon}
                   </div>
 
-                  <h4 className="font-syne text-lg font-bold text-[#F0F0F8] mb-1">
+                  <h4 className="font-syne text-lg font-bold text-evoke-text-primary mb-1">
                     {feature.title}
                   </h4>
 
-                  <p className="text-xs font-medium text-[#7C6AFF] mb-3">
+                  <p className="text-xs font-semibold text-[#C5A880] dark:text-[#7C6AFF] mb-3">
                     {feature.subtitle}
                   </p>
 
-                  <p className="text-xs text-[#9090A8] font-light leading-relaxed">
+                  <p className="text-xs text-evoke-text-secondary font-light leading-relaxed">
                     {feature.description}
                   </p>
                 </div>

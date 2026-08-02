@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Play, Pause, Volume2, Sparkles } from 'lucide-react';
+import { Play, Pause, Sparkles } from 'lucide-react';
 
 interface VoicePreviewProps {
   name: string;
@@ -17,23 +16,27 @@ export const VoicePreview: React.FC<VoicePreviewProps> = ({ name }) => {
   };
 
   return (
-    <Card className="p-6 border-[#7C6AFF]/40 bg-gradient-to-r from-[#14141F] to-[#0F0F1A]">
+    <Card 
+      className="p-6 border-[#C5A880]/30 bg-gradient-to-r from-evoke-card to-evoke-surface"
+      hoverEffect={true}
+      borderTheme="gold"
+    >
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <button
             onClick={togglePlay}
-            className="w-14 h-14 rounded-full bg-[#7C6AFF] hover:bg-[#9D8FFF] text-white flex items-center justify-center shrink-0 transition-all shadow-glow hover:scale-105"
+            className="w-14 h-14 rounded-full bg-[#C5A880] hover:bg-[#D4B890] text-[#080810] flex items-center justify-center shrink-0 transition-all shadow-glow-gold hover:scale-105"
           >
             {isPlaying ? (
-              <Pause className="w-6 h-6" />
+              <Pause className="w-6 h-6 fill-[#080810]" />
             ) : (
-              <Play className="w-6 h-6 ml-1" />
+              <Play className="w-6 h-6 ml-1 fill-[#080810]" />
             )}
           </button>
 
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs uppercase tracking-wider text-[#7C6AFF] font-medium flex items-center gap-1">
+              <span className="text-xs uppercase tracking-wider text-[#C5A880] font-semibold flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5" />
                 Cloned Voice Sample
               </span>
@@ -41,10 +44,10 @@ export const VoicePreview: React.FC<VoicePreviewProps> = ({ name }) => {
                 11Labs Neural
               </span>
             </div>
-            <h4 className="font-syne font-bold text-lg text-[#F0F0F8]">
+            <h4 className="font-syne font-bold text-lg text-evoke-text-primary">
               Hear {name}'s Voice
             </h4>
-            <p className="text-xs text-[#9090A8] font-light">
+            <p className="text-xs text-evoke-text-secondary font-light">
               "Hey kiddo, good to hear your voice today. What's on your mind?"
             </p>
           </div>
@@ -58,7 +61,7 @@ export const VoicePreview: React.FC<VoicePreviewProps> = ({ name }) => {
               className={`flex-grow rounded-full transition-all duration-300 ${
                 isPlaying
                   ? 'bg-[#4ECCA3] animate-wave'
-                  : 'bg-[#7C6AFF]/40'
+                  : 'bg-[#C5A880]/30'
               }`}
               style={{
                 height: isPlaying ? `${h}%` : '20%',

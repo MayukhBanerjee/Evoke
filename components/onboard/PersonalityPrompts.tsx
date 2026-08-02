@@ -73,8 +73,8 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
   return (
     <div className="w-full flex flex-col gap-6">
       {/* Top Carousel Counter */}
-      <div className="flex items-center justify-between text-xs text-[#9090A8] font-mono">
-        <span className="flex items-center gap-1.5 text-[#7C6AFF]">
+      <div className="flex items-center justify-between text-xs text-evoke-text-secondary font-mono">
+        <span className="flex items-center gap-1.5 text-[#7C6AFF] dark:text-[#9D8FFF]">
           <Sparkles className="w-3.5 h-3.5" />
           Prompt {currentIndex + 1} of {PROMPTS.length}
         </span>
@@ -88,7 +88,7 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
                   ? 'w-6 bg-[#7C6AFF]'
                   : responses[p.id]?.trim()
                   ? 'w-2 bg-[#4ECCA3]'
-                  : 'w-2 bg-[#1E1E30]'
+                  : 'w-2 bg-evoke-border'
               }`}
             />
           ))}
@@ -96,7 +96,10 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
       </div>
 
       {/* Main Carousel Prompt Card */}
-      <Card className="p-8 border-[#7C6AFF]/30 bg-[#0F0F1A] min-h-[320px] flex flex-col justify-between">
+      <Card 
+        className="p-8 border-[#7C6AFF]/30 bg-evoke-surface min-h-[320px] flex flex-col justify-between"
+        hoverEffect={false}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPrompt.id}
@@ -106,7 +109,7 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-4"
           >
-            <h3 className="font-syne text-xl sm:text-2xl font-bold text-[#F0F0F8] leading-snug">
+            <h3 className="font-syne text-xl sm:text-2xl font-bold text-evoke-text-primary leading-snug">
               {currentPrompt.question}
             </h3>
 
@@ -118,7 +121,7 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
                 rows={4}
                 className="min-h-[140px] text-base"
               />
-              <div className="text-right text-[11px] font-mono text-[#55556A] mt-1">
+              <div className="text-right text-[11px] font-mono text-evoke-text-muted mt-1">
                 {currentText.length} characters
               </div>
             </div>
@@ -126,7 +129,7 @@ export const PersonalityPrompts: React.FC<PersonalityPromptsProps> = ({
         </AnimatePresence>
 
         {/* Carousel Navigation Bar */}
-        <div className="flex items-center justify-between pt-6 border-t border-[#1E1E30] mt-4">
+        <div className="flex items-center justify-between pt-6 border-t border-evoke-border mt-4">
           <Button
             variant="ghost"
             size="sm"

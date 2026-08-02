@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'ghost' | 'danger' | 'mint';
+  variant?: 'primary' | 'ghost' | 'danger' | 'mint' | 'gold';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   icon?: React.ReactNode;
@@ -28,8 +28,9 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary: "bg-[#7C6AFF] hover:bg-[#9D8FFF] text-white shadow-glow hover:shadow-glow-lg border border-transparent active:scale-[0.98]",
-    ghost: "bg-transparent hover:bg-[rgba(124,106,255,0.08)] text-[#F0F0F8] border border-[#1E1E30] hover:border-[#7C6AFF] active:scale-[0.98]",
+    ghost: "bg-transparent hover:bg-[rgba(124,106,255,0.06)] text-evoke-text-primary border border-evoke-border hover:border-[#7C6AFF] active:scale-[0.98]",
     mint: "bg-[#4ECCA3] hover:bg-[#68E2B9] text-[#080810] font-semibold shadow-glow-mint active:scale-[0.98]",
+    gold: "bg-[#C5A880] hover:bg-[#D4B890] text-[#080810] font-semibold shadow-glow-gold active:scale-[0.98] border border-transparent",
     danger: "bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 active:scale-[0.98]",
   };
 

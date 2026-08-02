@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { CompletenessScore } from '@/components/vault/CompletenessScore';
-import { Plus, MessageSquare, BookOpen, Activity, Sparkles, Clock, ShieldCheck, Heart } from 'lucide-react';
+import { Plus, MessageSquare, BookOpen, Activity, Sparkles, Clock, Heart } from 'lucide-react';
 
 export default function DashboardPage() {
   const { vaults, setActiveVaultId } = useEvoke();
@@ -40,7 +40,7 @@ export default function DashboardPage() {
       type: "Memory Added"
     },
     {
-      icon: <Heart className="w-4 h-4 text-[#7C6AFF]" />,
+      icon: <Heart className="w-4 h-4 text-[#C5A880]" />,
       title: "Vault created for Rajesh Banerjee",
       time: "Nov 14, 2025",
       type: "Vault Creation"
@@ -48,23 +48,23 @@ export default function DashboardPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#080810] text-[#F0F0F8] pt-28 pb-16 relative">
+    <main className="min-h-screen bg-evoke-bg text-evoke-text-primary pt-28 pb-16 relative transition-colors duration-300">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-6 space-y-10">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#1E1E30]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-evoke-border">
           <div>
-            <span className="text-xs uppercase tracking-widest text-[#7C6AFF] font-medium">
+            <span className="text-xs uppercase tracking-widest text-[#C5A880] font-semibold">
               Overview
             </span>
-            <h1 className="font-syne font-extrabold text-3xl sm:text-4xl text-[#F0F0F8] mt-1">
+            <h1 className="font-syne font-extrabold text-3xl sm:text-4xl text-evoke-text-primary mt-1">
               Your Memory Vaults
             </h1>
           </div>
 
           <Link href="/onboard">
-            <Button variant="primary" size="lg" icon={<Plus className="w-5 h-5" />}>
+            <Button variant="gold" size="lg" icon={<Plus className="w-5 h-5 text-[#080810]" />}>
               Create New Vault
             </Button>
           </Link>
@@ -72,40 +72,40 @@ export default function DashboardPage() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6 border-[#1E1E30] flex items-center justify-between">
+          <Card className="p-6 border-evoke-border bg-evoke-card flex items-center justify-between" hoverEffect={true} borderTheme="gold">
             <div>
-              <p className="text-xs text-[#9090A8] font-mono uppercase">Total Vaults Created</p>
-              <h3 className="font-syne text-3xl font-extrabold text-[#F0F0F8] mt-1">{totalVaults}</h3>
+              <p className="text-xs text-evoke-text-secondary font-mono uppercase">Total Vaults Created</p>
+              <h3 className="font-syne text-3xl font-extrabold text-evoke-text-primary mt-1">{totalVaults}</h3>
             </div>
-            <div className="w-12 h-12 rounded-[10px] bg-[#7C6AFF]/10 border border-[#7C6AFF]/30 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-[#7C6AFF]" />
+            <div className="w-12 h-12 rounded-[10px] bg-[#C5A880]/15 border border-[#C5A880]/30 flex items-center justify-center">
+              <Heart className="w-6 h-6 text-[#C5A880]" />
             </div>
           </Card>
 
-          <Card className="p-6 border-[#1E1E30] flex items-center justify-between">
+          <Card className="p-6 border-evoke-border bg-evoke-card flex items-center justify-between" hoverEffect={true}>
             <div>
-              <p className="text-xs text-[#9090A8] font-mono uppercase">Total Conversations</p>
-              <h3 className="font-syne text-3xl font-extrabold text-[#F0F0F8] mt-1">{totalConversations}</h3>
+              <p className="text-xs text-evoke-text-secondary font-mono uppercase">Total Conversations</p>
+              <h3 className="font-syne text-3xl font-extrabold text-evoke-text-primary mt-1">{totalConversations}</h3>
             </div>
-            <div className="w-12 h-12 rounded-[10px] bg-[#4ECCA3]/10 border border-[#4ECCA3]/30 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-[10px] bg-[#4ECCA3]/15 border border-[#4ECCA3]/30 flex items-center justify-center">
               <MessageSquare className="w-6 h-6 text-[#4ECCA3]" />
             </div>
           </Card>
 
-          <Card className="p-6 border-[#1E1E30] flex items-center justify-between">
+          <Card className="p-6 border-evoke-border bg-evoke-card flex items-center justify-between" hoverEffect={true}>
             <div>
-              <p className="text-xs text-[#9090A8] font-mono uppercase">Completeness Average</p>
-              <h3 className="font-syne text-3xl font-extrabold text-[#F0F0F8] mt-1">{avgCompleteness}%</h3>
+              <p className="text-xs text-evoke-text-secondary font-mono uppercase">Completeness Average</p>
+              <h3 className="font-syne text-3xl font-extrabold text-evoke-text-primary mt-1">{avgCompleteness}%</h3>
             </div>
-            <div className="w-12 h-12 rounded-[10px] bg-[#FF9A3C]/10 border border-[#FF9A3C]/30 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-[#FF9A3C]" />
+            <div className="w-12 h-12 rounded-[10px] bg-[#7C6AFF]/10 border border-[#7C6AFF]/30 flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-[#7C6AFF]" />
             </div>
           </Card>
         </div>
 
         {/* Vault Cards Grid */}
         <div>
-          <h2 className="font-syne text-xl font-bold text-[#F0F0F8] mb-6">
+          <h2 className="font-syne text-xl font-bold text-evoke-text-primary mb-6">
             Active Vaults
           </h2>
 
@@ -113,18 +113,19 @@ export default function DashboardPage() {
             {vaults.map((vault) => (
               <Card
                 key={vault.id}
-                className="p-8 border-[#1E1E30] hover:border-[#7C6AFF]/50 hover:shadow-glow flex flex-col justify-between"
+                className="p-8 border-evoke-border hover:border-[#C5A880]/50 bg-evoke-card hover:shadow-glow-gold flex flex-col justify-between"
+                borderTheme="gold"
               >
                 <div>
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <Badge variant="status" className="mb-2">
+                      <Badge variant="gold" className="mb-2">
                         {vault.relationship}
                       </Badge>
-                      <h3 className="font-syne text-2xl font-bold text-[#F0F0F8]">
+                      <h3 className="font-syne text-2xl font-bold text-evoke-text-primary">
                         {vault.name}
                       </h3>
-                      <p className="text-xs text-[#9090A8] font-light mt-1 line-clamp-2">
+                      <p className="text-xs text-evoke-text-secondary font-light mt-1 line-clamp-2">
                         {vault.description}
                       </p>
                     </div>
@@ -134,13 +135,13 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs text-[#55556A] font-mono my-4">
-                    <Clock className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2 text-xs text-evoke-text-muted font-mono my-4">
+                    <Clock className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '6s' }} />
                     Last conversation: {vault.lastConversationDate}
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-[#1E1E30] flex items-center gap-3">
+                <div className="pt-6 border-t border-evoke-border flex items-center gap-3">
                   <Link
                     href="/vault"
                     className="flex-grow"
@@ -156,7 +157,7 @@ export default function DashboardPage() {
                     className="flex-grow"
                     onClick={() => setActiveVaultId(vault.id)}
                   >
-                    <Button variant="primary" size="md" className="w-full" icon={<MessageSquare className="w-4 h-4" />}>
+                    <Button variant="gold" size="md" className="w-full" icon={<MessageSquare className="w-4 h-4 text-[#080810]" />}>
                       Converse
                     </Button>
                   </Link>
@@ -167,30 +168,30 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Activity Feed */}
-        <div className="pt-6 border-t border-[#1E1E30]">
-          <h2 className="font-syne text-xl font-bold text-[#F0F0F8] mb-6 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-[#7C6AFF]" />
+        <div className="pt-6 border-t border-evoke-border">
+          <h2 className="font-syne text-xl font-bold text-evoke-text-primary mb-6 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-[#C5A880]" />
             Recent Activity Feed
           </h2>
 
-          <Card className="p-6 border-[#1E1E30]">
+          <Card className="p-6 border-evoke-border bg-evoke-card" hoverEffect={false}>
             <div className="space-y-4">
               {ACTIVITIES.map((act, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-3 rounded-[10px] bg-[#0F0F1A] border border-[#1E1E30]/50"
+                  className="flex items-center justify-between p-3 rounded-[10px] bg-evoke-surface border border-evoke-border/50"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-[#14141F] border border-[#1E1E30] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-evoke-card border border-evoke-border flex items-center justify-center shrink-0">
                       {act.icon}
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-[#F0F0F8]">{act.title}</p>
-                      <p className="text-[11px] text-[#9090A8] font-mono">{act.time}</p>
+                      <p className="text-xs font-medium text-evoke-text-primary">{act.title}</p>
+                      <p className="text-[11px] text-evoke-text-secondary font-mono">{act.time}</p>
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-mono text-[#55556A] uppercase px-2 py-0.5 rounded-[100px] border border-[#1E1E30]">
+                  <span className="text-[10px] font-mono text-evoke-text-muted uppercase px-2 py-0.5 rounded-[100px] border border-evoke-border bg-evoke-card">
                     {act.type}
                   </span>
                 </div>

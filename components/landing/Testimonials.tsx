@@ -22,14 +22,14 @@ const TESTIMONIALS = [
 
 export const Testimonials: React.FC = () => {
   return (
-    <section className="py-24 relative z-10 bg-[#080810]/80">
+    <section className="py-24 relative z-10 bg-evoke-bg transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-[#7C6AFF]/10 text-[#9D8FFF] text-xs font-medium mb-3">
-            <Heart className="w-3.5 h-3.5 text-[#7C6AFF]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-[#C5A880]/15 text-[#C5A880] text-xs font-semibold mb-3">
+            <Heart className="w-3.5 h-3.5 text-[#C5A880]" />
             Sacred Moments
           </div>
-          <h3 className="font-syne text-3xl sm:text-4xl font-bold text-[#F0F0F8]">
+          <h3 className="font-syne text-3xl sm:text-4xl font-bold text-evoke-text-primary">
             Voices That Never Faded
           </h3>
         </div>
@@ -43,21 +43,24 @@ export const Testimonials: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.2 }}
             >
-              <Card className="p-8 border-[#7C6AFF]/30 bg-gradient-to-b from-[#14141F] to-[#0F0F1A] hover:border-[#7C6AFF]/60 shadow-[0_0_30px_rgba(124,106,255,0.08)] flex flex-col justify-between h-full">
-                <Quote className="w-8 h-8 text-[#7C6AFF]/40 mb-4" />
+              <Card 
+                className="p-8 border-[#C5A880]/30 dark:border-[#C5A880]/20 bg-evoke-card hover:border-[#C5A880]/60 shadow-[0_0_30px_rgba(197,168,128,0.06)] dark:shadow-[0_0_30px_rgba(197,168,128,0.08)] flex flex-col justify-between h-full"
+                borderTheme="gold"
+              >
+                <Quote className="w-8 h-8 text-[#C5A880]/40 mb-4" />
 
-                <p className="text-base sm:text-lg text-[#F0F0F8] font-light leading-relaxed italic mb-8">
+                <p className="text-base sm:text-lg text-evoke-text-primary font-light leading-relaxed italic mb-8">
                   "{t.quote}"
                 </p>
 
-                <div className="pt-4 border-t border-[#1E1E30] flex items-center justify-between">
+                <div className="pt-4 border-t border-evoke-border flex items-center justify-between">
                   <div>
-                    <h4 className="font-syne font-bold text-sm text-[#F0F0F8]">
+                    <h4 className="font-syne font-bold text-sm text-evoke-text-primary">
                       {t.author}
                     </h4>
-                    <p className="text-xs text-[#9090A8]">{t.location}</p>
+                    <p className="text-xs text-evoke-text-secondary">{t.location}</p>
                   </div>
-                  <span className="text-[11px] text-[#7C6AFF] font-mono">
+                  <span className="text-[11px] text-[#C5A880] font-semibold tracking-wider font-mono">
                     {t.relation}
                   </span>
                 </div>

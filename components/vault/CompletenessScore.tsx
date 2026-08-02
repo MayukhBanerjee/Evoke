@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface CompletenessScoreProps {
-  score: number; // 0 to 100
+  score: number;
 }
 
 export const CompletenessScore: React.FC<CompletenessScoreProps> = ({ score }) => {
@@ -14,21 +14,21 @@ export const CompletenessScore: React.FC<CompletenessScoreProps> = ({ score }) =
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="flex items-center gap-3 bg-[#0F0F1A] border border-[#1E1E30] rounded-[10px] px-4 py-2">
+    <div className="flex items-center gap-3 bg-evoke-surface border border-evoke-border rounded-[10px] px-4 py-2">
       <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
         <svg height={radius * 2} width={radius * 2} className="rotate-[-90deg]">
           {/* Track Circle */}
           <circle
-            stroke="#1E1E30"
+            stroke="var(--border-color)"
             fill="transparent"
             strokeWidth={strokeWidth}
             r={normalizedRadius}
             cx={radius}
             cy={radius}
           />
-          {/* Fill Circle */}
+          {/* Fill Circle in Premium Gold */}
           <circle
-            stroke="#7C6AFF"
+            stroke="#C5A880"
             fill="transparent"
             strokeWidth={strokeWidth}
             strokeDasharray={circumference + ' ' + circumference}
@@ -39,14 +39,14 @@ export const CompletenessScore: React.FC<CompletenessScoreProps> = ({ score }) =
             cy={radius}
           />
         </svg>
-        <span className="absolute font-syne font-bold text-xs text-[#F0F0F8]">
+        <span className="absolute font-syne font-bold text-xs text-[#C5A880]">
           {score}%
         </span>
       </div>
 
       <div>
-        <p className="text-xs font-semibold text-[#F0F0F8]">Vault Completeness</p>
-        <p className="text-[11px] text-[#9090A8]">High fidelity profile</p>
+        <p className="text-xs font-semibold text-evoke-text-primary">Vault Completeness</p>
+        <p className="text-[11px] text-evoke-text-secondary">High fidelity profile</p>
       </div>
     </div>
   );

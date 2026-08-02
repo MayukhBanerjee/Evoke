@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Syne, Inter, JetBrains_Mono } from 'next/font/google';
-import '../styles/globals.css';
+import './globals.css';
 import { EvokeProvider } from '@/lib/store';
 
 const syne = Syne({
@@ -39,8 +39,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} dark`}
+      suppressHydrationWarning
     >
-      <body className="bg-[#080810] text-[#F0F0F8] antialiased selection:bg-[#7C6AFF]/30 selection:text-white font-inter">
+      <body className="bg-evoke-bg text-evoke-text-primary antialiased selection:bg-[#7C6AFF]/30 selection:text-white font-inter transition-colors duration-300">
         <EvokeProvider>
           {children}
         </EvokeProvider>

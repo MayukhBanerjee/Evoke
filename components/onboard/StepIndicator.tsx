@@ -4,7 +4,7 @@ import React from 'react';
 import { Check } from 'lucide-react';
 
 interface StepIndicatorProps {
-  currentStep: number; // 1, 2, 3, 4, 5 (5 is completion)
+  currentStep: number;
   totalSteps?: number;
 }
 
@@ -23,7 +23,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
     <div className="w-full max-w-xl mx-auto mb-10 px-4">
       <div className="relative flex items-center justify-between">
         {/* Connecting Line */}
-        <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-[2px] bg-[#1E1E30] z-0" />
+        <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-[2px] bg-evoke-border z-0" />
         
         {/* Active/Completed Line Fill */}
         <div 
@@ -43,10 +43,10 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${
                   isCompleted
-                    ? 'bg-[#4ECCA3] text-[#080810] shadow-[0_0_12px_rgba(78,204,163,0.4)] scale-100'
+                    ? 'bg-[#4ECCA3] text-[#080810] shadow-[0_0_12px_rgba(78,204,163,0.3)] scale-100'
                     : isActive
-                    ? 'bg-[#7C6AFF] text-white shadow-[0_0_15px_rgba(124,106,255,0.5)] ring-4 ring-[#7C6AFF]/20 scale-110'
-                    : 'bg-[#0F0F1A] border border-[#1E1E30] text-[#55556A]'
+                    ? 'bg-[#7C6AFF] text-white shadow-glow ring-4 ring-[#7C6AFF]/20 scale-110'
+                    : 'bg-evoke-surface border border-evoke-border text-evoke-text-muted'
                 }`}
               >
                 {isCompleted ? (
@@ -57,12 +57,12 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
               </div>
 
               <span
-                className={`absolute top-11 text-[11px] font-medium tracking-wide whitespace-nowrap transition-colors ${
+                className={`absolute top-11 text-[11px] font-semibold tracking-wide whitespace-nowrap transition-colors ${
                   isActive
-                    ? 'text-[#F0F0F8]'
+                    ? 'text-evoke-text-primary'
                     : isCompleted
                     ? 'text-[#4ECCA3]'
-                    : 'text-[#55556A]'
+                    : 'text-evoke-text-muted'
                 }`}
               >
                 {label}

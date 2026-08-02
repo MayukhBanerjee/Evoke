@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Play, Pause, Volume2 } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 
 interface AudioWaveformProps {
   durationSeconds?: number;
@@ -11,7 +11,7 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({ durationSeconds = 
   const [isPlaying, setIsPlaying] = useState(true);
 
   return (
-    <div className="inline-flex items-center gap-3 p-2.5 px-4 rounded-[10px] bg-[#0F0F1A] border border-[#1E1E30] my-2">
+    <div className="inline-flex items-center gap-3 p-2.5 px-4 rounded-[10px] bg-evoke-surface border border-evoke-border my-2">
       <button
         onClick={() => setIsPlaying(!isPlaying)}
         className="w-8 h-8 rounded-full bg-[#4ECCA3] hover:bg-[#68E2B9] text-[#080810] flex items-center justify-center shrink-0 transition-transform active:scale-95 shadow-glow-mint"
@@ -29,7 +29,7 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({ durationSeconds = 
           <span
             key={i}
             className={`w-1 rounded-full transition-all duration-200 ${
-              isPlaying ? 'bg-[#4ECCA3] animate-wave' : 'bg-[#1E1E30]'
+              isPlaying ? 'bg-[#4ECCA3] animate-wave' : 'bg-evoke-border'
             }`}
             style={{
               height: isPlaying ? `${h}%` : '25%',

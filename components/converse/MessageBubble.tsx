@@ -24,7 +24,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
       <div className={`max-w-2xl ${isUser ? 'text-right' : 'text-left'}`}>
         {!isUser && (
           <div className="flex items-center gap-2 mb-2">
-            <span className="font-syne font-bold text-xs text-[#7C6AFF]">
+            <span className="font-syne font-bold text-xs text-[#C5A880] dark:text-[#9D8FFF]">
               {echoName}'s Echo
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-[#4ECCA3] shadow-[0_0_6px_#4ECCA3]" />
@@ -40,8 +40,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
         <div
           className={`text-base sm:text-lg leading-relaxed font-light ${
             isUser
-              ? 'text-[#9090A8] pl-8'
-              : 'text-[#F0F0F8] border-l-2 border-[#7C6AFF] pl-4 bg-gradient-to-r from-[#7C6AFF]/5 to-transparent py-1'
+              ? 'text-evoke-text-secondary pl-8'
+              : 'text-evoke-text-primary border-l-2 border-[#C5A880] pl-4 bg-gradient-to-r from-[#C5A880]/5 to-transparent py-1'
           }`}
         >
           {message.content}
@@ -49,7 +49,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
 
         {/* Subtle Hover Timestamp */}
         <div
-          className={`text-[11px] font-mono text-[#55556A] mt-1.5 transition-opacity duration-200 ${
+          className={`text-[11px] font-mono text-evoke-text-muted mt-1.5 transition-opacity duration-200 ${
             showTimestamp ? 'opacity-100' : 'opacity-0'
           }`}
         >
