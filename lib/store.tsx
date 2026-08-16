@@ -179,7 +179,7 @@ interface EvokeContextType {
   setActiveVaultId: (id: string) => void;
   createNewVault: (data: OnboardingState) => PersonalityVault;
   messages: Message[];
-  addMessage: (content: string) => void;
+  addMessage: (content: string) => Promise<void>;
   isGeneratingEcho: boolean;
   theme: Theme;
   toggleTheme: () => void;
@@ -218,7 +218,7 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const activeVault = vaults.find(v => v.id === activeVaultId) || vaults[0];
   const messages = messagesMap[activeVaultId] || [];
 
-  const addMessage = (content: string) => {
+  const addMessage = async (content: string) => {
     if (!content.trim()) return;
 
     const userMsg: Message = {
@@ -235,10 +235,50 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     setIsGeneratingEcho(true);
 
-    setTimeout(() => {
-      let echoText = "";
-      const lower = content.toLowerCase();
+    let echoText = '';
+    let audioUrl: string | undefined;
+    let humilityTriggered = false;
+    let latencyMs = 0;
+    let modelUsed = '';
 
+    // Try Python backend first, then Next.js /api/echo, then local fallback
+    try {
+      const { sendChatMessage } = await import('./api');
+      const result = await sendChatMessage(
+        activeVaultId,
+        content,
+        (messagesMap[activeVaultId] || []).slice(-6).map(m => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.content,
+        }))
+      );
+      echoText = result.text;
+      audioUrl = result.audioUrl;
+      humilityTriggered = result.humilityTriggered;
+      latencyMs = result.latencyMs;
+      modelUsed = result.modelUsed;
+    } catch (_) {
+      // Python backend offline — fall through to Next.js route
+    }
+
+    if (!echoText) {
+      try {
+        const res = await fetch('/api/echo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: content, vault: activeVault }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          echoText = data.content || '';
+        }
+      } catch (_) {
+        // fall through to local mock
+      }
+    }
+
+    if (!echoText) {
+      const lower = content.toLowerCase();
       if (lower.includes("advice") || lower.includes("decision") || lower.includes("hard")) {
         echoText = `Listen kiddo, when life throws a curveball, you don't panic. You grab a hot chai, sit down, and figure out the math. What's the worst outcome? Once you know that, the fear disappears.`;
       } else if (lower.includes("miss you") || lower.includes("remember") || lower.includes("wish")) {
@@ -248,22 +288,26 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else {
         echoText = `That's an interesting problem. Like I always say: measure twice before you cut once. Trust your instinct, but verify the facts first. How are you feeling about it overall?`;
       }
+    }
 
-      const echoMsg: Message = {
-        id: `msg-${Date.now() + 1}`,
-        sender: 'echo',
-        content: echoText,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        durationSeconds: Math.min(18, Math.max(8, Math.floor(echoText.length / 10)))
-      };
+    const echoMsg: Message = {
+      id: `msg-${Date.now() + 1}`,
+      sender: 'echo',
+      content: echoText,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      durationSeconds: Math.min(18, Math.max(8, Math.floor(echoText.length / 10))),
+      audioUrl: audioUrl,
+      humilityTriggered,
+      latencyMs,
+      modelUsed,
+    };
 
-      setMessagesMap(prev => ({
-        ...prev,
-        [activeVaultId]: [...(prev[activeVaultId] || []), echoMsg]
-      }));
+    setMessagesMap(prev => ({
+      ...prev,
+      [activeVaultId]: [...(prev[activeVaultId] || []), echoMsg]
+    }));
 
-      setIsGeneratingEcho(false);
-    }, 1800);
+    setIsGeneratingEcho(false);
   };
 
   const createNewVault = (onboardData: OnboardingState): PersonalityVault => {

@@ -26,6 +26,9 @@ export interface Message {
   timestamp: string;
   audioUrl?: string;
   durationSeconds?: number;
+  humilityTriggered?: boolean;
+  latencyMs?: number;
+  modelUsed?: string;
 }
 
 export interface PersonalityVault {

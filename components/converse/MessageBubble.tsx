@@ -31,9 +31,24 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
           </div>
         )}
 
+        {/* Humility Gate Badge */}
+        {!isUser && message.humilityTriggered && (
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[100px] bg-[#FF9A3C]/10 border border-[#FF9A3C]/30 text-[10px] font-mono text-[#FF9A3C] mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9A3C]" />
+            Humility Gate: Preserving Value Consistency
+          </div>
+        )}
+
+        {/* Latency + Model badge */}
+        {!isUser && message.latencyMs && message.latencyMs > 0 ? (
+          <div className="text-[10px] font-mono text-evoke-text-muted mb-1.5">
+            {message.latencyMs}ms via {message.modelUsed || 'Groq'}
+          </div>
+        ) : null}
+
         {/* Audio Waveform Player for Echo */}
         {!isUser && (
-          <AudioWaveform durationSeconds={message.durationSeconds || 14} />
+          <AudioWaveform durationSeconds={message.durationSeconds || 14} audioUrl={message.audioUrl} />
         )}
 
         {/* Text Message Content */}

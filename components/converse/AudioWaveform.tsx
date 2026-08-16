@@ -5,15 +5,29 @@ import { Play, Pause } from 'lucide-react';
 
 interface AudioWaveformProps {
   durationSeconds?: number;
+  audioUrl?: string;
 }
 
-export const AudioWaveform: React.FC<AudioWaveformProps> = ({ durationSeconds = 12 }) => {
+export const AudioWaveform: React.FC<AudioWaveformProps> = ({ durationSeconds = 12, audioUrl }) => {
   const [isPlaying, setIsPlaying] = useState(true);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  const handleToggle = () => {
+    if (audioUrl) {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(audioUrl);
+        audioRef.current.onended = () => setIsPlaying(false);
+      }
+      if (isPlaying) { audioRef.current.pause(); }
+      else { audioRef.current.play(); }
+    }
+    setIsPlaying(p => !p);
+  };
 
   return (
     <div className="inline-flex items-center gap-3 p-2.5 px-4 rounded-[10px] bg-evoke-surface border border-evoke-border my-2">
       <button
-        onClick={() => setIsPlaying(!isPlaying)}
+        onClick={handleToggle}
         className="w-8 h-8 rounded-full bg-[#4ECCA3] hover:bg-[#68E2B9] text-[#080810] flex items-center justify-center shrink-0 transition-transform active:scale-95 shadow-glow-mint"
       >
         {isPlaying ? (
