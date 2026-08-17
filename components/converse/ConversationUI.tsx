@@ -199,7 +199,54 @@ export const ConversationUI: React.FC = () => {
         </div>
 
         {/* FIXED BOTTOM INPUT AREA */}
-        <div className="p-6 md:px-16 bg-evoke-bg/95 backdrop-blur-md border-t border-evoke-border">
+        <div className="p-4 md:px-16 bg-evoke-bg/95 backdrop-blur-md border-t border-evoke-border space-y-2">
+          {/* Quick Prompt Suggestion Pills */}
+          <div className="max-w-3xl mx-auto flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+            <span className="text-[11px] font-mono text-evoke-text-muted shrink-0 flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-[#C5A880]" /> Quick Test:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                if (isGeneratingEcho) return;
+                addMessage("Dad, I got the engineering lead offer today! I wish I could tell you in person.");
+              }}
+              className="px-2.5 py-1 rounded-[100px] bg-evoke-surface border border-evoke-border hover:border-[#C5A880] text-evoke-text-secondary hover:text-evoke-text-primary transition-colors whitespace-nowrap text-[11px]"
+            >
+              🎓 Career Offer (In-Domain)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (isGeneratingEcho) return;
+                addMessage("What is your opinion on cryptocurrency, Web3, and speculative trading?");
+              }}
+              className="px-2.5 py-1 rounded-[100px] bg-[#FF9A3C]/10 border border-[#FF9A3C]/30 text-[#FF9A3C] hover:bg-[#FF9A3C]/20 transition-colors whitespace-nowrap text-[11px] font-mono"
+            >
+              ⚡ Test Humility Gate (τ=0.70)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (isGeneratingEcho) return;
+                addMessage("I made a huge mistake on a project and let my whole team down. What should I do?");
+              }}
+              className="px-2.5 py-1 rounded-[100px] bg-evoke-surface border border-evoke-border hover:border-[#C5A880] text-evoke-text-secondary hover:text-evoke-text-primary transition-colors whitespace-nowrap text-[11px]"
+            >
+              🔨 Advice Tone (Tough Love)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (isGeneratingEcho) return;
+                addMessage("I really miss sitting with you on Sunday mornings having hot chai.");
+              }}
+              className="px-2.5 py-1 rounded-[100px] bg-evoke-surface border border-evoke-border hover:border-[#C5A880] text-evoke-text-secondary hover:text-evoke-text-primary transition-colors whitespace-nowrap text-[11px]"
+            >
+              ☕ Sunday Chai (Relational)
+            </button>
+          </div>
+
           <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-2">
             <div className="relative flex items-center bg-evoke-surface border border-evoke-border rounded-[10px] focus-within:border-[#C5A880] focus-within:ring-2 focus-within:ring-[#C5A880]/15 transition-all p-2">
               <textarea

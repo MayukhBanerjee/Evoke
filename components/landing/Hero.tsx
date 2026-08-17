@@ -70,15 +70,20 @@ export const Hero: React.FC = () => {
           Evoke preserves not just someone's voice — but their humor, their wisdom, their way of being with you. Powered by AI. Built on AWS.
         </motion.p>
 
-        {/* Dual CTAs */}
+        {/* Triple CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
+          <Link href="/demo" className="w-full sm:w-auto">
+            <Button variant="gold" size="lg" className="w-full sm:w-auto shadow-glow-gold" icon={<Sparkles className="w-5 h-5" />}>
+              Explore Demo Persona
+            </Button>
+          </Link>
           <Link href="/onboard" className="w-full sm:w-auto">
-            <Button variant="gold" size="lg" className="w-full sm:w-auto shadow-glow-gold" icon={<ArrowRight className="w-5 h-5" />}>
+            <Button variant="primary" size="lg" className="w-full sm:w-auto" icon={<ArrowRight className="w-5 h-5" />}>
               Build a Memory Vault
             </Button>
           </Link>

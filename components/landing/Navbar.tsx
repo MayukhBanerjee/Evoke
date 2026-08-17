@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useEvoke } from '@/lib/store';
 import { Button } from '../ui/Button';
-import { Sun, Moon, ArrowRight } from 'lucide-react';
+import { Sun, Moon, ArrowRight, Sparkles } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -44,6 +44,10 @@ export const Navbar: React.FC = () => {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-evoke-text-secondary">
+          <Link href="/demo" className="text-[#C5A880] hover:text-[#E6C594] transition-colors flex items-center gap-1.5 font-bold">
+            <Sparkles className="w-3.5 h-3.5" />
+            Interactive Demo
+          </Link>
           <a href="#features" className="hover:text-evoke-text-primary transition-colors">
             Features
           </a>
