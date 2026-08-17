@@ -1,28 +1,6 @@
 import type { Metadata } from 'next';
-import { Syne, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { EvokeProvider } from '@/lib/store';
-
-const syne = Syne({
-  subsets: ['latin'],
-  weight: ['700', '800'],
-  variable: '--font-syne',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Evoke — Hear from the people you love. Forever.',
@@ -36,12 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} dark`}
-      suppressHydrationWarning
-    >
-      <body className="bg-evoke-bg text-evoke-text-primary antialiased selection:bg-[#7C6AFF]/30 selection:text-white font-inter transition-colors duration-300">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="bg-evoke-bg text-evoke-text-primary antialiased selection:bg-[#7C6AFF]/30 selection:text-white transition-colors duration-300">
         <EvokeProvider>
           {children}
         </EvokeProvider>

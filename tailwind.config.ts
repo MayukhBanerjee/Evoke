@@ -29,9 +29,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        syne: ["var(--font-syne)", "sans-serif"],
-        inter: ["var(--font-inter)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        syne: ["var(--font-syne)", "Syne", "system-ui", "sans-serif"],
+        inter: ["var(--font-inter)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       borderRadius: {
         card: "14px",
