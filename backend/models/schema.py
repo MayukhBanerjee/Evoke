@@ -81,9 +81,11 @@ class ConversationRequest(BaseModel):
 
 
 class ConversationResponse(BaseModel):
+    model_config = {"protected_namespaces": ()}
     text: str
     audio_url: str = ""
     latency_ms: int = 0
     humility_triggered: bool = False
     schema_confidence: float = 0.0
     model_used: str = ""
+

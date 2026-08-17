@@ -64,8 +64,8 @@ async def run_evaluation(vault_id: str):
     fabrication_baseline = 0
 
     print(f"\n{'='*60}")
-    print(f"Evoke Evaluation — {len(STIMULI)} stimuli × 2 conditions")
-    print(f"Schema confidence: {schema.schema_confidence}, τ={TAU}")
+    print(f"Evoke Evaluation -- {len(STIMULI)} stimuli x 2 conditions")
+    print(f"Schema confidence: {schema.schema_confidence}, tau={TAU}")
     print(f"{'='*60}\n")
 
     system_conditioned = build_system_prompt(schema)

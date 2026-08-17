@@ -6,7 +6,7 @@ import { Card } from '../ui/Card';
 import { Mic, UploadCloud, CheckCircle2, Play, Pause, RefreshCw } from 'lucide-react';
 
 interface VoiceUploaderProps {
-  onFileSelect: (fileName: string, duration: number) => void;
+  onFileSelect: (fileName: string, duration: number, file?: File) => void;
   selectedFileName?: string;
 }
 
@@ -44,7 +44,7 @@ export const VoiceUploader: React.FC<VoiceUploaderProps> = ({
       const file = e.target.files[0];
       setFileName(file.name);
       setFileUploaded(true);
-      onFileSelect(file.name, 75);
+      onFileSelect(file.name, 75, file);
     } else {
       const demoName = "Dad_Story_Recording_2023.mp3";
       setFileName(demoName);

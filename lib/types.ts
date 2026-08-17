@@ -66,6 +66,7 @@ export interface OnboardingState {
   audioFileName?: string;
   audioDurationSeconds?: number;
   recordedAudioUrl?: string;
+  audioFile?: File;
   promptResponses: Record<number, string>;
   hasChatExport: boolean;
   hasLetters: boolean;

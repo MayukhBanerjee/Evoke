@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEvoke } from '@/lib/store';
 import { OnboardingState } from '@/lib/types';
+import { onboardVault } from '@/lib/api';
 import { StepIndicator } from '@/components/onboard/StepIndicator';
 import { VoiceUploader } from '@/components/onboard/VoiceUploader';
 import { PersonalityPrompts } from '@/components/onboard/PersonalityPrompts';
@@ -16,7 +17,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Cpu, Lock } from 'lucide-react';
 
 export default function OnboardPage() {
   const router = useRouter();
-  const { createNewVault } = useEvoke();
+  const { createNewVault, setActiveVaultId } = useEvoke();
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingState>({
@@ -27,6 +28,8 @@ export default function OnboardPage() {
     hasChatExport: false,
     hasLetters: false,
   });
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [processingStage, setProcessingStage] = useState(0);
 
@@ -35,10 +38,12 @@ export default function OnboardPage() {
       const timer1 = setTimeout(() => setProcessingStage(1), 1200);
       const timer2 = setTimeout(() => setProcessingStage(2), 2600);
       const timer3 = setTimeout(() => setProcessingStage(3), 4000);
+      const timer4 = setTimeout(() => setProcessingStage(4), 5400);
       return () => {
         clearTimeout(timer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
+        clearTimeout(timer4);
       };
     }
   }, [step]);
@@ -49,18 +54,36 @@ export default function OnboardPage() {
     setStep(2);
   };
 
-  const handleFinishOnboarding = (chatUploaded: boolean, lettersUploaded: boolean) => {
+  const handleFinishOnboarding = async (chatUploaded: boolean, lettersUploaded: boolean) => {
     const updated = {
       ...formData,
       hasChatExport: chatUploaded,
-      hasLetters: lettersUploaded
+      hasLetters: lettersUploaded,
+      audioFile: audioFile ?? undefined,
     };
     setFormData(updated);
-    createNewVault(updated);
     setStep(5);
+    setIsSubmitting(true);
+
+    try {
+      const vault = await onboardVault({
+        name: updated.name,
+        relationship: updated.relationship,
+        description: updated.description,
+        promptResponses: updated.promptResponses,
+        audioFile: audioFile ?? undefined,
+      });
+      setActiveVaultId(vault.id);
+      setIsSubmitting(false);
+    } catch {
+      // Backend offline — fall back to local vault creation
+      createNewVault(updated);
+      setIsSubmitting(false);
+    }
   };
 
   const STAGES = [
+    "Connecting to AWS pipeline...",
     "Transcribing Audio Recordings via AWS Transcribe...",
     "Extracting Humor & Advice Schema via Llama-3...",
     "Building Neural Personality Vault in DynamoDB...",
@@ -184,13 +207,14 @@ export default function OnboardPage() {
 
                 <VoiceUploader
                   selectedFileName={formData.audioFileName}
-                  onFileSelect={(fileName, duration) =>
+                  onFileSelect={(fileName, duration, file) => {
                     setFormData({
                       ...formData,
                       audioFileName: fileName,
                       audioDurationSeconds: duration,
-                    })
-                  }
+                    });
+                    if (file) setAudioFile(file);
+                  }}
                 />
 
                 <div className="pt-6 flex items-center justify-between border-t border-evoke-border mt-6">
@@ -304,26 +328,28 @@ export default function OnboardPage() {
                   <div className="flex items-center justify-between text-xs text-evoke-text-secondary font-mono mb-2">
                     <span className="flex items-center gap-1.5 text-[#4ECCA3]">
                       <Cpu className="w-3.5 h-3.5" />
-                      Stage {processingStage + 1} of 4
+                      Stage {processingStage + 1} of 5
                     </span>
-                    <span>{Math.min(100, (processingStage + 1) * 25)}%</span>
+                    <span>{Math.min(100, (processingStage + 1) * 20)}%</span>
                   </div>
 
                   <div className="w-full h-2 bg-evoke-card border border-evoke-border rounded-full overflow-hidden mb-3">
                     <motion.div
                       className="h-full bg-gradient-to-r from-[#7C6AFF] to-[#4ECCA3]"
-                      animate={{ width: `${(processingStage + 1) * 25}%` }}
+                      animate={{ width: `${(processingStage + 1) * 20}%` }}
                       transition={{ duration: 0.8 }}
                     />
                   </div>
 
                   <p className="text-xs text-evoke-text-primary font-mono">
-                    {STAGES[processingStage]}
+                    {isSubmitting && processingStage === 0
+                      ? "Connecting to AWS pipeline..."
+                      : STAGES[processingStage]}
                   </p>
                 </div>
 
                 {/* CTA Button */}
-                {processingStage === 3 && (
+                {processingStage === 4 && !isSubmitting && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
