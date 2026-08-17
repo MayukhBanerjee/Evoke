@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 
 export const Footer: React.FC = () => {
   return (
@@ -20,11 +21,22 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Links Right */}
-          <div className="flex flex-wrap gap-8 text-xs font-semibold">
-            <a href="#" className="hover:text-evoke-text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-evoke-text-primary transition-colors">Consent-First Policy</a>
-            <a href="#" className="hover:text-evoke-text-primary transition-colors">Research Paper</a>
-            <a href="#" className="hover:text-evoke-text-primary transition-colors">GitHub Repository</a>
+          <div className="flex flex-wrap gap-6 text-xs font-semibold">
+            <Link href="/demo" className="text-[#C5A880] hover:text-[#E6C594] transition-colors">
+              Interactive Demo
+            </Link>
+            <Link href="/evaluation" className="hover:text-evoke-text-primary transition-colors">
+              Research Findings (Table III)
+            </Link>
+            <Link href="/dashboard" className="hover:text-evoke-text-primary transition-colors">
+              Dashboard
+            </Link>
+            <Link href="/vault" className="hover:text-evoke-text-primary transition-colors">
+              Personality Vault
+            </Link>
+            <Link href="/onboard" className="hover:text-evoke-text-primary transition-colors">
+              Create Vault
+            </Link>
           </div>
         </div>
 

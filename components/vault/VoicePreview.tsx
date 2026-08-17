@@ -10,9 +10,20 @@ interface VoicePreviewProps {
 
 export const VoicePreview: React.FC<VoicePreviewProps> = ({ name }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (!audioRef.current) {
+      audioRef.current = new Audio("https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg");
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
   };
 
   return (

@@ -48,15 +48,18 @@ export const Navbar: React.FC = () => {
             <Sparkles className="w-3.5 h-3.5" />
             Interactive Demo
           </Link>
-          <a href="#features" className="hover:text-evoke-text-primary transition-colors">
+          <Link href="/#features" className="hover:text-evoke-text-primary transition-colors">
             Features
-          </a>
-          <a href="#how-it-works" className="hover:text-evoke-text-primary transition-colors">
+          </Link>
+          <Link href="/#how-it-works" className="hover:text-evoke-text-primary transition-colors">
             How It Works
-          </a>
-          <a href="#tech-stack" className="hover:text-evoke-text-primary transition-colors">
+          </Link>
+          <Link href="/#tech-stack" className="hover:text-evoke-text-primary transition-colors">
             Tech Stack
-          </a>
+          </Link>
+          <Link href="/evaluation" className="hover:text-evoke-text-primary transition-colors">
+            Research
+          </Link>
           <Link href="/dashboard" className="hover:text-evoke-text-primary transition-colors">
             Dashboard
           </Link>
