@@ -3,6 +3,14 @@ Evoke FastAPI Backend — main entry point.
 Endpoints: POST /api/vault/onboard, GET /api/vault/{id}, GET /api/vaults,
            POST /api/converse, GET /api/evaluation/results
 """
+import sys
+from pathlib import Path
+
+# Ensure backend directory is in sys.path for robust module resolution
+backend_dir = str(Path(__file__).resolve().parent)
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
 import time
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +21,7 @@ from services.humility_gate import apply_humility_gate
 from services.llm_engine import build_system_prompt, generate_echo
 from services.voice_service import clone_voice, synthesize_speech, audio_to_data_url
 from services.db_service import save_vault, load_vault, list_vaults, upload_audio_s3
+
 
 app = FastAPI(title="Evoke API", version="1.0.0")
 

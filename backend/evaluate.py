@@ -2,6 +2,14 @@
 evaluate.py — Automated evaluation benchmark proving paper findings (Section VI).
 Runs 15 behavioral prompts × 2 conditions (Evoke vs baseline), outputs metrics.
 """
+import sys
+from pathlib import Path
+
+# Ensure backend directory is in sys.path
+backend_dir = str(Path(__file__).resolve().parent)
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
 import asyncio
 import json
 import time

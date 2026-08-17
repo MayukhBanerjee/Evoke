@@ -1,7 +1,17 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env from project root or backend folder
+root_env = Path(__file__).resolve().parent.parent / ".env"
+backend_env = Path(__file__).resolve().parent / ".env"
+if root_env.exists():
+    load_dotenv(root_env)
+elif backend_env.exists():
+    load_dotenv(backend_env)
+else:
+    load_dotenv()
+
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
