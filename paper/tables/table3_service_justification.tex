@@ -1,0 +1,22 @@
+% Table III: Service justification
+\begin{table*}[htbp]
+\caption{Service Justification and Free Tier Mapping.}
+\label{tab:service_justification}
+\centering
+\begin{tabular}{lllc}
+\toprule
+\textbf{Service} & \textbf{Role} & \textbf{Justification} & \textbf{Free tier} \\
+\midrule
+S3          & Encrypted vault           & AES-256 at rest; S3 event triggers Phase 2        & 5 GB \\
+Transcribe  & Diarized transcription    & Isolates the target speaker from recordings       & 60 min/mo \\
+Comprehend  & Multi-dimensional NLP     & Populates the five schema keys                     & 50 k units/mo \\
+DynamoDB    & Schema store              & Sub-10 ms retrieval [22]; TTL enforces (I2)        & 25 GB \\
+Lambda      & Orchestration             & Zero idle cost; event-driven throughout            & 1 M calls/mo \\
+API Gateway & Authenticated REST        & Single trusted entry point, enforces (I1)          & 1 M calls/mo \\
+Polly       & Development TTS           & Preserves the ElevenLabs cloning quota             & 5 M chars/mo \\
+Cognito     & Identity and roles        & Makes bypass architecturally impossible (I1)      & 50 k users/mo \\
+Amplify     & Frontend hosting          & Zero-configuration CI/CD                           & Free \\
+CloudWatch  & Logs and audit            & Tamper-evident trail, enforces (I4)                & Always free \\
+\bottomrule
+\end{tabular}
+\end{table*}

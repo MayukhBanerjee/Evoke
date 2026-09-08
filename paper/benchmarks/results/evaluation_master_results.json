@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "title": "A Simple Model of Structured Personality Preservation in Digital Legacy Systems",
+    "authors": [
+      "Mayukh Banerjee (23BIT0061)",
+      "Vedant Patel (23BIT0114)"
+    ],
+    "institution": "Vellore Institute of Technology",
+    "system_name": "Evoke",
+    "eval_framework": "Three-Tier Evaluation (Human Study, Automated RAGAS/LLM-Judges, Serverless Cloud)",
+    "ieee_format_compliant": true
+  },
+  "table_i_feature_comparison": {
+    "Character-LLM": {
+      "struct_identity": false,
+      "conf_scores": false,
+      "uncert_routing": false,
+      "consent_infra": false,
+      "erasure": false
+    },
+    "LaMP_line": {
+      "struct_identity": false,
+      "conf_scores": false,
+      "uncert_routing": false,
+      "consent_infra": false,
+      "erasure": false
+    },
+    "OpenCharacter": {
+      "struct_identity": false,
+      "conf_scores": false,
+      "uncert_routing": false,
+      "consent_infra": false,
+      "erasure": false
+    },
+    "Digital_Legacy_AI": {
+      "struct_identity": false,
+      "conf_scores": false,
+      "uncert_routing": false,
+      "consent_infra": false,
+      "erasure": false
+    },
+    "Evoke_this_work": {
+      "struct_identity": true,
+      "conf_scores": true,
+      "uncert_routing": true,
+      "consent_infra": true,
+      "erasure": true
+    }
+  },
+  "table_iv_schema_extraction_validation": {
+    "subject_evaluated": "Subject A",
+    "keys": {
+      "humour_style": {
+        "true_positive": 41,
+        "false_positive": 9,
+        "false_negative": 13,
+        "precision": 0.82,
+        "recall": 0.76,
+        "f1": 0.79
+      },
+      "advice_tone": {
+        "true_positive": 47,
+        "false_positive": 13,
+        "false_negative": 11,
+        "precision": 0.78,
+        "recall": 0.81,
+        "f1": 0.79
+      },
+      "signature_phrases": {
+        "true_positive": 34,
+        "false_positive": 14,
+        "false_negative": 16,
+        "precision": 0.71,
+        "recall": 0.68,
+        "f1": 0.69
+      },
+      "topic_stances": {
+        "true_positive": 52,
+        "false_positive": 18,
+        "false_negative": 20,
+        "precision": 0.74,
+        "recall": 0.72,
+        "f1": 0.73
+      },
+      "relational_tone": {
+        "true_positive": 36,
+        "false_positive": 16,
+        "false_negative": 19,
+        "precision": 0.69,
+        "recall": 0.65,
+        "f1": 0.67
+      }
+    },
+    "overall_macro_avg": {
+      "precision": 0.748,
+      "recall": 0.724,
+      "f1": 0.734
+    }
+  },
+  "table_vi_latency_benchmarks": {
+    "lambda_cold_start": {
+      "p50": 450,
+      "p95": 820,
+      "unit": "ms",
+      "notes": "Python runtime with boto3 dependencies (Hellerstein et al.)"
+    },
+    "lambda_warm_start": {
+      "p50": 120,
+      "p95": 180,
+      "unit": "ms",
+      "notes": "Event-driven orchestration invocation"
+    },
+    "dynamodb_12_fields": {
+      "p50": 4.1,
+      "p95": 6.2,
+      "unit": "ms",
+      "notes": "Subject C sparse schema partition key read"
+    },
+    "dynamodb_42_fields": {
+      "p50": 6.5,
+      "p95": 9.4,
+      "unit": "ms",
+      "notes": "Subject A rich schema query with TTL verification"
+    },
+    "end_to_end_conversation": {
+      "p50": 1600,
+      "p95": 2800,
+      "unit": "ms",
+      "notes": "Includes Groq TTFT and ElevenLabs streaming synthesis"
+    }
+  },
+  "table_vii_concurrent_load": [
+    {
+      "concurrent_users": 1,
+      "success_rate_pct": 100.0,
+      "mean_latency_ms": 1600,
+      "bottleneck": "None"
+    },
+    {
+      "concurrent_users": 5,
+      "success_rate_pct": 100.0,
+      "mean_latency_ms": 1720,
+      "bottleneck": "None"
+    },
+    {
+      "concurrent_users": 10,
+      "success_rate_pct": 98.0,
+      "mean_latency_ms": 1950,
+      "bottleneck": "Minor queueing at Groq API"
+    },
+    {
+      "concurrent_users": 25,
+      "success_rate_pct": 91.0,
+      "mean_latency_ms": 2800,
+      "bottleneck": "Groq tier rate limit (Lambda/DynamoDB scales >50 seamlessly)"
+    },
+    {
+      "concurrent_users": 50,
+      "success_rate_pct": 67.0,
+      "mean_latency_ms": 10500,
+      "bottleneck": "Upstream LLM Rate Limit Timeout"
+    }
+  ],
+  "table_viii_automated_metrics": {
+    "A_unconditioned": {
+      "faithfulness": 0.45,
+      "answer_relevance": 0.52,
+      "context_recall": 0.38,
+      "fabrication_rate_pct": 15.3,
+      "interpretation": "Fluent but ungrounded in true persona; high hallucination risk."
+    },
+    "B_freetext": {
+      "faithfulness": 0.72,
+      "answer_relevance": 0.68,
+      "context_recall": 0.65,
+      "fabrication_rate_pct": 8.4,
+      "interpretation": "Moderate grounding; suffers from persona distortion under ambiguous prompts."
+    },
+    "C_schema": {
+      "faithfulness": 0.88,
+      "answer_relevance": 0.85,
+      "context_recall": 0.82,
+      "fabrication_rate_pct": 2.0,
+      "interpretation": "High fidelity; 87% reduction in fabricated opinions via epistemic humility routing."
+    }
+  },
+  "table_ix_subject_gradient": {
+    "subject_a": {
+      "richness": "rich",
+      "completeness": 0.81,
+      "humility_routing_pct": 4.0,
+      "authenticity_c": 4.23
+    },
+    "subject_b": {
+      "richness": "medium",
+      "completeness": 0.54,
+      "humility_routing_pct": 22.0,
+      "authenticity_c": 3.67
+    },
+    "subject_c": {
+      "richness": "sparse",
+      "completeness": 0.28,
+      "humility_routing_pct": 61.0,
+      "authenticity_c": 2.95
+    }
+  },
+  "statistical_hypothesis_summary": {
+    "subject_a_gain_over_unconditioned": 1.5,
+    "subject_a_gain_over_freetext": 1.15,
+    "subject_a_fabrication_drop": 13.1,
+    "pre_registered_hypothesis_confirmed": true
+  },
+  "inter_rater_fleiss_kappa": 0.64,
+  "llm_judge_agreement": {
+    "judge_1_model": "Llama-3-70B-Instruct",
+    "judge_2_model": "Gemini-1.5-Pro",
+    "human_calibration_sample_n": 30,
+    "inter_judge_cohens_kappa": 0.71,
+    "judge_human_spearman_rho": 0.82,
+    "significance": "p < 0.001",
+    "validation_conclusion": "Substantial inter-judge consistency and high correlation with human panel ratings, validating LLM-as-a-judge scalability."
+  }
+}

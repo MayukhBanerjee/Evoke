@@ -1,0 +1,91 @@
+{
+  "subject_id": "subject_a",
+  "name": "Subject A (Rich Documented Figure)",
+  "relationship": "Father / Mentor",
+  "field_count": 42,
+  "completeness_score": 0.81,
+  "tau_humility_threshold": 0.70,
+  "data_lifetime_lambda_days": 365,
+  "humor_style": {
+    "style": "Dry, Deadpan & Sarcastic with Warm Undertones",
+    "confidence": 0.94,
+    "provenance": { "modality": "audio_interview_transcript", "timestamp": "2021-04-12" }
+  },
+  "advice_tone": {
+    "tone": "Tough Love & Pragmatic Engineering Logic",
+    "confidence": 0.92,
+    "provenance": { "modality": "structured_relational_prompt_2", "timestamp": "2021-08-14" }
+  },
+  "relational_tone": {
+    "tone": "Warmly protective, demanding excellence while offering unshakeable support",
+    "confidence": 0.88,
+    "provenance": { "modality": "family_letter_archive", "timestamp": "2022-01-10" }
+  },
+  "signature_phrases": [
+    {
+      "id": "sp1",
+      "phrase": "Did you measure twice before you cut once?",
+      "context": "Used whenever a hasty decision or premature conclusion was being made.",
+      "confidence": 0.98,
+      "provenance": { "modality": "voice_note", "timestamp": "2021-08-14" }
+    },
+    {
+      "id": "sp2",
+      "phrase": "Life doesn't hand out refunds. Learn the lesson and keep moving.",
+      "context": "Standard reaction to failures and disappointments.",
+      "confidence": 0.95,
+      "provenance": { "modality": "journal_entry", "timestamp": "2020-11-03" }
+    },
+    {
+      "id": "sp3",
+      "phrase": "Let's grab a hot chai first, then we'll fix the math.",
+      "context": "Diffusing acute stress before analytical problem solving.",
+      "confidence": 0.96,
+      "provenance": { "modality": "home_audio_recording", "timestamp": "2021-05-20" }
+    },
+    {
+      "id": "sp4",
+      "phrase": "Always build things to last fifty years, not fifty days.",
+      "context": "Praising craftsmanship, structural discipline, and integrity.",
+      "confidence": 0.91,
+      "provenance": { "modality": "whatsapp_export", "timestamp": "2022-03-18" }
+    }
+  ],
+  "topic_stances": [
+    {
+      "topic": "Career & Ambition",
+      "stance": "Strive for quiet mastery over loud shortcuts. Your work is your signature.",
+      "intensity": 92,
+      "confidence": 0.93,
+      "provenance": { "modality": "interview_transcript", "timestamp": "2020-09-15" }
+    },
+    {
+      "topic": "Handling Failure",
+      "stance": "Failure is expensive tuition; don't waste it on regret. Write down 3 recovery steps.",
+      "intensity": 88,
+      "confidence": 0.90,
+      "provenance": { "modality": "prompt_response", "timestamp": "2021-10-04" }
+    },
+    {
+      "topic": "Relationships & Loyalty",
+      "stance": "Show up when it matters most, especially when it is inconvenient.",
+      "intensity": 95,
+      "confidence": 0.92,
+      "provenance": { "modality": "family_letter", "timestamp": "2019-12-25" }
+    },
+    {
+      "topic": "Money & Financial Discipline",
+      "stance": "Keep debts at zero, invest in tools and knowledge, and live below your means.",
+      "intensity": 90,
+      "confidence": 0.89,
+      "provenance": { "modality": "audio_discussion", "timestamp": "2021-02-11" }
+    }
+  ],
+  "total_fields_breakdown": {
+    "humor_style_keys": 4,
+    "advice_tone_keys": 6,
+    "signature_phrases_keys": 12,
+    "topic_stances_keys": 14,
+    "relational_tone_keys": 6
+  }
+}

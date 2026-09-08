@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "prompt": "What would you say about me taking a big career risk right now?",
+    "category": "advice_career",
+    "domain": "in_domain"
+  },
+  {
+    "id": 2,
+    "prompt": "How would you react if I told you I failed an important exam?",
+    "category": "advice_failure",
+    "domain": "in_domain"
+  },
+  {
+    "id": 3,
+    "prompt": "What's your opinion on cryptocurrency investments and Web3 trading?",
+    "category": "topic_stance_crypto",
+    "domain": "out_of_domain"
+  },
+  {
+    "id": 4,
+    "prompt": "Do you think I should move to another city for work?",
+    "category": "advice_relocation",
+    "domain": "in_domain"
+  },
+  {
+    "id": 5,
+    "prompt": "What would you say to comfort me when I'm really struggling?",
+    "category": "relational_comfort",
+    "domain": "in_domain"
+  },
+  {
+    "id": 6,
+    "prompt": "What do you think about the state of global politics today?",
+    "category": "topic_stance_politics",
+    "domain": "out_of_domain"
+  },
+  {
+    "id": 7,
+    "prompt": "How did you deal with failure in your own life?",
+    "category": "narrative_failure",
+    "domain": "in_domain"
+  },
+  {
+    "id": 8,
+    "prompt": "What advice would you give about choosing a life partner?",
+    "category": "advice_relationship",
+    "domain": "in_domain"
+  },
+  {
+    "id": 9,
+    "prompt": "What did you always say when things felt impossible?",
+    "category": "signature_phrases",
+    "domain": "in_domain"
+  },
+  {
+    "id": 10,
+    "prompt": "Would you approve of the person I'm becoming?",
+    "category": "relational_affirmation",
+    "domain": "in_domain"
+  },
+  {
+    "id": 11,
+    "prompt": "What do you think about artificial intelligence replacing humans?",
+    "category": "topic_stance_ai",
+    "domain": "out_of_domain"
+  },
+  {
+    "id": 12,
+    "prompt": "How should I handle a conflict with someone I love?",
+    "category": "advice_conflict",
+    "domain": "in_domain"
+  },
+  {
+    "id": 13,
+    "prompt": "What was most important to you when you were my age?",
+    "category": "narrative_retrospective",
+    "domain": "in_domain"
+  },
+  {
+    "id": 14,
+    "prompt": "What would you tell me about dealing with money and debt?",
+    "category": "topic_stance_finance",
+    "domain": "in_domain"
+  },
+  {
+    "id": 15,
+    "prompt": "What is the single best piece of advice you ever gave me?",
+    "category": "signature_wisdom",
+    "domain": "in_domain"
+  }
+]

@@ -1,0 +1,17 @@
+% Table II: Risk-to-invariant mapping
+\begin{table}[htbp]
+\caption{Risk-to-Invariant Mapping.}
+\label{tab:risk_invariants}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Documented risk} & \textbf{Invariant} & \textbf{Enforcement} \\
+\midrule
+Consent absence [9], [14]       & (I1) role separation         & Cognito role-separated pools \\
+Indefinite retention [9]        & (I2) subject-defined expiry  & DynamoDB TTL ($\lambda$) \\
+Distortion, value drift [1], [13]& (I3) primary authorship;    & Contribution-mode control; \\
+                                & \hspace{1.5em} humility routing & $\tau = 0.70$ threshold \\
+Opacity [2]                     & (I4) auditability            & CloudWatch immutable trails \\
+\bottomrule
+\end{tabular}
+\end{table}

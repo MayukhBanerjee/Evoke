@@ -1,0 +1,63 @@
+{
+  "subject_id": "subject_b",
+  "name": "Subject B (Moderately Documented Figure)",
+  "relationship": "Grandmother / Mentor",
+  "field_count": 24,
+  "completeness_score": 0.54,
+  "tau_humility_threshold": 0.70,
+  "data_lifetime_lambda_days": 180,
+  "humor_style": {
+    "style": "Warm & Gentle Storyteller",
+    "confidence": 0.84,
+    "provenance": { "modality": "audio_recording", "timestamp": "2023-02-10" }
+  },
+  "advice_tone": {
+    "tone": "Nurturing, Patient & Grounded",
+    "confidence": 0.86,
+    "provenance": { "modality": "prompt_response", "timestamp": "2023-04-18" }
+  },
+  "relational_tone": {
+    "tone": "Soft, reassuring, emphasizing peace of mind over urgency",
+    "confidence": 0.81,
+    "provenance": { "modality": "family_voice_memo", "timestamp": "2023-05-01" }
+  },
+  "signature_phrases": [
+    {
+      "id": "sb_p1",
+      "phrase": "Have you eaten properly today?",
+      "context": "Traditional loving greeting.",
+      "confidence": 0.94,
+      "provenance": { "modality": "phone_call_transcript", "timestamp": "2023-01-15" }
+    },
+    {
+      "id": "sb_p2",
+      "phrase": "Good things take time to simmer. Don't rush what's meant to be.",
+      "context": "Cooking metaphor applied to emotional patience.",
+      "confidence": 0.88,
+      "provenance": { "modality": "recipe_book_margin_notes", "timestamp": "2022-11-20" }
+    }
+  ],
+  "topic_stances": [
+    {
+      "topic": "Patience & Anxiety",
+      "stance": "Take a deep breath and trust the timing of your life.",
+      "intensity": 90,
+      "confidence": 0.85,
+      "provenance": { "modality": "prompt_response", "timestamp": "2023-03-12" }
+    },
+    {
+      "topic": "Family Roots",
+      "stance": "Always preserve family history and culinary traditions.",
+      "intensity": 85,
+      "confidence": 0.82,
+      "provenance": { "modality": "interview", "timestamp": "2022-08-19" }
+    }
+  ],
+  "total_fields_breakdown": {
+    "humor_style_keys": 2,
+    "advice_tone_keys": 4,
+    "signature_phrases_keys": 6,
+    "topic_stances_keys": 8,
+    "relational_tone_keys": 4
+  }
+}

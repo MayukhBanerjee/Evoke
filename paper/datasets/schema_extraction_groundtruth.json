@@ -1,0 +1,50 @@
+{
+  "subject_evaluated": "Subject A",
+  "keys": {
+    "humour_style": {
+      "true_positive": 41,
+      "false_positive": 9,
+      "false_negative": 13,
+      "precision": 0.82,
+      "recall": 0.76,
+      "f1": 0.79
+    },
+    "advice_tone": {
+      "true_positive": 47,
+      "false_positive": 13,
+      "false_negative": 11,
+      "precision": 0.78,
+      "recall": 0.81,
+      "f1": 0.79
+    },
+    "signature_phrases": {
+      "true_positive": 34,
+      "false_positive": 14,
+      "false_negative": 16,
+      "precision": 0.71,
+      "recall": 0.68,
+      "f1": 0.69
+    },
+    "topic_stances": {
+      "true_positive": 52,
+      "false_positive": 18,
+      "false_negative": 20,
+      "precision": 0.74,
+      "recall": 0.72,
+      "f1": 0.73
+    },
+    "relational_tone": {
+      "true_positive": 36,
+      "false_positive": 16,
+      "false_negative": 19,
+      "precision": 0.69,
+      "recall": 0.65,
+      "f1": 0.67
+    }
+  },
+  "overall_macro_avg": {
+    "precision": 0.748,
+    "recall": 0.724,
+    "f1": 0.734
+  }
+}

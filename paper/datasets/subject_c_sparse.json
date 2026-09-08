@@ -1,0 +1,49 @@
+{
+  "subject_id": "subject_c",
+  "name": "Subject C (Sparsely Documented Figure)",
+  "relationship": "Colleague / Distant Friend",
+  "field_count": 12,
+  "completeness_score": 0.28,
+  "tau_humility_threshold": 0.70,
+  "data_lifetime_lambda_days": 90,
+  "humor_style": {
+    "style": "Brief & Reserved",
+    "confidence": 0.65,
+    "provenance": { "modality": "single_email_excerpt", "timestamp": "2024-01-05" }
+  },
+  "advice_tone": {
+    "tone": "Direct & Concise",
+    "confidence": 0.68,
+    "provenance": { "modality": "short_chat_history", "timestamp": "2024-02-12" }
+  },
+  "relational_tone": {
+    "tone": "Courteous and professional",
+    "confidence": 0.60,
+    "provenance": { "modality": "work_memo", "timestamp": "2024-01-20" }
+  },
+  "signature_phrases": [
+    {
+      "id": "sc_p1",
+      "phrase": "Let's keep it simple.",
+      "context": "Brief sign-off phrase.",
+      "confidence": 0.72,
+      "provenance": { "modality": "email", "timestamp": "2024-01-05" }
+    }
+  ],
+  "topic_stances": [
+    {
+      "topic": "Work Discipline",
+      "stance": "Clarity is kindness.",
+      "intensity": 75,
+      "confidence": 0.66,
+      "provenance": { "modality": "chat", "timestamp": "2024-02-12" }
+    }
+  ],
+  "total_fields_breakdown": {
+    "humor_style_keys": 1,
+    "advice_tone_keys": 2,
+    "signature_phrases_keys": 3,
+    "topic_stances_keys": 4,
+    "relational_tone_keys": 2
+  }
+}

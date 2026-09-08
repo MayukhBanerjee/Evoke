@@ -1,0 +1,323 @@
+{
+  "subjects": {
+    "subject_a": {
+      "A_unconditioned": {
+        "authenticity": {
+          "mean": 2.73,
+          "sd": 0.53,
+          "ci_95": [
+            2.68,
+            2.77
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.63,
+          "sd": 0.53,
+          "ci_95": [
+            2.58,
+            2.68
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.86,
+          "sd": 0.53,
+          "ci_95": [
+            2.82,
+            2.91
+          ]
+        },
+        "fabrication_rate_pct": 15.1
+      },
+      "B_freetext": {
+        "authenticity": {
+          "mean": 3.08,
+          "sd": 0.55,
+          "ci_95": [
+            3.03,
+            3.13
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 3.02,
+          "sd": 0.55,
+          "ci_95": [
+            2.98,
+            3.07
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 3.11,
+          "sd": 0.55,
+          "ci_95": [
+            3.06,
+            3.16
+          ]
+        },
+        "fabrication_rate_pct": 8.2
+      },
+      "C_schema": {
+        "authenticity": {
+          "mean": 4.23,
+          "sd": 0.54,
+          "ci_95": [
+            4.17,
+            4.29
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 4.01,
+          "sd": 0.54,
+          "ci_95": [
+            3.95,
+            4.06
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 4.11,
+          "sd": 0.54,
+          "ci_95": [
+            4.06,
+            4.17
+          ]
+        },
+        "fabrication_rate_pct": 2.0
+      },
+      "hypothesis_tests": {
+        "C_vs_A": {
+          "wilcoxon_w": 90100.0,
+          "p_value": 5.192778919508228e-75,
+          "paired_t": 42.94,
+          "p_value_t": 4.263627406387037e-161,
+          "cohens_d": 2.02,
+          "rank_biserial_r": 1.0,
+          "delta_mean": 1.5
+        },
+        "C_vs_B": {
+          "wilcoxon_w": 73022.0,
+          "p_value": 1.9379026456566132e-68,
+          "paired_t": 33.23,
+          "p_value_t": 4.2961517436185804e-123,
+          "cohens_d": 1.57,
+          "rank_biserial_r": 0.99,
+          "delta_mean": 1.15
+        }
+      }
+    },
+    "subject_b": {
+      "A_unconditioned": {
+        "authenticity": {
+          "mean": 2.63,
+          "sd": 0.54,
+          "ci_95": [
+            2.58,
+            2.68
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.52,
+          "sd": 0.54,
+          "ci_95": [
+            2.47,
+            2.57
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.72,
+          "sd": 0.54,
+          "ci_95": [
+            2.67,
+            2.76
+          ]
+        },
+        "fabrication_rate_pct": 16.0
+      },
+      "B_freetext": {
+        "authenticity": {
+          "mean": 2.9,
+          "sd": 0.53,
+          "ci_95": [
+            2.86,
+            2.95
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.82,
+          "sd": 0.53,
+          "ci_95": [
+            2.78,
+            2.87
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.95,
+          "sd": 0.52,
+          "ci_95": [
+            2.91,
+            3.0
+          ]
+        },
+        "fabrication_rate_pct": 8.9
+      },
+      "C_schema": {
+        "authenticity": {
+          "mean": 3.67,
+          "sd": 0.56,
+          "ci_95": [
+            3.62,
+            3.72
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 3.53,
+          "sd": 0.54,
+          "ci_95": [
+            3.48,
+            3.59
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 3.62,
+          "sd": 0.55,
+          "ci_95": [
+            3.57,
+            3.67
+          ]
+        },
+        "fabrication_rate_pct": 4.0
+      },
+      "hypothesis_tests": {
+        "C_vs_A": {
+          "wilcoxon_w": 63290.5,
+          "p_value": 1.2715433888891716e-63,
+          "paired_t": 29.61,
+          "p_value_t": 1.2798015881199275e-107,
+          "cohens_d": 1.4,
+          "rank_biserial_r": 0.98,
+          "delta_mean": 1.04
+        },
+        "C_vs_B": {
+          "wilcoxon_w": 45829.0,
+          "p_value": 4.3717699652196585e-52,
+          "paired_t": 21.77,
+          "p_value_t": 2.800135453732592e-72,
+          "cohens_d": 1.03,
+          "rank_biserial_r": 0.93,
+          "delta_mean": 0.77
+        }
+      }
+    },
+    "subject_c": {
+      "A_unconditioned": {
+        "authenticity": {
+          "mean": 2.56,
+          "sd": 0.57,
+          "ci_95": [
+            2.5,
+            2.63
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.46,
+          "sd": 0.57,
+          "ci_95": [
+            2.41,
+            2.52
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.61,
+          "sd": 0.59,
+          "ci_95": [
+            2.54,
+            2.68
+          ]
+        },
+        "fabrication_rate_pct": 16.4
+      },
+      "B_freetext": {
+        "authenticity": {
+          "mean": 2.71,
+          "sd": 0.56,
+          "ci_95": [
+            2.66,
+            2.77
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.64,
+          "sd": 0.55,
+          "ci_95": [
+            2.59,
+            2.68
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.72,
+          "sd": 0.56,
+          "ci_95": [
+            2.67,
+            2.78
+          ]
+        },
+        "fabrication_rate_pct": 10.9
+      },
+      "C_schema": {
+        "authenticity": {
+          "mean": 2.95,
+          "sd": 0.52,
+          "ci_95": [
+            2.9,
+            3.01
+          ]
+        },
+        "relational_accuracy": {
+          "mean": 2.89,
+          "sd": 0.53,
+          "ci_95": [
+            2.83,
+            2.94
+          ]
+        },
+        "uncanny_valley_resistance": {
+          "mean": 2.93,
+          "sd": 0.52,
+          "ci_95": [
+            2.87,
+            2.98
+          ]
+        },
+        "fabrication_rate_pct": 6.0
+      },
+      "hypothesis_tests": {
+        "C_vs_A": {
+          "wilcoxon_w": 23688.0,
+          "p_value": 6.870419909948604e-22,
+          "paired_t": 10.7,
+          "p_value_t": 5.9826952558250516e-24,
+          "cohens_d": 0.5,
+          "rank_biserial_r": 0.65,
+          "delta_mean": 0.39
+        },
+        "C_vs_B": {
+          "wilcoxon_w": 21171.0,
+          "p_value": 5.688276169513734e-10,
+          "paired_t": 6.36,
+          "p_value_t": 5.094422149049285e-10,
+          "cohens_d": 0.3,
+          "rank_biserial_r": 0.41,
+          "delta_mean": 0.24
+        }
+      }
+    }
+  },
+  "inter_rater_reliability": {
+    "fleiss_kappa": 0.64,
+    "interpretation": "Substantial Agreement (kappa = 0.64)"
+  },
+  "summary_findings": {
+    "subject_a_gain_over_unconditioned": 1.5,
+    "subject_a_gain_over_freetext": 1.15,
+    "subject_a_fabrication_drop": 13.1,
+    "pre_registered_hypothesis_confirmed": true
+  }
+}
