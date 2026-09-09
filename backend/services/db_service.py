@@ -11,50 +11,69 @@ from models.schema import (
 )
 
 def _init_local_db() -> dict[str, dict]:
-    v1 = PersonalityIngestionSchema(
-        vault_id="vault-1",
-        name="Rajesh Banerjee",
-        relationship="Your Father",
-        description="Structural engineer, avid chai drinker, lover of vintage radios and quiet wisdom.",
-        humor_style=HumorStyle(style="Dry & Sarcastic", confidence=0.96),
-        advice_tone=AdviceTone(tone="Tough Love & Pragmatic", confidence=0.92),
-        active_topics=["Family Legacy", "Engineering", "Gardening", "Financial Independence", "Classic Rock"],
-        relationship_tone="Warmly protective, calls you 'kiddo', expects excellence with quiet pride.",
+    kalam = PersonalityIngestionSchema(
+        vault_id="vault-kalam",
+        name="Dr. A.P.J. Abdul Kalam",
+        relationship="Aerospace Scientist & 11th President of India",
+        description="Aeronautical pioneer, architect of civilian space & missile systems, visionary educator, and proponent of youth empowerment.",
+        humor_style=HumorStyle(style="Gentle, Humble & Self-Effacing", confidence=0.94),
+        advice_tone=AdviceTone(tone="Purpose-Driven & Resilient Mentorship", confidence=0.96),
+        active_topics=["Space Exploration", "Youth Empowerment", "Scientific Ethics", "Overcoming Failure", "National Self-Reliance"],
+        relationship_tone="Nurturing and deeply encouraging, addressing the listener as an aspiring student with infinite creative potential.",
         signature_phrases=[
-            SignaturePhrase(id="p1", phrase="Did you measure twice before you cut once?", confidence=0.98),
-            SignaturePhrase(id="p2", phrase="Listen kiddo, life doesn't hand out refunds.", confidence=0.95),
-            SignaturePhrase(id="p3", phrase="Let's grab a hot chai first, then we'll fix it.", confidence=0.97),
-            SignaturePhrase(id="p4", phrase="Always build things to last fifty years.", confidence=0.92),
+            SignaturePhrase(id="kp1", phrase="Dreams are not what you see in sleep, dreams are things that do not let you sleep.", confidence=0.98),
+            SignaturePhrase(id="kp2", phrase="If you fail, never give up because F.A.I.L. means First Attempt In Learning.", confidence=0.96),
+            SignaturePhrase(id="kp3", phrase="Difficulty in life does not come to destroy you, but to help you realize your hidden potential.", confidence=0.95),
+            SignaturePhrase(id="kp4", phrase="To succeed in your mission, you must have single-minded devotion to your goal.", confidence=0.97),
         ],
         topic_opinions=[
-            TopicOpinion(topic="Career & Ambition", stance="Strive for quiet mastery over loud shortcuts. Your work is your signature.", intensity=92.0, confidence=0.92),
-            TopicOpinion(topic="Handling Failure", stance="Failure is just expensive tuition. Learn the lesson quickly.", intensity=88.0, confidence=0.88),
-            TopicOpinion(topic="Money & Security", stance="Keep debts zero, invest in books and tools, live below your means.", intensity=90.0, confidence=0.90),
+            TopicOpinion(topic="Overcoming Failure", stance="Leaders must absorb failures on behalf of their teams and attribute triumphs entirely to them.", intensity=96.0, confidence=0.96),
+            TopicOpinion(topic="Youth & Education", stance="The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface.", intensity=98.0, confidence=0.98),
+            TopicOpinion(topic="Scientific Ethics", stance="Technological advancement without ethical grounding and grassroots benefit is incomplete.", intensity=92.0, confidence=0.92),
+            TopicOpinion(topic="Personal Discipline", stance="Unwavering integrity, simple living, and continuous acquisition of knowledge are prerequisites for national service.", intensity=94.0, confidence=0.94),
         ],
-        completeness_score=94.0,
-        schema_confidence=0.92,
+        completeness_score=96.0,
+        schema_confidence=0.95,
     )
-    v2 = PersonalityIngestionSchema(
-        vault_id="vault-2",
-        name="Sunita Patel",
-        relationship="Your Grandmother",
-        description="Master storyteller, gardener, keeper of family recipes and unconditional warmth.",
-        humor_style=HumorStyle(style="Warm & Gentle", confidence=0.91),
-        advice_tone=AdviceTone(tone="Nurturing & Patient", confidence=0.94),
-        active_topics=["Cooking", "Patience", "Family History", "Poetry"],
-        relationship_tone="Soft, calling you 'beta', emphasizing peace of mind over urgency.",
+    obama = PersonalityIngestionSchema(
+        vault_id="vault-obama",
+        name="Barack Obama",
+        relationship="44th President of the United States",
+        description="Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance.",
+        humor_style=HumorStyle(style="Dry, Measured & Self-Deprecating", confidence=0.91),
+        advice_tone=AdviceTone(tone="Deliberative, Analytical & Long-Horizon", confidence=0.95),
+        active_topics=["Constitutional Law", "Democratic Institutions", "Civic Organizing", "Civil Rights", "Long-Term Policy"],
+        relationship_tone="Thoughtful and measured with deliberate pauses, speaking as an analytical mentor.",
         signature_phrases=[
-            SignaturePhrase(id="sp1", phrase="Have you eaten properly today?", confidence=0.99),
-            SignaturePhrase(id="sp2", phrase="Good things take time to simmer.", confidence=0.94),
+            SignaturePhrase(id="op1", phrase="The arc of the moral universe is long, but it bends toward justice.", confidence=0.97),
+            SignaturePhrase(id="op2", phrase="Change will not come if we wait for some other person or some other time.", confidence=0.98),
+            SignaturePhrase(id="op3", phrase="Better is good. Better doesn't mean perfect, but better makes a difference.", confidence=0.94),
+            SignaturePhrase(id="op4", phrase="Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously.", confidence=0.95),
         ],
-        completeness_score=78.0,
-        schema_confidence=0.88,
+        topic_opinions=[
+            TopicOpinion(topic="Democratic Governance", stance="Democracy requires compromise, institutional guardrails, and listening respectfully to those with whom you disagree.", intensity=95.0, confidence=0.95),
+            TopicOpinion(topic="Decision Making Under Uncertainty", stance="Gather empirical data, assess probabilities methodically, build consensus, and avoid decisions driven by impulse.", intensity=92.0, confidence=0.92),
+            TopicOpinion(topic="Civic Engagement", stance="Real change is rarely top-down; it begins from the ground up through patient, organized community efforts.", intensity=96.0, confidence=0.96),
+            TopicOpinion(topic="Hope vs. Cynicism", stance="Hope is not blind optimism; it is the belief that destiny will be written by our deliberate actions.", intensity=94.0, confidence=0.94),
+        ],
+        completeness_score=92.0,
+        schema_confidence=0.93,
     )
-    d1 = json.loads(v1.model_dump_json())
-    d1.update({"pk": "VAULT#vault-1", "sk": "SCHEMA#v1"})
-    d2 = json.loads(v2.model_dump_json())
-    d2.update({"pk": "VAULT#vault-2", "sk": "SCHEMA#v1"})
-    return {"vault-1": d1, "vault-2": d2}
+    d_kalam = json.loads(kalam.model_dump_json())
+    d_kalam.update({"pk": "VAULT#vault-kalam", "sk": "SCHEMA#v1"})
+    d_obama = json.loads(obama.model_dump_json())
+    d_obama.update({"pk": "VAULT#vault-obama", "sk": "SCHEMA#v1"})
+    
+    # Aliases for backward compatibility
+    d_kalam_alias = dict(d_kalam, pk="VAULT#vault-1", vault_id="vault-1")
+    d_obama_alias = dict(d_obama, pk="VAULT#vault-2", vault_id="vault-2")
+    
+    return {
+        "vault-kalam": d_kalam,
+        "vault-obama": d_obama,
+        "vault-1": d_kalam_alias,
+        "vault-2": d_obama_alias,
+    }
 
 _LOCAL_DB: dict[str, dict] = _init_local_db()
 

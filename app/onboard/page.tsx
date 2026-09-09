@@ -146,7 +146,7 @@ export default function OnboardPage() {
                 <form onSubmit={handleStep1Submit} className="space-y-5">
                   <Input
                     label="Full Name of the Person"
-                    placeholder="e.g. Rajesh Banerjee"
+                    placeholder="e.g. Dr. A.P.J. Abdul Kalam"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
@@ -154,7 +154,7 @@ export default function OnboardPage() {
 
                   <Input
                     label="Your Relationship to Them"
-                    placeholder="e.g. Your Father, Grandmother, Mentor, Best Friend"
+                    placeholder="e.g. Teacher, Mentor, Father, Grandmother, Colleague"
                     value={formData.relationship}
                     onChange={(e) => setFormData({ ...formData, relationship: e.target.value })}
                     required
@@ -162,7 +162,7 @@ export default function OnboardPage() {
 
                   <Input
                     label="One Sentence About Who They Were"
-                    placeholder="e.g. Structural engineer, chai enthusiast, lover of vintage radios and quiet wisdom."
+                    placeholder="e.g. Aerospace pioneer, visionary educator, humble mentor, and lifelong advocate for youth empowerment."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required

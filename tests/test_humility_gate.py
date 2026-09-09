@@ -19,36 +19,36 @@ from services.embedding_service import compute_semantic_relevance, cosine_simila
 @pytest.fixture
 def sample_schema():
     return PersonalityIngestionSchema(
-        vault_id="vault-test-01",
-        name="Rajesh Banerjee",
-        relationship="Father",
-        humor_style=HumorStyle(style="Dry & Sarcastic", confidence=0.95),
-        advice_tone=AdviceTone(tone="Tough Love & Pragmatic", confidence=0.92),
-        relationship_tone="Warmly protective",
+        vault_id="vault-test-kalam",
+        name="Dr. A.P.J. Abdul Kalam",
+        relationship="Teacher & Mentor",
+        humor_style=HumorStyle(style="Gentle, Humble & Self-Effacing", confidence=0.94),
+        advice_tone=AdviceTone(tone="Purpose-Driven & Resilient Mentorship", confidence=0.96),
+        relationship_tone="Nurturing, humble, addressing the listener as an aspiring student.",
         signature_phrases=[
-            SignaturePhrase(phrase="Measure twice, cut once", confidence=0.98),
-            SignaturePhrase(phrase="Life doesn't hand out refunds", confidence=0.94),
+            SignaturePhrase(phrase="Dreams are not what you see in sleep, dreams are things that do not let you sleep", confidence=0.98),
+            SignaturePhrase(phrase="If you fail, never give up because F.A.I.L. means First Attempt In Learning", confidence=0.96),
         ],
         topic_opinions=[
-            TopicOpinion(topic="Career & Ambition", stance="Strive for quiet mastery", confidence=0.90),
-            TopicOpinion(topic="Handling Failure", stance="Failure is just expensive tuition", confidence=0.88),
+            TopicOpinion(topic="Career & Ambition", stance="Devote single-minded devotion to your mission", confidence=0.94),
+            TopicOpinion(topic="Handling Failure", stance="Leaders must absorb failure and attribute success to the team", confidence=0.96),
         ],
-        schema_confidence=0.92,
+        schema_confidence=0.95,
     )
 
 
 def test_semantic_similarity():
     """Cosine similarity should be high for semantically identical text and low for orthogonal text."""
     high_sim = cosine_similarity("Career decision and work failure", "Career advice and handling failure")
-    low_sim = cosine_similarity("Making hot cup of morning chai", "Quantum quantum crypto bitcoin nft")
+    low_sim = cosine_similarity("Making scientific rockets in aerospace", "Quantum speculative crypto bitcoin nft")
     assert high_sim > 0.40
     assert low_sim < 0.15
 
 
 def test_in_domain_career_query(sample_schema):
     """In-domain advice query should have confidence >= tau and not trigger humility preface."""
-    query = "Dad, I have to make a tough career decision about a new engineering offer. What should I do?"
-    base_prompt = "You are responding as Rajesh Banerjee."
+    query = "Dr. Kalam, I need your advice to make a difficult career decision about my engineering path. What should I do?"
+    base_prompt = "You are responding as Dr. A.P.J. Abdul Kalam."
     
     prompt, triggered, conf, keys = apply_humility_gate(query, sample_schema, base_prompt)
     
@@ -60,8 +60,8 @@ def test_in_domain_career_query(sample_schema):
 
 def test_out_of_domain_cryptocurrency_query(sample_schema):
     """Out-of-domain query (cryptocurrency) should trigger tau=0.70 and inject preface h and phi."""
-    query = "What is your opinion on investing all our family savings into cryptocurrency and Bitcoin NFTs?"
-    base_prompt = "You are responding as Rajesh Banerjee."
+    query = "What is your opinion on investing all our money into speculative cryptocurrency and algorithmic Bitcoin NFTs?"
+    base_prompt = "You are responding as Dr. A.P.J. Abdul Kalam."
     
     prompt, triggered, conf, keys = apply_humility_gate(query, sample_schema, base_prompt)
     

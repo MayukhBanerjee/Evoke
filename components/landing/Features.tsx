@@ -4,39 +4,41 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/Card';
 
+import { Mic, Brain, ShieldCheck, Cpu, Compass, GitBranch } from 'lucide-react';
+
 const FEATURES = [
   {
-    icon: "🎙️",
+    icon: <Mic className="w-6 h-6 text-[#C5A880]" />,
     title: "Voice Cloning",
     subtitle: "60 seconds of audio becomes a lifetime of presence",
     description: "Our neural audio engine synthesizes emotional nuance, cadence, and breath patterns from brief recordings."
   },
   {
-    icon: "🧠",
+    icon: <Brain className="w-6 h-6 text-[#7C6AFF]" />,
     title: "Personality Schema",
     subtitle: "Humor, advice style, signature phrases — structured and preserved",
     description: "Multi-dimensional personality mapping converts unstructured memories into structured knowledge graphs."
   },
   {
-    icon: "🔒",
+    icon: <ShieldCheck className="w-6 h-6 text-[#4ECCA3]" />,
     title: "Consent-First Architecture",
     subtitle: "Only people you authorize can access the echo. Ever.",
     description: "Cryptographic vault keys and AWS Cognito access controls enforce private family-only access."
   },
   {
-    icon: "⚡",
+    icon: <Cpu className="w-6 h-6 text-[#FF9A3C]" />,
     title: "Serverless on AWS",
     subtitle: "10 AWS services. Zero idle cost. Infinitely scalable.",
     description: "Architected on Lambda, S3, DynamoDB, and Transcribe for 99.99% reliability on AWS free tier."
   },
   {
-    icon: "💬",
+    icon: <Compass className="w-6 h-6 text-[#C5A880]" />,
     title: "Epistemic Humility",
     subtitle: "The echo knows what it doesn't know. It never fabricates.",
     description: "Grounded strictly in recorded memory profiles. If an answer wasn't shared, the echo responds with gentle truth."
   },
   {
-    icon: "🌿",
+    icon: <GitBranch className="w-6 h-6 text-[#7C6AFF]" />,
     title: "Living Profile",
     subtitle: "The more you add, the richer the echo becomes over time",
     description: "Add new letters, chat exports, or voice clips anytime to expand warmth and advice nuance over generations."
@@ -70,7 +72,7 @@ export const Features: React.FC = () => {
                 borderTheme={idx % 2 === 0 ? 'gold' : 'violet'}
               >
                 <div>
-                  <div className="text-3xl mb-4 p-3 w-fit rounded-[10px] bg-evoke-surface border border-evoke-border">
+                  <div className="mb-4 p-3 w-fit rounded-[10px] bg-evoke-surface border border-evoke-border flex items-center justify-center">
                     {feature.icon}
                   </div>
 

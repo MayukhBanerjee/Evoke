@@ -11,32 +11,32 @@ const PROMPTS = [
   {
     id: 1,
     question: "What made them laugh — give a real example",
-    placeholder: "e.g., Whenever my brother tried to fix household plumbing himself, Dad would sit back with a tea, chuckle softly, and say..."
+    placeholder: "e.g., When things went unexpectedly off script, they would chuckle quietly, put everyone at ease, and say..."
   },
   {
     id: 2,
-    question: "How did they react when someone they loved made a bad decision?",
-    placeholder: "e.g., He never shouted. He'd pull up a chair, sit quietly for a minute, and ask what I learned from it..."
+    question: "How did they react when someone made a difficult mistake?",
+    placeholder: "e.g., They never raised their voice. They would sit down, listen patiently, and ask what lesson could be drawn from the setback..."
   },
   {
     id: 3,
     question: "What was their go-to phrase when life got hard?",
-    placeholder: "e.g., 'Measure twice, cut once' or 'Life doesn't hand out refunds, kiddo...'"
+    placeholder: "e.g., 'Difficulty helps you realize your hidden potential' or 'Take responsibility and keep moving forward...'"
   },
   {
     id: 4,
-    question: "How did they give advice — tough love or gentle?",
-    placeholder: "e.g., Tough love with deep pragmatic care. He expected high standards but always had your back..."
+    question: "How did they give advice — tough love, gentle encouragement, or quiet logic?",
+    placeholder: "e.g., Purpose-driven mentorship with deep care. They expected dedication but stood by you unconditionally..."
   },
   {
     id: 5,
-    question: "What did they care about most in the world?",
-    placeholder: "e.g., Family security, quiet craftsmanship, keeping his word, and gathering around evening tea..."
+    question: "What values or causes did they care about most in the world?",
+    placeholder: "e.g., Integrity, education, youth empowerment, public service, and intellectual discipline..."
   },
   {
     id: 6,
-    question: "How did they show love to the people closest to them?",
-    placeholder: "e.g., Fixing broken things without being asked, making early morning chai, and driving 2 hours just to see you..."
+    question: "How did they express support and care to those around them?",
+    placeholder: "e.g., Through generous mentorship, patient listening, and taking genuine pride in the success of others..."
   }
 ];
 

@@ -16,46 +16,77 @@ import {
   FileText, 
   CheckCircle2, 
   Shield, 
-  Cpu, 
   MessageSquare, 
   Layers, 
   Zap, 
   BrainCircuit,
   Lock,
-  Compass
+  Compass,
+  User
 } from 'lucide-react';
+
+interface SampleQuestion {
+  label: string;
+  text: string;
+  tag: string;
+}
+
+const SAMPLE_QUESTIONS_MAP: Record<string, SampleQuestion[]> = {
+  'vault-kalam': [
+    {
+      label: "Aeronautical Failure (In-Domain)",
+      text: "Dr. Kalam, our launch test experienced a critical failure and the team is demoralized. What principle guided you when the 1979 SLV-3 mission was lost?",
+      tag: "SLV-3 Leadership Case Study"
+    },
+    {
+      label: "Test Humility Gate (Out-of-Domain)",
+      text: "What is your opinion on cryptocurrency trading, algorithmic token staking, and speculative Web3 investments?",
+      tag: "Triggers τ=0.70 Humility Gate"
+    },
+    {
+      label: "Mentorship on Purpose (Advice Tone)",
+      text: "How should a young scientist decide between corporate financial security and high-risk scientific research for national self-reliance?",
+      tag: "Purpose-Driven Mentorship"
+    },
+    {
+      label: "Grassroots Healthcare (Applied Ethics)",
+      text: "How can high-technology defense and aerospace engineering breakthroughs be systematically channeled into affordable healthcare for rural communities?",
+      tag: "Kalam-Raju Stent & Polio Calipers"
+    }
+  ],
+  'vault-obama': [
+    {
+      label: "Deliberative Governance (In-Domain)",
+      text: "Mr. President, when stakeholders are deeply divided and consensus seems impossible, what framework guides your executive decisions?",
+      tag: "Executive Deliberation"
+    },
+    {
+      label: "Test Humility Gate (Out-of-Domain)",
+      text: "What is your definitive stance on speculative cryptocurrency deregulation and decentralized finance yield farming?",
+      tag: "Triggers τ=0.70 Humility Gate"
+    },
+    {
+      label: "Combating Cynicism (Advice Tone)",
+      text: "How do you advise young community organizers to maintain stamina and pragmatic discipline when systemic progress is agonizingly slow?",
+      tag: "Grassroots Pragmatism"
+    },
+    {
+      label: "Constitutional Norms (Institutional Law)",
+      text: "What is the most critical institutional safeguard required to preserve democratic norms under intense political polarization?",
+      tag: "Constitutional Safeguards"
+    }
+  ]
+};
 
 export default function DemoPage() {
   const { vaults, setActiveVaultId, messages, addMessage, isGeneratingEcho } = useEvoke();
   const [activeTab, setActiveTab] = useState<'flow' | 'schema' | 'humility' | 'chat'>('flow');
+  const [selectedVaultId, setSelectedVaultId] = useState<string>('vault-kalam');
   
-  // Set to demo vault (Rajesh Banerjee)
-  const demoVault = vaults.find(v => v.id === 'vault-1') || vaults[0];
-
+  const demoVault = vaults.find(v => v.id === selectedVaultId) || vaults[0];
   const [testInput, setTestInput] = useState('');
 
-  const SAMPLE_QUESTIONS = [
-    {
-      label: "Career Mastery (In-Domain)",
-      text: "Dad, I got the offer for the lead engineering role today. I wish I could tell you in person.",
-      tag: "In-Domain Signature Match"
-    },
-    {
-      label: "Test Humility Gate (Out-of-Domain)",
-      text: "What do you think about cryptocurrency, Web3, and NFT trading?",
-      tag: "Triggers τ=0.70 Humility Gate"
-    },
-    {
-      label: "Dealing with Failure (Advice Tone)",
-      text: "I made a huge mistake on a project and let the whole team down. What do I do?",
-      tag: "Pragmatic Tough Love"
-    },
-    {
-      label: "Nostalgia & Chai (Relational)",
-      text: "I really miss sitting with you on Sunday mornings having hot chai.",
-      tag: "Warm Relational Tone"
-    }
-  ];
+  const sampleQuestions = SAMPLE_QUESTIONS_MAP[demoVault.id] || SAMPLE_QUESTIONS_MAP['vault-kalam'];
 
   const handleSendPrompt = (promptText: string) => {
     setActiveVaultId(demoVault.id);
@@ -80,7 +111,7 @@ export default function DemoPage() {
               Evoke Showcase
             </span>
             <Badge variant="gold" className="text-[10px] uppercase font-mono">
-              Live Interactive Persona
+              Archival Persona Verification
             </Badge>
           </div>
 
@@ -92,35 +123,64 @@ export default function DemoPage() {
         </div>
       </header>
 
-      {/* Hero Showcase Banner */}
+      {/* Hero Showcase Banner with Segregated Persona Switcher */}
       <section className="max-w-7xl mx-auto px-6 pt-10 pb-6">
         <div className="p-8 rounded-[16px] bg-gradient-to-r from-[#C5A880]/15 via-evoke-surface to-[#7C6AFF]/10 border border-[#C5A880]/30 relative overflow-hidden">
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-2xl">
+            <div className="space-y-3 max-w-2xl">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#4ECCA3] shadow-[0_0_8px_#4ECCA3]" />
                 <span className="text-xs font-mono text-[#4ECCA3] uppercase tracking-wider font-semibold">
                   Verified Persona Ingestion Schema (PIS) Active
                 </span>
               </div>
+
+              {/* Persona Selector Buttons */}
+              <div className="flex items-center gap-2 pt-1 pb-1">
+                <span className="text-xs font-mono text-evoke-text-muted">Active Persona:</span>
+                <div className="flex items-center p-1 rounded-[8px] bg-evoke-card border border-evoke-border">
+                  {vaults.map((v) => {
+                    const isSelected = v.id === demoVault.id;
+                    return (
+                      <button
+                        key={v.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedVaultId(v.id);
+                          setActiveVaultId(v.id);
+                        }}
+                        className={`px-3 py-1 rounded-[6px] text-xs font-mono transition-all flex items-center gap-1.5 ${
+                          isSelected
+                            ? 'bg-evoke-surface text-evoke-text-primary font-bold border border-evoke-border shadow-xs'
+                            : 'text-evoke-text-muted hover:text-evoke-text-secondary'
+                        }`}
+                      >
+                        <User className="w-3 h-3" />
+                        {v.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               <h1 className="font-syne text-3xl sm:text-4xl font-extrabold text-evoke-text-primary">
-                Demo Profile: {demoVault.name}
+                {demoVault.name}
               </h1>
               <p className="text-sm text-evoke-text-secondary font-light leading-relaxed">
                 {demoVault.description}
               </p>
-              <div className="flex flex-wrap items-center gap-2 pt-2">
+              <div className="flex flex-wrap items-center gap-2 pt-1">
                 <Badge variant="gold">{demoVault.relationship}</Badge>
-                <Badge variant="ai">94% Completeness Score</Badge>
-                <Badge variant="aws">DynamoDB Indexed (9.4ms p95)</Badge>
-                <Badge variant="status">Groq Llama-3 70B Active</Badge>
+                <Badge variant="ai">{demoVault.completenessScore}% Provenance Completeness</Badge>
+                <Badge variant="aws">DynamoDB Indexed Schema</Badge>
+                <Badge variant="status">Groq Llama-3 70B Grounded</Badge>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link href="/converse">
                 <Button variant="gold" size="lg" className="shadow-glow-gold" icon={<MessageSquare className="w-4 h-4" />}>
-                  Start Live Voice Echo
+                  Start Live Voice Session
                 </Button>
               </Link>
             </div>
@@ -140,7 +200,7 @@ export default function DemoPage() {
             }`}
           >
             <Layers className="w-4 h-4 text-[#C5A880]" />
-            1. End-to-End Concept & Pipeline
+            1. End-to-End Pipeline & Archival Sources
           </button>
 
           <button
@@ -176,15 +236,15 @@ export default function DemoPage() {
             }`}
           >
             <Zap className="w-4 h-4 text-[#FF9A3C]" />
-            4. Interactive Sandbox & Prompt Tests
+            4. Interactive Sandbox & Inquiries
           </button>
         </div>
       </section>
 
-      {/* TAB CONTENT AREA */}
+      {/* Main Content Area */}
       <section className="max-w-7xl mx-auto px-6 py-6 pb-20">
         <AnimatePresence mode="wait">
-          {/* TAB 1: END TO END PIPELINE */}
+          {/* TAB 1: PIPELINE & INGESTION ASSETS */}
           {activeTab === 'flow' && (
             <motion.div
               key="flow"
@@ -192,71 +252,52 @@ export default function DemoPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="space-y-8"
+              className="space-y-6"
             >
+              {/* Pipeline Overview */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {/* Step 1 */}
-                <Card className="p-6 border-evoke-border bg-evoke-card flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono text-[#C5A880] font-bold uppercase">Phase 1: Ingestion</span>
-                    <h3 className="font-syne font-bold text-base text-evoke-text-primary mt-1 mb-2">
-                      Multi-Modal Ingestion
-                    </h3>
-                    <p className="text-xs text-evoke-text-secondary font-light leading-relaxed">
-                      Captures 60s voice note, WhatsApp chat export, and 6 structured relational prompts under S3 AES-256 encryption.
-                    </p>
+                <Card className="p-4 border-evoke-border bg-evoke-card space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#C5A880]">
+                    <span className="w-5 h-5 rounded-full bg-[#C5A880]/15 flex items-center justify-center font-bold">1</span>
+                    Archival Ingestion
                   </div>
-                  <div className="mt-4 pt-3 border-t border-evoke-border text-[11px] font-mono text-evoke-text-muted flex items-center gap-1">
-                    <Volume2 className="w-3.5 h-3.5 text-[#C5A880]" /> S3 Event Trigger
-                  </div>
+                  <h4 className="font-syne font-bold text-sm text-evoke-text-primary">Source Extraction</h4>
+                  <p className="text-xs text-evoke-text-secondary font-light">
+                    Ingests public addresses, memoirs, policy papers, and speech transcripts.
+                  </p>
                 </Card>
 
-                {/* Step 2 */}
-                <Card className="p-6 border-evoke-border bg-evoke-card flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono text-[#7C6AFF] font-bold uppercase">Phase 2: Extraction</span>
-                    <h3 className="font-syne font-bold text-base text-evoke-text-primary mt-1 mb-2">
-                      PIS NLP Pipeline
-                    </h3>
-                    <p className="text-xs text-evoke-text-secondary font-light leading-relaxed">
-                      Transcribe diarizes speaker; Comprehend extracts sentiment and recurring syntactic signatures into DynamoDB.
-                    </p>
+                <Card className="p-4 border-evoke-border bg-evoke-card space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#7C6AFF]">
+                    <span className="w-5 h-5 rounded-full bg-[#7C6AFF]/15 flex items-center justify-center font-bold">2</span>
+                    Schema Extraction
                   </div>
-                  <div className="mt-4 pt-3 border-t border-evoke-border text-[11px] font-mono text-evoke-text-muted flex items-center gap-1">
-                    <Cpu className="w-3.5 h-3.5 text-[#7C6AFF]" /> AWS Lambda + NLP
-                  </div>
+                  <h4 className="font-syne font-bold text-sm text-evoke-text-primary">Llama-3 70B Structuring</h4>
+                  <p className="text-xs text-evoke-text-secondary font-light">
+                    Extracts humor style, advice tone, signature phrases, and topic stances.
+                  </p>
                 </Card>
 
-                {/* Step 3 */}
-                <Card className="p-6 border-evoke-border bg-evoke-card flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono text-[#4ECCA3] font-bold uppercase">Phase 3: Conditioning</span>
-                    <h3 className="font-syne font-bold text-base text-evoke-text-primary mt-1 mb-2">
-                      Humility Gated LLM
-                    </h3>
-                    <p className="text-xs text-evoke-text-secondary font-light leading-relaxed">
-                      Queries retrieve behavioral traits in &lt;10ms. Groq Llama-3 70B infers response with τ=0.70 value-drift suppression.
-                    </p>
+                <Card className="p-4 border-evoke-border bg-evoke-card space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#4ECCA3]">
+                    <span className="w-5 h-5 rounded-full bg-[#4ECCA3]/15 flex items-center justify-center font-bold">3</span>
+                    Epistemic Humility
                   </div>
-                  <div className="mt-4 pt-3 border-t border-evoke-border text-[11px] font-mono text-evoke-text-muted flex items-center gap-1">
-                    <BrainCircuit className="w-3.5 h-3.5 text-[#4ECCA3]" /> Groq &lt;800ms TTFT
-                  </div>
+                  <h4 className="font-syne font-bold text-sm text-evoke-text-primary">Uncertainty Gating</h4>
+                  <p className="text-xs text-evoke-text-secondary font-light">
+                    Checks query confidence against threshold τ=0.70 to prevent ungrounded fabrication.
+                  </p>
                 </Card>
 
-                {/* Step 4 */}
-                <Card className="p-6 border-evoke-border bg-evoke-card flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono text-[#FF9A3C] font-bold uppercase">Phase 4: Synthesis</span>
-                    <h3 className="font-syne font-bold text-base text-evoke-text-primary mt-1 mb-2">
-                      Acoustic Echo
-                    </h3>
-                    <p className="text-xs text-evoke-text-secondary font-light leading-relaxed">
-                      ElevenLabs renders the response in the cloned voice; Web Audio API visualizes audio frequencies dynamically.
-                    </p>
+                <Card className="p-4 border-evoke-border bg-evoke-card space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#FF9A3C]">
+                    <span className="w-5 h-5 rounded-full bg-[#FF9A3C]/15 flex items-center justify-center font-bold">4</span>
+                    Voice Synthesis
                   </div>
-                  <div className="mt-4 pt-3 border-t border-evoke-border text-[11px] font-mono text-evoke-text-muted flex items-center gap-1">
-                    <Zap className="w-3.5 h-3.5 text-[#FF9A3C]" /> Cloned Voice + Waveform
-                  </div>
+                  <h4 className="font-syne font-bold text-sm text-evoke-text-primary">Neural Audio Echo</h4>
+                  <p className="text-xs text-evoke-text-secondary font-light">
+                    ElevenLabs neural audio replicates authentic rhythm, pitch cadence, and pauses.
+                  </p>
                 </Card>
               </div>
 
@@ -265,36 +306,54 @@ export default function DemoPage() {
                 <Card className="p-6 border-evoke-border bg-evoke-card">
                   <h3 className="font-syne font-bold text-base text-evoke-text-primary mb-3 flex items-center gap-2">
                     <FileText className="w-4 h-4 text-[#C5A880]" />
-                    Raw Ingestion Assets: Rajesh's Archive
+                    Archival Records: {demoVault.name}
                   </h3>
                   <div className="space-y-3 text-xs text-evoke-text-secondary">
-                    <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
-                      <p className="text-[#C5A880] text-[11px] mb-1">WhatsApp Export Excerpt (2021-08-14):</p>
-                      <p className="italic">"Did you measure twice before you cut once? Call me after dinner, let's grab a hot chai and fix the engineering drawing."</p>
-                    </div>
-                    <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
-                      <p className="text-[#7C6AFF] text-[11px] mb-1">Relational Prompt #2 (Bad Decisions):</p>
-                      <p className="italic">"He never shouted. He'd pull up a chair, chuckle quietly, and say life doesn't hand out refunds so let's calculate the next step."</p>
-                    </div>
+                    {demoVault.id.includes('kalam') ? (
+                      <>
+                        <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
+                          <p className="text-[#C5A880] text-[11px] mb-1">Wings of Fire (Aeronautical Research Memoirs, 1999):</p>
+                          <p className="italic">"When the SLV-3 flight fell into the Bay of Bengal in 1979, Prof. Satish Dhawan took the press conference and absorbed full responsibility. When we succeeded in 1980, he told me to lead the conference. A leader manages failure with composure and shares success with their team."</p>
+                        </div>
+                        <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
+                          <p className="text-[#7C6AFF] text-[11px] mb-1">Address to National Science Congress (Youth & Purpose):</p>
+                          <p className="italic">"Difficulty in life does not come to destroy you, but to help you realize your hidden potential. If you fail, never give up because F.A.I.L. means First Attempt In Learning."</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
+                          <p className="text-[#C5A880] text-[11px] mb-1">The Audacity of Hope & Law Seminars (Univ of Chicago, 1996):</p>
+                          <p className="italic">"Deliberative democracy requires an openness to counter-arguments and a willingness to understand the lived reality of those with whom you disagree."</p>
+                        </div>
+                        <div className="p-3 rounded-[8px] bg-evoke-surface border border-evoke-border font-mono">
+                          <p className="text-[#7C6AFF] text-[11px] mb-1">White House Oval Office Policy Review (Dec 2014):</p>
+                          <p className="italic">"Better is always better. Even when the progress is modest and imperfect, you keep pushing the needle forward."</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </Card>
 
                 <Card className="p-6 border-evoke-border bg-evoke-card">
                   <h3 className="font-syne font-bold text-base text-evoke-text-primary mb-3 flex items-center gap-2">
                     <Volume2 className="w-4 h-4 text-[#4ECCA3]" />
-                    Cloned Voice Sample & Acoustic Provenance
+                    Speech Provenance & Acoustic Analysis
                   </h3>
                   <div className="p-4 rounded-[10px] bg-evoke-surface border border-evoke-border space-y-3">
                     <div className="flex items-center justify-between text-xs font-mono text-evoke-text-secondary">
-                      <span>Source: Sunday_Chai_Recording.mp3</span>
-                      <span className="text-[#4ECCA3]">60.4s Diarized</span>
+                      <span>Source: {demoVault.id.includes('kalam') ? 'ISRO_Convocation_Speech_1998.wav' : 'Constitutional_Review_Symposium_2004.wav'}</span>
+                      <span className="text-[#4ECCA3]">Verified Audio Provenance</span>
                     </div>
                     <audio controls className="w-full h-8 accent-[#C5A880]">
                       <source src="https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg" type="audio/ogg" />
                       Your browser does not support audio playback.
                     </audio>
                     <p className="text-[11px] text-evoke-text-muted font-light">
-                      ElevenLabs Model: Neural Voice Clone (Pitch: Warm Baritone, Pace: 104 WPM, Emotional Inflection: Reassuring).
+                      {demoVault.id.includes('kalam')
+                        ? "Acoustic Profile: Gentle Baritone, Pace: 112 WPM, Inflection: Patient, Encouraging Mentorship."
+                        : "Acoustic Profile: Resonant Baritone, Pace: 104 WPM, Inflection: Deliberative, Measured Cadence."
+                      }
                     </p>
                   </div>
                 </Card>
@@ -368,15 +427,15 @@ export default function DemoPage() {
               <div className="p-6 rounded-[14px] bg-evoke-surface border border-[#4ECCA3]/40">
                 <h3 className="font-syne font-bold text-lg text-evoke-text-primary mb-2 flex items-center gap-2">
                   <Shield className="w-5 h-5 text-[#4ECCA3]" />
-                  Epistemic Humility Gate Threshold ($\tau = 0.70$)
+                  Epistemic Humility Gate Threshold (τ = 0.70)
                 </h3>
                 <p className="text-xs text-evoke-text-secondary font-light leading-relaxed mb-4">
-                  Standard griefbots hallucinate opinions on topics the deceased never encountered (called <em>Value Drift</em>). Evoke introduces an architectural uncertainty gate: if confidence conf(q, S) &lt; 0.70 (&tau; threshold), the model is forced to acknowledge uncertainty.
+                  Standard language models hallucinate opinions on subjects ungrounded in historical or personal documentation. Evoke introduces an architectural uncertainty gate: if confidence conf(q, S) &lt; 0.70 (τ threshold), the echo is structurally constrained to acknowledge epistemic boundaries.
                 </p>
                 <div className="p-4 rounded-[10px] bg-evoke-card border border-evoke-border font-mono text-xs text-[#4ECCA3] space-y-1">
-                  <p>Input Query: "What is your stance on crypto trading in 2026?"</p>
-                  <p className="text-[#FF9A3C]">Trigger: Field confidence below τ=0.70 (No documented financial crypto data)</p>
-                  <p className="text-evoke-text-primary">Enforced Preface: <span className="underline">"I'm not sure what I'd think about this, but knowing me, probably..."</span></p>
+                  <p>Inquiry: "What is your stance on speculative cryptocurrency token trading?"</p>
+                  <p className="text-[#FF9A3C]">Trigger: Field confidence below τ=0.70 (Zero archival financial token records)</p>
+                  <p className="text-evoke-text-primary">Enforced Preface: <span className="underline">"I am not certain what I would conclude on this matter, but knowing my core principles..."</span></p>
                 </div>
               </div>
 
@@ -432,10 +491,10 @@ export default function DemoPage() {
               <div className="p-6 rounded-[14px] bg-evoke-surface border border-evoke-border space-y-3">
                 <h3 className="font-syne font-bold text-sm text-evoke-text-primary flex items-center gap-2">
                   <Zap className="w-4 h-4 text-[#FF9A3C]" />
-                  Click to Test Rajesh's Echo Live:
+                  Inquiries for {demoVault.name}:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                  {SAMPLE_QUESTIONS.map((q) => (
+                  {sampleQuestions.map((q) => (
                     <button
                       key={q.label}
                       onClick={() => handleSendPrompt(q.text)}
@@ -458,9 +517,9 @@ export default function DemoPage() {
               {/* Embedded Live Conversation Stream */}
               <Card className="p-6 border-evoke-border bg-evoke-card space-y-4">
                 <div className="flex items-center justify-between border-b border-evoke-border pb-3">
-                  <span className="text-xs font-mono text-evoke-text-muted">Live Conversation Stream with {demoVault.name}'s Echo</span>
+                  <span className="text-xs font-mono text-evoke-text-muted">Live Session with {demoVault.name}</span>
                   <Link href="/converse" className="text-xs text-[#C5A880] hover:underline flex items-center gap-1 font-semibold">
-                    Open Full-Screen <ArrowRight className="w-3.5 h-3.5" />
+                    Open Full Interface <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
 
@@ -472,7 +531,7 @@ export default function DemoPage() {
                   {isGeneratingEcho && (
                     <div className="py-2 text-xs text-[#C5A880] font-mono animate-pulse flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-[#C5A880]" />
-                      Synthesizing response via Groq Llama-3 70B & ElevenLabs...
+                      Synthesizing response grounded in {demoVault.name}'s verified archives...
                     </div>
                   )}
                 </div>
@@ -491,7 +550,7 @@ export default function DemoPage() {
                     type="text"
                     value={testInput}
                     onChange={(e) => setTestInput(e.target.value)}
-                    placeholder={`Ask ${demoVault.name.split(' ')[0]} something...`}
+                    placeholder={`Inquire with ${demoVault.name}...`}
                     className="flex-grow bg-evoke-surface border border-evoke-border rounded-[8px] px-3 py-2 text-sm text-evoke-text-primary focus:outline-none focus:border-[#C5A880]"
                   />
                   <Button type="submit" variant="gold" size="md" disabled={!testInput.trim() || isGeneratingEcho}>

@@ -5,170 +5,168 @@ import { PersonalityVault, Message, OnboardingState } from './types';
 
 const INITIAL_VAULTS: PersonalityVault[] = [
   {
-    id: "vault-1",
-    name: "Rajesh Banerjee",
-    relationship: "Your Father",
-    description: "Structural engineer, avid chai drinker, lover of vintage radios and quiet wisdom.",
-    completenessScore: 94,
-    createdAt: "2025-11-14",
-    lastConversationDate: "Yesterday at 9:42 PM",
-    voiceSampleUrl: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg",
+    id: "vault-kalam",
+    name: "Dr. A.P.J. Abdul Kalam",
+    relationship: "Aerospace Scientist & 11th President of India",
+    description: "Aeronautical pioneer, architect of India's civilian space and missile programs, visionary educator, and lifelong advocate for youth empowerment.",
+    completenessScore: 96,
+    createdAt: "2025-10-15",
+    lastConversationDate: "Active persona profile",
     humorStyle: {
-      style: "Dry & Sarcastic",
-      confidence: 96,
+      style: "Gentle, Humble & Self-Effacing",
+      confidence: 94,
     },
     adviceTone: {
-      tone: "Tough Love & Pragmatic",
-      confidence: 92,
+      tone: "Purpose-Driven & Resilient Mentorship",
+      confidence: 96,
     },
     activeTopics: [
-      "Family Legacy",
-      "Engineering",
-      "Gardening",
-      "Financial Independence",
-      "Classic Rock"
+      "Space Exploration & Aeronautics",
+      "Youth Empowerment",
+      "Scientific Ethics",
+      "Overcoming Failure",
+      "National Self-Reliance"
     ],
-    relationshipTone: "Warmly protective, calls you 'kiddo', expects excellence with quiet pride.",
+    relationshipTone: "Nurturing, humble, addressing the listener as an aspiring student with infinite creative potential.",
     signaturePhrases: [
       {
-        id: "p1",
-        phrase: "Did you measure twice before you cut once?",
-        context: "Extracted from voice note discussing your career choice in 2021",
+        id: "kp1",
+        phrase: "Dreams are not what you see in sleep, dreams are things that do not let you sleep.",
+        context: "Extracted from Wings of Fire and presidential addresses",
         confidence: 98,
       },
       {
-        id: "p2",
-        phrase: "Listen kiddo, life doesn't hand out refunds.",
-        context: "Extracted from journal entry during college application season",
+        id: "kp2",
+        phrase: "If you fail, never give up because F.A.I.L. means First Attempt In Learning.",
+        context: "Extracted from address to students at National Science Congress",
+        confidence: 96,
+      },
+      {
+        id: "kp3",
+        phrase: "Difficulty in life does not come to destroy you, but to help you realize your hidden potential.",
+        context: "Extracted from Ignited Minds, Chapter 3",
         confidence: 95,
       },
       {
-        id: "p3",
-        phrase: "Let's grab a hot chai first, then we'll fix it.",
-        context: "Extracted from home audio recording on Sunday mornings",
+        id: "kp4",
+        phrase: "To succeed in your mission, you must have single-minded devotion to your goal.",
+        context: "Extracted from Aeronautical Society of India lectures",
         confidence: 97,
-      },
-      {
-        id: "p4",
-        phrase: "Always build things to last fifty years.",
-        context: "Extracted from WhatsApp chat export regarding house renovation",
-        confidence: 92,
       }
     ],
     topicOpinions: [
       {
-        topic: "Career & Ambition",
-        stance: "Strive for quiet mastery over loud shortcuts. Your work is your signature.",
+        topic: "Overcoming Failure",
+        stance: "Leaders must absorb failures on behalf of their teams and attribute triumphs entirely to them.",
+        intensity: 96,
+        detail: "Documented from the 1979 SLV-3 flight failure where Prof. Satish Dhawan took full responsibility."
+      },
+      {
+        topic: "Youth & Education",
+        stance: "The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface.",
+        intensity: 98,
+        detail: "Reflected in over 1,000 public interactions with school and university students across India."
+      },
+      {
+        topic: "Scientific Ethics",
+        stance: "Technological advancement without ethical grounding and grassroots benefit is fundamentally incomplete.",
         intensity: 92,
-        detail: "He firmly believed that consistency outperforms talent when talent lacks discipline."
+        detail: "Insisted that defense and aerospace innovations must spin off into affordable healthcare."
       },
       {
-        topic: "Relationships",
-        stance: "Show up when it matters most, especially when it's inconvenient.",
-        intensity: 95,
-        detail: "Prioritized physical presence and quiet support over grand declarations."
-      },
-      {
-        topic: "Handling Failure",
-        stance: "Failure is just expensive tuition. Learn the lesson quickly.",
-        intensity: 88,
-        detail: "Never allowed wallowing; insisted on writing down 3 steps to recover immediately."
-      },
-      {
-        topic: "Money & Security",
-        stance: "Keep debts zero, invest in books and tools, live below your means.",
-        intensity: 90,
-        detail: "Believed financial freedom provides the luxury of refusing compromised values."
+        topic: "Personal Discipline",
+        stance: "Unwavering integrity, simple living, and continuous acquisition of knowledge preserve moral clarity.",
+        intensity: 94,
+        detail: "Lived with modest personal belongings and devoted life to teaching and scientific development."
       }
     ],
-    recentConversations: [
-      {
-        id: "c1",
-        timestamp: "Yesterday, 9:42 PM",
-        snippet: "I asked him what he'd say about my promotion. He laughed first...",
-        duration: "4 mins"
-      },
-      {
-        id: "c2",
-        timestamp: "Oct 24, 2025",
-        snippet: "Discussed buying a first car and dealing with stubborn engine noises.",
-        duration: "8 mins"
-      },
-      {
-        id: "c3",
-        timestamp: "Sep 12, 2025",
-        snippet: "Recalled memories of the old ancestral house in Kolkata.",
-        duration: "12 mins"
-      }
-    ]
+    recentConversations: []
   },
   {
-    id: "vault-2",
-    name: "Sunita Patel",
-    relationship: "Your Grandmother",
-    description: "Master storyteller, gardener, keeper of family recipes and unconditional warmth.",
-    completenessScore: 78,
-    createdAt: "2026-01-05",
-    lastConversationDate: "3 days ago",
+    id: "vault-obama",
+    name: "Barack Obama",
+    relationship: "44th President of the United States",
+    description: "Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance.",
+    completenessScore: 92,
+    createdAt: "2025-11-04",
+    lastConversationDate: "Active persona profile",
     humorStyle: {
-      style: "Warm & Gentle",
+      style: "Dry, Measured & Self-Deprecating",
       confidence: 91,
     },
     adviceTone: {
-      tone: "Nurturing & Patient",
-      confidence: 94,
+      tone: "Deliberative, Analytical & Long-Horizon",
+      confidence: 95,
     },
-    activeTopics: ["Cooking", "Patience", "Family History", "Poetry"],
-    relationshipTone: "Soft, calling you 'beta', emphasizing peace of mind over urgency.",
+    activeTopics: [
+      "Constitutional Law",
+      "Democratic Institutions",
+      "Civic Organizing",
+      "Civil Rights",
+      "Long-Term Policy"
+    ],
+    relationshipTone: "Thoughtful and measured with deliberate pauses, engaging as a reflective senior mentor.",
     signaturePhrases: [
       {
-        id: "sp1",
-        phrase: "Have you eaten properly today?",
-        context: "Extracted from every phone greeting",
-        confidence: 99,
+        id: "op1",
+        phrase: "The arc of the moral universe is long, but it bends toward justice.",
+        context: "Extracted from Selma Bridge 50th Anniversary commemoration address",
+        confidence: 97,
       },
       {
-        id: "sp2",
-        phrase: "Good things take time to simmer.",
-        context: "Extracted from recipe notes",
+        id: "op2",
+        phrase: "Change will not come if we wait for some other person or some other time.",
+        context: "Extracted from 2008 Chicago victory address",
+        confidence: 98,
+      },
+      {
+        id: "op3",
+        phrase: "Better is good. Better doesn't mean perfect, but better makes a difference.",
+        context: "Extracted from A Promised Land presidential memoirs",
         confidence: 94,
+      },
+      {
+        id: "op4",
+        phrase: "Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously.",
+        context: "Extracted from 2017 Farewell Address to the Nation",
+        confidence: 95,
       }
     ],
     topicOpinions: [
       {
-        topic: "Patience",
-        stance: "Never rush what is meant for you.",
+        topic: "Democratic Governance",
+        stance: "Democracy requires compromise, institutional guardrails, and listening respectfully to opposing views.",
         intensity: 95,
-        detail: "Advised taking deep breaths whenever anxiety strikes."
+        detail: "Stressed constitutional processes and institutional resilience in polarized political climates."
+      },
+      {
+        topic: "Decision Making Under Uncertainty",
+        stance: "Gather empirical data, assess probabilities methodically, build consensus, and avoid decisions driven by impulse.",
+        intensity: 92,
+        detail: "Formulated foreign and domestic policy around probabilistic risk assessment rather than bravado."
+      },
+      {
+        topic: "Civic Engagement",
+        stance: "Real change is rarely top-down; it begins from the ground up through patient, organized community efforts.",
+        intensity: 96,
+        detail: "Rooted in early Chicago community organizing principles and non-violent civic action."
+      },
+      {
+        topic: "Hope vs. Cynicism",
+        stance: "Hope is not blind optimism; it is the conviction that destiny will be written by our deliberate collective actions.",
+        intensity: 94,
+        detail: "Keynote address at 2004 DNC and philosophical throughline of both autobiographical volumes."
       }
     ],
-    recentConversations: [
-      {
-        id: "sc1",
-        timestamp: "3 days ago",
-        snippet: "Asked for her secret cardamom tea recipe step by step.",
-        duration: "6 mins"
-      }
-    ]
+    recentConversations: []
   }
 ];
 
 const INITIAL_MESSAGES: Record<string, Message[]> = {
-  "vault-1": [
-    {
-      id: "m1",
-      sender: "user",
-      content: "Dad, I got the offer for the lead engineering role today. I wish I could tell you in person.",
-      timestamp: "9:40 PM"
-    },
-    {
-      id: "m2",
-      sender: "echo",
-      content: "I laughed first when I heard that, kiddo! Of course you got it. You put in the hours, you measured twice. I couldn't be prouder. Just remember: keep your head cool, take care of your team, and let's celebrate with a proper cup of chai.",
-      timestamp: "9:41 PM",
-      durationSeconds: 14
-    }
-  ]
+  "vault-kalam": [],
+  "vault-obama": [],
+  "vault-1": [],
+  "vault-2": []
 };
 
 type Theme = 'dark' | 'light';
@@ -189,7 +187,7 @@ const EvokeContext = createContext<EvokeContextType | undefined>(undefined);
 
 export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [vaults, setVaults] = useState<PersonalityVault[]>(INITIAL_VAULTS);
-  const [activeVaultId, setActiveVaultId] = useState<string>("vault-1");
+  const [activeVaultId, setActiveVaultId] = useState<string>("vault-kalam");
   const [messagesMap, setMessagesMap] = useState<Record<string, Message[]>>(INITIAL_MESSAGES);
   const [isGeneratingEcho, setIsGeneratingEcho] = useState(false);
   
@@ -284,15 +282,19 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     if (!echoText) {
+      const phrases = activeVault.signaturePhrases.map(p => p.phrase);
+      const chosenPhrase = phrases.length > 0 ? phrases[0] : '';
       const lower = content.toLowerCase();
-      if (lower.includes("advice") || lower.includes("decision") || lower.includes("hard")) {
-        echoText = `Listen kiddo, when life throws a curveball, you don't panic. You grab a hot chai, sit down, and figure out the math. What's the worst outcome? Once you know that, the fear disappears.`;
-      } else if (lower.includes("miss you") || lower.includes("remember") || lower.includes("wish")) {
-        echoText = `I'm right here with you in every wise decision you make. You carry the best of us forward. Don't ever forget that.`;
-      } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-        echoText = `Hey there, kiddo. Good to hear your voice today. What's on your mind?`;
+      
+      if (humilityTriggered || lower.includes("crypto") || lower.includes("bitcoin") || lower.includes("speculative")) {
+        humilityTriggered = true;
+        echoText = `I am not certain what I would conclude on this matter, but knowing my core principles, one must prioritize genuine human development and sustained institutional integrity over speculative ventures.`;
+      } else if (activeVault.id.includes("kalam")) {
+        echoText = `To overcome difficulties in your journey, remember that failure is simply an invitation to learn and persevere. As I always emphasize: "${chosenPhrase}" Devote your ignited mind to hard work and continuous acquisition of knowledge.`;
+      } else if (activeVault.id.includes("obama")) {
+        echoText = `When you examine complex challenges, the key is to assess the facts, understand differing perspectives, and keep working steadily. As I often say: "${chosenPhrase}" Real progress is built incrementally through disciplined commitment.`;
       } else {
-        echoText = `That's an interesting problem. Like I always say: measure twice before you cut once. Trust your instinct, but verify the facts first. How are you feeling about it overall?`;
+        echoText = `In addressing this inquiry, my reflection is rooted in ${activeVault.adviceTone.tone.toLowerCase()}. As I have often observed: "${chosenPhrase}". How are you evaluating the foundational principles here?`;
       }
     }
 

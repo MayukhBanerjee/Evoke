@@ -140,27 +140,40 @@ export default function VaultPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {activeVault.recentConversations.map((conv) => (
-              <Card key={conv.id} className="p-5 border-evoke-border bg-evoke-card flex flex-col justify-between" hoverEffect={true} borderTheme="gold">
-                <div>
-                  <div className="flex items-center justify-between text-xs text-evoke-text-secondary font-mono mb-2">
-                    <span>{conv.timestamp}</span>
-                    {conv.duration && <span>{conv.duration}</span>}
+          {activeVault.recentConversations.length === 0 ? (
+            <div className="p-6 text-center rounded-[12px] bg-evoke-card border border-evoke-border space-y-3">
+              <p className="text-xs text-evoke-text-secondary font-light">
+                No past conversation records found. The persona archive is pristine and ready for dialogue.
+              </p>
+              <Link href="/converse">
+                <Button variant="gold" size="sm" icon={<MessageSquare className="w-4 h-4" />}>
+                  Begin Inquiry with {activeVault.name}
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {activeVault.recentConversations.map((conv) => (
+                <Card key={conv.id} className="p-5 border-evoke-border bg-evoke-card flex flex-col justify-between" hoverEffect={true} borderTheme="gold">
+                  <div>
+                    <div className="flex items-center justify-between text-xs text-evoke-text-secondary font-mono mb-2">
+                      <span>{conv.timestamp}</span>
+                      {conv.duration && <span>{conv.duration}</span>}
+                    </div>
+                    <p className="text-xs text-evoke-text-primary font-light italic leading-relaxed mb-4">
+                      "{conv.snippet}"
+                    </p>
                   </div>
-                  <p className="text-xs text-evoke-text-primary font-light italic leading-relaxed mb-4">
-                    "{conv.snippet}"
-                  </p>
-                </div>
 
-                <Link href="/converse">
-                  <Button variant="ghost" size="sm" className="w-full text-xs">
-                    Revisit Exchange
-                  </Button>
-                </Link>
-              </Card>
-            ))}
-          </div>
+                  <Link href="/converse">
+                    <Button variant="ghost" size="sm" className="w-full text-xs">
+                      Revisit Exchange
+                    </Button>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

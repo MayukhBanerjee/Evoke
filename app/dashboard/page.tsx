@@ -23,26 +23,26 @@ export default function DashboardPage() {
   const ACTIVITIES = [
     {
       icon: <MessageSquare className="w-4 h-4 text-[#7C6AFF]" />,
-      title: "Conversation held with Rajesh Banerjee",
-      time: "Yesterday at 9:42 PM",
+      title: "Interactive session conducted with Dr. A.P.J. Abdul Kalam",
+      time: "Recent session",
       type: "Conversation"
     },
     {
       icon: <Sparkles className="w-4 h-4 text-[#4ECCA3]" />,
-      title: "Voice pattern neural clone updated for Sunita Patel",
-      time: "3 days ago",
+      title: "Acoustic provenance & speech cadence verified for Barack Obama",
+      time: "2 days ago",
       type: "AI Pipeline"
     },
     {
       icon: <BookOpen className="w-4 h-4 text-[#FF9A3C]" />,
-      title: "New signature phrase extracted from journal entry",
-      time: "5 days ago",
-      type: "Memory Added"
+      title: "Archival quote extracted from Wings of Fire",
+      time: "4 days ago",
+      type: "Archival Index"
     },
     {
       icon: <Heart className="w-4 h-4 text-[#C5A880]" />,
-      title: "Vault created for Rajesh Banerjee",
-      time: "Nov 14, 2025",
+      title: "Persona vault verified for Dr. A.P.J. Abdul Kalam",
+      time: "Archival Setup",
       type: "Vault Creation"
     }
   ];
