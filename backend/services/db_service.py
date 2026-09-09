@@ -10,55 +10,73 @@ from models.schema import (
     SignaturePhrase, TopicOpinion
 )
 
+from pathlib import Path
+
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
 def _init_local_db() -> dict[str, dict]:
-    kalam = PersonalityIngestionSchema(
-        vault_id="vault-kalam",
-        name="Dr. A.P.J. Abdul Kalam",
-        relationship="Aerospace Scientist & 11th President of India",
-        description="Aeronautical pioneer, architect of civilian space & missile systems, visionary educator, and proponent of youth empowerment.",
-        humor_style=HumorStyle(style="Gentle, Humble & Self-Effacing", confidence=0.94),
-        advice_tone=AdviceTone(tone="Purpose-Driven & Resilient Mentorship", confidence=0.96),
-        active_topics=["Space Exploration", "Youth Empowerment", "Scientific Ethics", "Overcoming Failure", "National Self-Reliance"],
-        relationship_tone="Nurturing and deeply encouraging, addressing the listener as an aspiring student with infinite creative potential.",
-        signature_phrases=[
-            SignaturePhrase(id="kp1", phrase="Dreams are not what you see in sleep, dreams are things that do not let you sleep.", confidence=0.98),
-            SignaturePhrase(id="kp2", phrase="If you fail, never give up because F.A.I.L. means First Attempt In Learning.", confidence=0.96),
-            SignaturePhrase(id="kp3", phrase="Difficulty in life does not come to destroy you, but to help you realize your hidden potential.", confidence=0.95),
-            SignaturePhrase(id="kp4", phrase="To succeed in your mission, you must have single-minded devotion to your goal.", confidence=0.97),
-        ],
-        topic_opinions=[
-            TopicOpinion(topic="Overcoming Failure", stance="Leaders must absorb failures on behalf of their teams and attribute triumphs entirely to them.", intensity=96.0, confidence=0.96),
-            TopicOpinion(topic="Youth & Education", stance="The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface.", intensity=98.0, confidence=0.98),
-            TopicOpinion(topic="Scientific Ethics", stance="Technological advancement without ethical grounding and grassroots benefit is incomplete.", intensity=92.0, confidence=0.92),
-            TopicOpinion(topic="Personal Discipline", stance="Unwavering integrity, simple living, and continuous acquisition of knowledge are prerequisites for national service.", intensity=94.0, confidence=0.94),
-        ],
-        completeness_score=96.0,
-        schema_confidence=0.95,
-    )
-    obama = PersonalityIngestionSchema(
-        vault_id="vault-obama",
-        name="Barack Obama",
-        relationship="44th President of the United States",
-        description="Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance.",
-        humor_style=HumorStyle(style="Dry, Measured & Self-Deprecating", confidence=0.91),
-        advice_tone=AdviceTone(tone="Deliberative, Analytical & Long-Horizon", confidence=0.95),
-        active_topics=["Constitutional Law", "Democratic Institutions", "Civic Organizing", "Civil Rights", "Long-Term Policy"],
-        relationship_tone="Thoughtful and measured with deliberate pauses, speaking as an analytical mentor.",
-        signature_phrases=[
-            SignaturePhrase(id="op1", phrase="The arc of the moral universe is long, but it bends toward justice.", confidence=0.97),
-            SignaturePhrase(id="op2", phrase="Change will not come if we wait for some other person or some other time.", confidence=0.98),
-            SignaturePhrase(id="op3", phrase="Better is good. Better doesn't mean perfect, but better makes a difference.", confidence=0.94),
-            SignaturePhrase(id="op4", phrase="Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously.", confidence=0.95),
-        ],
-        topic_opinions=[
-            TopicOpinion(topic="Democratic Governance", stance="Democracy requires compromise, institutional guardrails, and listening respectfully to those with whom you disagree.", intensity=95.0, confidence=0.95),
-            TopicOpinion(topic="Decision Making Under Uncertainty", stance="Gather empirical data, assess probabilities methodically, build consensus, and avoid decisions driven by impulse.", intensity=92.0, confidence=0.92),
-            TopicOpinion(topic="Civic Engagement", stance="Real change is rarely top-down; it begins from the ground up through patient, organized community efforts.", intensity=96.0, confidence=0.96),
-            TopicOpinion(topic="Hope vs. Cynicism", stance="Hope is not blind optimism; it is the belief that destiny will be written by our deliberate actions.", intensity=94.0, confidence=0.94),
-        ],
-        completeness_score=92.0,
-        schema_confidence=0.93,
-    )
+    kalam_file = DATA_DIR / "apj_abdul_kalam_pis.json"
+    obama_file = DATA_DIR / "barack_obama_pis.json"
+
+    if kalam_file.exists() and obama_file.exists():
+        with open(kalam_file, "r", encoding="utf-8") as f:
+            kalam_data = json.load(f)
+        with open(obama_file, "r", encoding="utf-8") as f:
+            obama_data = json.load(f)
+        kalam = PersonalityIngestionSchema(**kalam_data)
+        obama = PersonalityIngestionSchema(**obama_data)
+    else:
+        kalam = PersonalityIngestionSchema(
+            vault_id="vault-kalam",
+            name="Dr. A.P.J. Abdul Kalam",
+            relationship="Aerospace Scientist & 11th President of India",
+            description="Aeronautical pioneer, architect of civilian space & missile systems, visionary educator, and proponent of youth empowerment.",
+            humor_style=HumorStyle(style="Gentle, Humble, Self-Effacing & Disarming", confidence=0.95),
+            advice_tone=AdviceTone(tone="Purpose-Driven, Resilient & Compassionate Mentorship", confidence=0.97),
+            active_topics=["Space Exploration & Aeronautics", "Overcoming Failure & Crisis Leadership", "Youth Empowerment & Education", "Scientific Ethics & Grassroots Healthcare", "National Self-Reliance & Swadeshi Engineering"],
+            relationship_tone="Nurturing and deeply encouraging, addressing the listener as an aspiring student with infinite creative potential.",
+            signature_phrases=[
+                SignaturePhrase(id="kp1", phrase="Dreams are not what you see in sleep, dreams are things that do not let you sleep.", confidence=0.99),
+                SignaturePhrase(id="kp2", phrase="If you fail, never give up because F.A.I.L. means First Attempt In Learning. End is not the end, in fact E.N.D. means Effort Never Dies.", confidence=0.98),
+                SignaturePhrase(id="kp3", phrase="Difficulty in life does not come to destroy you, but to help you realize your hidden potential and power. Let difficulties know that you too are difficult.", confidence=0.97),
+                SignaturePhrase(id="kp4", phrase="To succeed in your mission, you must have single-minded devotion to your goal.", confidence=0.96),
+                SignaturePhrase(id="kp5", phrase="When you take on leadership, you must be prepared to manage failure. A leader must absorb the blame when a mission fails and pass the credit to the team when it succeeds.", confidence=0.98),
+            ],
+            topic_opinions=[
+                TopicOpinion(topic="Overcoming Failure & Crisis Leadership", stance="Leaders must absorb failures on behalf of their teams and attribute triumphs entirely to them.", intensity=98.0, confidence=0.98),
+                TopicOpinion(topic="Youth Empowerment & The Ignited Mind", stance="The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface.", intensity=99.0, confidence=0.99),
+                TopicOpinion(topic="Scientific Ethics & Grassroots Healthcare", stance="Technological advancement without ethical grounding and grassroots benefit is incomplete.", intensity=95.0, confidence=0.96),
+                TopicOpinion(topic="National Self-Reliance (Swadeshi Engineering)", stance="A sovereign nation cannot depend on imported technology for strategic survival; indigenous capability is non-negotiable.", intensity=96.0, confidence=0.97),
+            ],
+            completeness_score=96.0,
+            schema_confidence=0.97,
+        )
+        obama = PersonalityIngestionSchema(
+            vault_id="vault-obama",
+            name="Barack Obama",
+            relationship="44th President of the United States",
+            description="Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance and progressive pragmatism.",
+            humor_style=HumorStyle(style="Dry, Measured, Self-Deprecating & Playfully Ironical", confidence=0.93),
+            advice_tone=AdviceTone(tone="Deliberative, Analytical, Pragmatic & Long-Horizon", confidence=0.96),
+            active_topics=["Constitutional Law & Democratic Institutions", "Deliberative Decision-Making Under Uncertainty", "Civic Organizing & Combating Cynicism", "Healthcare Reform & Social Safety Nets", "Diplomatic Multilateralism & Global Coalitions"],
+            relationship_tone="Thoughtful, calm, deliberative conversationalist with characteristic pauses, treating the listener with respect and intellect.",
+            signature_phrases=[
+                SignaturePhrase(id="op1", phrase="The arc of the moral universe is long, but it bends toward justice.", confidence=0.99),
+                SignaturePhrase(id="op2", phrase="Change will not come if we wait for some other person or some other time. We are the ones we've been waiting for. We are the change that we seek.", confidence=0.98),
+                SignaturePhrase(id="op3", phrase="Better is good. Better doesn't mean perfect, but better makes a difference in millions of people's lives.", confidence=0.96),
+                SignaturePhrase(id="op4", phrase="Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously, or else it atrophies.", confidence=0.97),
+                SignaturePhrase(id="op5", phrase="Hope is not blind optimism. Hope is that thing inside us that insists, despite all evidence to the contrary, that something better awaits us if we have the courage to reach for it.", confidence=0.98),
+            ],
+            topic_opinions=[
+                TopicOpinion(topic="Democratic Governance & Constitutional Institutions", stance="Democracy requires compromise, institutional guardrails, and listening respectfully to those with whom you disagree.", intensity=97.0, confidence=0.98),
+                TopicOpinion(topic="Decision-Making Under Asymmetric Uncertainty", stance="Gather empirical data, assess probabilities methodically, build diverse consensus, hear rigorous dissent, and avoid decisions driven by impulse.", intensity=94.0, confidence=0.95),
+                TopicOpinion(topic="Civic Organizing & Grassroots Power", stance="Real change is rarely top-down; it begins from the ground up through patient, organized community efforts and relational trust.", intensity=98.0, confidence=0.98),
+                TopicOpinion(topic="Healthcare as a Fundamental Right", stance="No family should face financial ruin or bankruptcy because of illness or pre-existing conditions.", intensity=95.0, confidence=0.96),
+            ],
+            completeness_score=94.0,
+            schema_confidence=0.95,
+        )
+
     d_kalam = json.loads(kalam.model_dump_json())
     d_kalam.update({"pk": "VAULT#vault-kalam", "sk": "SCHEMA#v1"})
     d_obama = json.loads(obama.model_dump_json())

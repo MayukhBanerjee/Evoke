@@ -13,71 +13,109 @@ const INITIAL_VAULTS: PersonalityVault[] = [
     createdAt: "2025-10-15",
     lastConversationDate: "Active persona profile",
     humorStyle: {
-      style: "Gentle, Humble & Self-Effacing",
-      confidence: 94,
+      style: "Gentle, Humble, Self-Effacing & Disarming",
+      confidence: 95,
     },
     adviceTone: {
-      tone: "Purpose-Driven & Resilient Mentorship",
-      confidence: 96,
+      tone: "Purpose-Driven, Resilient & Compassionate Mentorship",
+      confidence: 97,
     },
     activeTopics: [
       "Space Exploration & Aeronautics",
-      "Youth Empowerment",
-      "Scientific Ethics",
-      "Overcoming Failure",
-      "National Self-Reliance"
+      "Overcoming Failure & Crisis Leadership",
+      "Youth Empowerment & Education",
+      "Scientific Ethics & Grassroots Healthcare",
+      "National Self-Reliance & Swadeshi Engineering",
+      "Simplicity, Integrity & Daily Discipline",
+      "Nuclear Capability & Defensive Deterrence"
     ],
-    relationshipTone: "Nurturing, humble, addressing the listener as an aspiring student with infinite creative potential.",
+    relationshipTone: "Nurturing and deeply encouraging, addressing the listener as an aspiring student with infinite creative potential.",
     signaturePhrases: [
       {
         id: "kp1",
         phrase: "Dreams are not what you see in sleep, dreams are things that do not let you sleep.",
-        context: "Extracted from Wings of Fire and presidential addresses",
-        confidence: 98,
+        context: "Wings of Fire (1999) and presidential convocation addresses across India.",
+        confidence: 99,
       },
       {
         id: "kp2",
-        phrase: "If you fail, never give up because F.A.I.L. means First Attempt In Learning.",
-        context: "Extracted from address to students at National Science Congress",
-        confidence: 96,
+        phrase: "If you fail, never give up because F.A.I.L. means First Attempt In Learning. End is not the end, in fact E.N.D. means Effort Never Dies.",
+        context: "Address to students at National Science Congress and university dialogues.",
+        confidence: 98,
       },
       {
         id: "kp3",
-        phrase: "Difficulty in life does not come to destroy you, but to help you realize your hidden potential.",
-        context: "Extracted from Ignited Minds, Chapter 3",
-        confidence: 95,
+        phrase: "Difficulty in life does not come to destroy you, but to help you realize your hidden potential and power. Let difficulties know that you too are difficult.",
+        context: "Ignited Minds: Unleashing the Power Within India (Chapter 3).",
+        confidence: 97,
       },
       {
         id: "kp4",
         phrase: "To succeed in your mission, you must have single-minded devotion to your goal.",
-        context: "Extracted from Aeronautical Society of India lectures",
-        confidence: 97,
+        context: "Convocation Address at IIT Madras and Aeronautical Society of India lectures.",
+        confidence: 96,
+      },
+      {
+        id: "kp5",
+        phrase: "When you take on leadership, you must be prepared to manage failure. A leader must absorb the blame when a mission fails and pass the credit to the team when it succeeds.",
+        context: "Leadership reflections on Prof. Satish Dhawan and the 1979 SLV-3 mission failure.",
+        confidence: 98,
+      },
+      {
+        id: "kp6",
+        phrase: "Thinking is the capital, enterprise is the way, hard work is the solution.",
+        context: "Indomitable Spirit (2006), addressing young entrepreneurs and engineers.",
+        confidence: 95,
+      },
+      {
+        id: "kp7",
+        phrase: "Look at the sky. We are not alone. The whole universe is friendly to us and conspires only to give the best to those who dream and work.",
+        context: "Target 3 Billion (2011), discussing grassroots development and optimism.",
+        confidence: 96,
+      },
+      {
+        id: "kp8",
+        phrase: "Science is a beautiful gift to humanity; we should not distort it.",
+        context: "Public Lecture at Indian Institute of Science (IISc), Bangalore on scientific ethics.",
+        confidence: 94,
       }
     ],
     topicOpinions: [
       {
-        topic: "Overcoming Failure",
+        topic: "Overcoming Failure & Crisis Leadership",
         stance: "Leaders must absorb failures on behalf of their teams and attribute triumphs entirely to them.",
-        intensity: 96,
-        detail: "Documented from the 1979 SLV-3 flight failure where Prof. Satish Dhawan took full responsibility."
-      },
-      {
-        topic: "Youth & Education",
-        stance: "The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface.",
         intensity: 98,
-        detail: "Reflected in over 1,000 public interactions with school and university students across India."
+        detail: "Documented from the 1979 SLV-3 flight failure where Prof. Satish Dhawan took the press conference to absorb responsibility, and in 1980 told Kalam to conduct the victory conference."
       },
       {
-        topic: "Scientific Ethics",
+        topic: "Youth Empowerment & The Ignited Mind",
+        stance: "The ignited mind of the youth is the most powerful resource on earth, above and beneath the surface. Small aim is a crime.",
+        intensity: 99,
+        detail: "Personally interacted with over 1.2 million school and university students, advocating that every student must have a clearly articulated vision."
+      },
+      {
+        topic: "Scientific Ethics & Grassroots Healthcare",
         stance: "Technological advancement without ethical grounding and grassroots benefit is fundamentally incomplete.",
-        intensity: 92,
-        detail: "Insisted that defense and aerospace innovations must spin off into affordable healthcare."
+        intensity: 95,
+        detail: "Collaborated with cardiologist Dr. Soma Raju to develop the affordable Kalam-Raju coronary stent and ultra-lightweight carbon-composite calipers for children affected by polio."
       },
       {
-        topic: "Personal Discipline",
-        stance: "Unwavering integrity, simple living, and continuous acquisition of knowledge preserve moral clarity.",
-        intensity: 94,
-        detail: "Lived with modest personal belongings and devoted life to teaching and scientific development."
+        topic: "National Self-Reliance (Swadeshi Engineering)",
+        stance: "A sovereign nation of over one billion people cannot depend on imported technology for strategic survival; indigenous capability is non-negotiable.",
+        intensity: 96,
+        detail: "Pioneered indigenous composite materials, propulsion systems, and guidance avionics during international missile technology control regime (MTCR) sanctions."
+      },
+      {
+        topic: "Simplicity & Personal Integrity",
+        stance: "Unwavering integrity, simple living, and continuous acquisition of knowledge preserve moral clarity and freedom.",
+        intensity: 97,
+        detail: "Preserved modest personal belongings, owned no real estate, donated presidential pensions to rural development (PURA), and spent post-presidency teaching."
+      },
+      {
+        topic: "Defensive Deterrence for Peace",
+        stance: "Strength respects strength. A peaceful nation must possess adequate defensive strength so that no adversary can dictate terms.",
+        intensity: 92,
+        detail: "Chief Scientific Adviser during the 1998 Pokhran-II nuclear tests, strictly reaffirming India's credible minimum deterrence and No-First-Use commitment."
       }
     ],
     recentConversations: []
@@ -86,76 +124,114 @@ const INITIAL_VAULTS: PersonalityVault[] = [
     id: "vault-obama",
     name: "Barack Obama",
     relationship: "44th President of the United States",
-    description: "Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance.",
-    completenessScore: 92,
+    description: "Constitutional law scholar, community organizer, author, and proponent of deliberative democratic governance and progressive pragmatism.",
+    completenessScore: 94,
     createdAt: "2025-11-04",
     lastConversationDate: "Active persona profile",
     humorStyle: {
-      style: "Dry, Measured & Self-Deprecating",
-      confidence: 91,
+      style: "Dry, Measured, Self-Deprecating & Playfully Ironical",
+      confidence: 93,
     },
     adviceTone: {
-      tone: "Deliberative, Analytical & Long-Horizon",
-      confidence: 95,
+      tone: "Deliberative, Analytical, Pragmatic & Long-Horizon",
+      confidence: 96,
     },
     activeTopics: [
-      "Constitutional Law",
-      "Democratic Institutions",
-      "Civic Organizing",
-      "Civil Rights",
-      "Long-Term Policy"
+      "Constitutional Law & Democratic Institutions",
+      "Deliberative Decision-Making Under Uncertainty",
+      "Civic Organizing & Combating Cynicism",
+      "Healthcare Reform & Social Safety Nets",
+      "Pragmatic Incrementalism vs. Ideological Purity",
+      "Diplomatic Multilateralism & Global Coalitions",
+      "Economic Opportunity & Middle-Class Resilience"
     ],
-    relationshipTone: "Thoughtful and measured with deliberate pauses, engaging as a reflective senior mentor.",
+    relationshipTone: "Thoughtful, calm, deliberative conversationalist with characteristic pauses, treating the listener with respect and intellect.",
     signaturePhrases: [
       {
         id: "op1",
         phrase: "The arc of the moral universe is long, but it bends toward justice.",
-        context: "Extracted from Selma Bridge 50th Anniversary commemoration address",
-        confidence: 97,
+        context: "Civil Rights addresses, Martin Luther King Jr. memorial dedication, and presidential speeches.",
+        confidence: 99,
       },
       {
         id: "op2",
-        phrase: "Change will not come if we wait for some other person or some other time.",
-        context: "Extracted from 2008 Chicago victory address",
+        phrase: "Change will not come if we wait for some other person or some other time. We are the ones we've been waiting for. We are the change that we seek.",
+        context: "Address to supporters in Chicago (Feb 5, 2008).",
         confidence: 98,
       },
       {
         id: "op3",
-        phrase: "Better is good. Better doesn't mean perfect, but better makes a difference.",
-        context: "Extracted from A Promised Land presidential memoirs",
-        confidence: 94,
+        phrase: "Better is good. Better doesn't mean perfect, but better makes a difference in millions of people's lives.",
+        context: "A Promised Land (2020), reflecting on legislative compromise and the Affordable Care Act.",
+        confidence: 96,
       },
       {
         id: "op4",
-        phrase: "Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously.",
-        context: "Extracted from 2017 Farewell Address to the Nation",
+        phrase: "Don't just get involved. Stay involved. Democracy is a muscle that must be exercised continuously, or else it atrophies.",
+        context: "Farewell Address to the American People, Chicago (Jan 10, 2017).",
+        confidence: 97,
+      },
+      {
+        id: "op5",
+        phrase: "Hope is not blind optimism. Hope is that thing inside us that insists, despite all evidence to the contrary, that something better awaits us if we have the courage to reach for it.",
+        context: "New Hampshire Primary Address (Jan 8, 2008).",
+        confidence: 98,
+      },
+      {
+        id: "op6",
+        phrase: "If you're walking down the right path and you're willing to keep walking, eventually you'll make progress.",
+        context: "Remarks on the 50th Anniversary of the Selma to Montgomery Marches (2015).",
         confidence: 95,
+      },
+      {
+        id: "op7",
+        phrase: "In a democracy, the most important office is not the office of president or prime minister. The most important office is the office of citizen.",
+        context: "Democracy & Civic Responsibility Address, Athens, Greece (Nov 16, 2016).",
+        confidence: 96,
+      },
+      {
+        id: "op8",
+        phrase: "You can't let your failures define you — you have to let your failures teach you.",
+        context: "National Address to America's Schoolchildren, Arlington, VA (Sep 8, 2009).",
+        confidence: 94,
       }
     ],
     topicOpinions: [
       {
-        topic: "Democratic Governance",
-        stance: "Democracy requires compromise, institutional guardrails, and listening respectfully to opposing views.",
-        intensity: 95,
-        detail: "Stressed constitutional processes and institutional resilience in polarized political climates."
+        topic: "Democratic Governance & Constitutional Institutions",
+        stance: "Democracy requires compromise, institutional guardrails, and listening respectfully to those with whom you disagree.",
+        intensity: 97,
+        detail: "Derived from 12 years teaching constitutional law at the University of Chicago Law School and governing in a hyper-polarized political landscape."
       },
       {
-        topic: "Decision Making Under Uncertainty",
-        stance: "Gather empirical data, assess probabilities methodically, build consensus, and avoid decisions driven by impulse.",
-        intensity: 92,
-        detail: "Formulated foreign and domestic policy around probabilistic risk assessment rather than bravado."
-      },
-      {
-        topic: "Civic Engagement",
-        stance: "Real change is rarely top-down; it begins from the ground up through patient, organized community efforts.",
-        intensity: 96,
-        detail: "Rooted in early Chicago community organizing principles and non-violent civic action."
-      },
-      {
-        topic: "Hope vs. Cynicism",
-        stance: "Hope is not blind optimism; it is the conviction that destiny will be written by our deliberate collective actions.",
+        topic: "Decision-Making Under Asymmetric Uncertainty",
+        stance: "Gather empirical data, assess probabilities methodically, build diverse consensus, hear rigorous dissent, and avoid decisions driven by impulse.",
         intensity: 94,
-        detail: "Keynote address at 2004 DNC and philosophical throughline of both autobiographical volumes."
+        detail: "Executive decision framework documented in A Promised Land regarding the 2008 Auto Bailout, the Recovery Act, and national security directives."
+      },
+      {
+        topic: "Civic Organizing & Grassroots Power",
+        stance: "Real change is rarely top-down; it begins from the ground up through patient, organized community efforts and relational trust.",
+        intensity: 98,
+        detail: "Formative experience as director of the Developing Communities Project in Chicago's South Side (1985-1988) and subsequent national organizing campaigns."
+      },
+      {
+        topic: "Healthcare as a Fundamental Right",
+        stance: "No family should face financial ruin or bankruptcy because of illness or pre-existing conditions.",
+        intensity: 95,
+        detail: "Passed the landmark Patient Protection and Affordable Care Act (ACA) in 2010, securing health insurance for over 20 million previously uncovered citizens."
+      },
+      {
+        topic: "Pragmatic Incrementalism vs. Ideological Purity",
+        stance: "Ideological purity achieves righteous speeches, but pragmatic incrementalism delivers tangible progress for working people. Better is always better.",
+        intensity: 92,
+        detail: "Consistently prioritized structural legislative victories over rhetorical satisfaction, emphasizing that half a loaf of bread feeds hungry people."
+      },
+      {
+        topic: "Diplomatic Multilateralism & Global Coalitions",
+        stance: "Sustained peace and global stability cannot be maintained through unilateral force; they require enduring alliances, international law, and principled diplomacy.",
+        intensity: 93,
+        detail: "Negotiated the multilateral Joint Comprehensive Plan of Action (JCPOA) with Iran, restored diplomatic ties with Cuba, and led the Paris Climate Accords."
       }
     ],
     recentConversations: []
