@@ -254,6 +254,7 @@ interface EvokeContextType {
   createNewVault: (data: OnboardingState) => PersonalityVault;
   messages: Message[];
   addMessage: (content: string) => Promise<void>;
+  clearMessages: () => void;
   isGeneratingEcho: boolean;
   theme: Theme;
   toggleTheme: () => void;
@@ -291,6 +292,13 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const activeVault = vaults.find(v => v.id === activeVaultId) || vaults[0];
   const messages = messagesMap[activeVaultId] || [];
+
+  const clearMessages = () => {
+    setMessagesMap(prev => ({
+      ...prev,
+      [activeVaultId]: []
+    }));
+  };
 
   const addMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -455,6 +463,7 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         createNewVault,
         messages,
         addMessage,
+        clearMessages,
         isGeneratingEcho,
         theme,
         toggleTheme
