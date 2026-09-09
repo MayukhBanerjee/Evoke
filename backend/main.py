@@ -32,7 +32,9 @@ from services.cloudwatch_audit import log_conversation_event, get_recent_audit_l
 from middleware.cognito_auth import get_current_role, EvokeRole
 from config import (
     USE_AWS, AWS_REGION, DYNAMODB_TABLE, S3_BUCKET,
-    GROQ_API_KEY, GEMINI_API_KEY, ELEVENLABS_API_KEY
+    OPENROUTER_API_KEY, OPENROUTER_MODEL,
+    GROQ_API_KEY, GEMINI_API_KEY, ELEVENLABS_API_KEY,
+    GROQ_MODEL, GEMINI_MODEL
 )
 
 app = FastAPI(
@@ -186,8 +188,13 @@ async def system_status():
             }
         },
         "external_apis": {
-            "groq_llama3": {"model": "llama-3.3-70b-versatile", "configured": bool(GROQ_API_KEY)},
-            "gemini_failover": {"model": "gemini-1.5-flash", "configured": bool(GEMINI_API_KEY)},
+            "openrouter_llama3": {
+                "model": OPENROUTER_MODEL,
+                "configured": bool(OPENROUTER_API_KEY),
+                "status": "active" if OPENROUTER_API_KEY else "unconfigured",
+            },
+            "groq_llama3": {"model": GROQ_MODEL, "configured": bool(GROQ_API_KEY)},
+            "gemini_failover": {"model": GEMINI_MODEL, "configured": bool(GEMINI_API_KEY)},
             "elevenlabs_voice": {"model": "eleven_multilingual_v2", "configured": bool(ELEVENLABS_API_KEY)}
         }
     }

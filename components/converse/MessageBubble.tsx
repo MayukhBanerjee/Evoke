@@ -39,20 +39,9 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
           </div>
         )}
 
-        {/* Latency + Model + Voice Engine badge */}
-        {!isUser && message.latencyMs && message.latencyMs > 0 ? (
-          <div className="flex items-center gap-2 text-[10px] font-mono text-evoke-text-muted mb-1.5">
-            <span>{message.latencyMs}ms via {message.modelUsed || 'Groq'}</span>
-            {message.voiceEngine && message.voiceEngine !== 'none' && (
-              <span className="text-[#C5A880] border-l border-evoke-border/80 pl-2">
-                Voice: {message.voiceEngine === 'amazon-polly' ? 'Amazon Polly (Neural)' : 'ElevenLabs'}
-              </span>
-            )}
-          </div>
-        ) : null}
 
-        {/* Audio Waveform Player for Echo */}
-        {!isUser && (
+        {/* Audio Waveform Player for Echo (active only when TTS audio is synthesized) */}
+        {!isUser && message.audioUrl && (
           <AudioWaveform durationSeconds={message.durationSeconds || 14} audioUrl={message.audioUrl} />
         )}
 

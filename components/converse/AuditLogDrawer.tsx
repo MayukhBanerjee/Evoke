@@ -115,7 +115,7 @@ export const AuditLogDrawer: React.FC<AuditLogDrawerProps> = ({ isOpen, onClose,
 
                     <div className="flex items-center justify-between text-[10px]">
                       <span className="font-mono text-evoke-text-secondary">
-                        Model: {record.model_used || 'Groq Llama-3'}
+                        Model: {record.model_used?.includes('llama') ? 'Llama-3.3 70B' : record.model_used || 'Llama-3.3 70B'}
                       </span>
                       {record.humility_triggered ? (
                         <span className="inline-flex items-center gap-1 text-[#FF9A3C] font-mono">

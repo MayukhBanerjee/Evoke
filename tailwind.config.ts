@@ -29,7 +29,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        syne: ["var(--font-syne)", "Syne", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "Plus Jakarta Sans", "Inter", "sans-serif"],
+        syne: ["var(--font-syne)", "Plus Jakarta Sans", "Inter", "sans-serif"],
         inter: ["var(--font-inter)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },

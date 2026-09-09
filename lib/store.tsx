@@ -359,6 +359,9 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (res.ok) {
           const data = await res.json();
           echoText = data.content || '';
+          if (data.modelUsed) {
+            modelUsed = data.modelUsed;
+          }
         }
       } catch (_) {
         // fall through to local mock

@@ -337,7 +337,10 @@ export const ConversationUI: React.FC = () => {
           ) : (
             messages.map((msg, idx) => (
               <React.Fragment key={msg.id}>
-                <MessageBubble message={msg} echoName={activeVault.name.split(' ')[0]} />
+                <MessageBubble
+                  message={msg}
+                  echoName={activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name}
+                />
                 {idx < messages.length - 1 && (
                   <div className="w-full h-px bg-evoke-border/40 my-2" />
                 )}
@@ -364,7 +367,7 @@ export const ConversationUI: React.FC = () => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={`Ask ${activeVault.name.split(' ')[0]} about philosophy, leadership, or decisions...`}
+                placeholder={`Ask ${activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name} about philosophy, leadership, or decisions...`}
                 rows={2}
                 className="w-full bg-transparent text-sm text-evoke-text-primary placeholder-evoke-text-muted focus:outline-none resize-none px-3 py-1.5"
               />

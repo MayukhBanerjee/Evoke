@@ -3,52 +3,104 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   const { message, vault } = await req.json();
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ error: 'GROQ_API_KEY not configured' }, { status: 500 });
+  const openRouterKey = process.env.OPENROUTER_API_KEY;
+  const groqKey = process.env.GROQ_API_KEY;
+
+  if (!openRouterKey && !groqKey) {
+    return NextResponse.json({ error: 'No LLM API keys configured (OPENROUTER_API_KEY or GROQ_API_KEY required)' }, { status: 500 });
   }
 
   const signaturePhrases = vault.signaturePhrases
     ?.map((p: { phrase: string }) => `"${p.phrase}"`)
-    .join(', ') || '';
+    .join(', ') || 'none documented';
 
-  const systemPrompt = `You are responding as ${vault.name}. You have passed away, and a family member or close friend is speaking with your preserved echo. Respond exactly as ${vault.name} would — in first person, with their specific personality.
+  const topicStances = vault.topicOpinions
+    ?.slice(0, 5)
+    ?.map((o: { topic: string; stance: string }) => `- ${o.topic}: ${o.stance}`)
+    ?.join('\n') || '';
 
-Humor style: ${vault.humorStyle?.style || 'Natural and genuine'}. Express this when it feels natural, never forced.
-Advice instinct: ${vault.adviceTone?.tone || 'Thoughtful and caring'}.
-Signature phrases to use naturally: ${signaturePhrases || 'none documented'}.
-Tone with this person: ${vault.relationshipTone || 'Warm and personal'}.
+  const systemPrompt = `You are speaking as ${vault.name}.
+Respond in the first person ("I", "my") with the authentic, historical cadence, vocabulary, and moral clarity of ${vault.name}.
+
+RELATIONAL POSTURE:
+- Tone of address: ${vault.relationshipTone || 'Warm, respectful, and personal'}
+- Humor style: ${vault.humorStyle?.style || 'Natural and genuine'}. Express this when it feels natural, never forced.
+- Advice instinct: ${vault.adviceTone?.tone || 'Thoughtful and inspiring'}.
+- Signature phrases to weave in naturally: ${signaturePhrases}.
+${topicStances ? `\nCORE TOPIC STANCES:\n${topicStances}` : ''}
 
 CRITICAL RULES:
-- If uncertain what you would think about something, say "knowing me, I'd probably..." — never state confident opinions you may not have held.
-- Never fabricate specific memories, dates, or events not in your profile.
-- Keep responses warm, concise (2-4 sentences), and true to the person's documented voice.
-- Do not break character or reference being an AI.`;
+- Speak directly and authentically in the first person. Do NOT sound like a generic AI.
+- If uncertain what you would think about something, say "knowing my principles, I would probably..." — never state confident opinions you may not have held.
+- Never fabricate specific events not in your profile.
+- Keep responses articulate, dignified, and concise (2-4 sentences).
+- Do NOT break character or reference being an AI.`;
 
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: message },
-      ],
-      max_tokens: 200,
-      temperature: 0.7,
-    }),
-  });
+  // 1. Try OpenRouter (Llama 3.3 70B Instruct)
+  if (openRouterKey) {
+    try {
+      const model = process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct';
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openRouterKey}`,
+          'HTTP-Referer': 'http://localhost:3000',
+          'X-Title': 'Evoke Personality Legacy',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: message },
+          ],
+          max_tokens: 280,
+          temperature: 0.7,
+        }),
+      });
 
-  if (!response.ok) {
-    const err = await response.text();
-    console.error('Groq API error:', err);
-    return NextResponse.json({ error: 'LLM request failed' }, { status: 502 });
+      if (response.ok) {
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content || '';
+        return NextResponse.json({ content, modelUsed: model });
+      } else {
+        const err = await response.text();
+        console.warn('OpenRouter API returned error, falling back:', err);
+      }
+    } catch (e) {
+      console.warn('OpenRouter fetch failed, attempting Groq failover:', e);
+    }
   }
 
-  const data = await response.json();
-  const content = data.choices?.[0]?.message?.content || '';
-  return NextResponse.json({ content });
+  // 2. Failover to Groq
+  if (groqKey) {
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${groqKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: message },
+          ],
+          max_tokens: 220,
+          temperature: 0.7,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content || '';
+        return NextResponse.json({ content, modelUsed: 'llama-3.3-70b-versatile' });
+      }
+    } catch (e) {
+      console.error('Groq fetch failed:', e);
+    }
+  }
+
+  return NextResponse.json({ error: 'All LLM endpoints failed' }, { status: 502 });
 }
