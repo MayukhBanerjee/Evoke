@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, X, RefreshCw, Clock, CheckCircle2, AlertTriangle, Database } from 'lucide-react';
-import { fetchAuditLogs, AuditLogRecord } from '@/lib/api';
+import { fetchAuditLogs, type AuditLogRecord } from '@/lib/api';
 
 interface AuditLogDrawerProps {
   isOpen: boolean;
@@ -15,23 +15,23 @@ export const AuditLogDrawer: React.FC<AuditLogDrawerProps> = ({ isOpen, onClose,
   const [logs, setLogs] = useState<AuditLogRecord[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const loadLogs = async () => {
+  const loadLogs = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchAuditLogs(vaultId);
       setLogs(data);
-    } catch (_) {
+    } catch {
       // Fallback
     } finally {
       setLoading(false);
     }
-  };
+  }, [vaultId]);
 
   useEffect(() => {
     if (isOpen) {
       loadLogs();
     }
-  }, [isOpen, vaultId]);
+  }, [isOpen, loadLogs]);
 
   return (
     <AnimatePresence>

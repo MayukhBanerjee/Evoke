@@ -106,8 +106,20 @@ def _get_s3():
     return boto3.client("s3", region_name=AWS_REGION)
 
 
+from decimal import Decimal
+
+def _decimal_to_float(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)
+    if isinstance(obj, dict):
+        return {k: _decimal_to_float(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_decimal_to_float(x) for x in obj]
+    return obj
+
+
 async def save_vault(schema: PersonalityIngestionSchema) -> bool:
-    item = json.loads(schema.model_dump_json())
+    item = json.loads(schema.model_dump_json(), parse_float=Decimal)
     item["pk"] = f"VAULT#{schema.vault_id}"
     item["sk"] = "SCHEMA#v1"
     if schema.data_lifetime_seconds > 0:
@@ -117,9 +129,9 @@ async def save_vault(schema: PersonalityIngestionSchema) -> bool:
             table = _get_dynamodb().Table(DYNAMODB_TABLE)
             table.put_item(Item=item)
             return True
-        except Exception:
-            pass
-    _LOCAL_DB[schema.vault_id] = item
+        except Exception as e:
+            print(f"[DB] DynamoDB put_item warning: {e}")
+    _LOCAL_DB[schema.vault_id] = json.loads(schema.model_dump_json())
     return True
 
 
@@ -130,13 +142,12 @@ async def load_vault(vault_id: str) -> PersonalityIngestionSchema | None:
             r = table.get_item(Key={"pk": f"VAULT#{vault_id}", "sk": "SCHEMA#v1"})
             item = r.get("Item")
             if item:
-                return PersonalityIngestionSchema(**item)
-        except Exception:
-            pass
-    item = _LOCAL_DB.get(vault_id)
-    if item:
-        clean = {k: v for k, v in item.items() if k not in ("pk", "sk", "ttl")}
-        return PersonalityIngestionSchema(**clean)
+                return PersonalityIngestionSchema(**_decimal_to_float(item))
+        except Exception as e:
+            print(f"[DB] DynamoDB get_item warning: {e}")
+    d = _LOCAL_DB.get(vault_id)
+    if d:
+        return PersonalityIngestionSchema(**d)
     return None
 
 
@@ -144,15 +155,28 @@ async def list_vaults() -> list[PersonalityIngestionSchema]:
     if USE_AWS:
         try:
             table = _get_dynamodb().Table(DYNAMODB_TABLE)
-            r = table.scan(FilterExpression="begins_with(pk, :v)", ExpressionAttributeValues={":v": "VAULT#"})
-            return [PersonalityIngestionSchema(**i) for i in r.get("Items", [])]
-        except Exception:
-            pass
-    return [
-        PersonalityIngestionSchema(**{k: v for k, v in item.items() if k not in ("pk", "sk", "ttl")})
-        for item in _LOCAL_DB.values()
-        if item.get("pk", "").startswith("VAULT#")
-    ]
+            r = table.scan()
+            items = r.get("Items", [])
+            # Filter distinct vault_ids, ignoring alias duplicates
+            vaults = []
+            seen = set()
+            for it in items:
+                v_id = it.get("vault_id")
+                if v_id and v_id not in seen and v_id not in ["vault-1", "vault-2"]:
+                    seen.add(v_id)
+                    vaults.append(PersonalityIngestionSchema(**_decimal_to_float(it)))
+            if vaults:
+                return vaults
+        except Exception as e:
+            print(f"[DB] DynamoDB scan warning: {e}")
+    vaults = []
+    seen = set()
+    for v in _LOCAL_DB.values():
+        v_id = v.get("vault_id")
+        if v_id and v_id not in seen and v_id not in ["vault-1", "vault-2"]:
+            seen.add(v_id)
+            vaults.append(PersonalityIngestionSchema(**v))
+    return vaults
 
 
 async def upload_audio_s3(vault_id: str, audio_bytes: bytes, filename: str) -> str:
