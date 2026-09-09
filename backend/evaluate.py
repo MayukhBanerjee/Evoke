@@ -83,7 +83,7 @@ async def run_evaluation(vault_id: str):
         print(f"[{i:02d}/{len(STIMULI)}] {stimulus[:60]}...")
 
         # Condition A: Evoke schema-conditioned
-        gated_prompt, triggered = apply_humility_gate(stimulus, schema, system_conditioned)
+        gated_prompt, triggered, query_conf, context_keys = apply_humility_gate(stimulus, schema, system_conditioned)
         if triggered:
             humility_triggers += 1
         try:
@@ -99,6 +99,7 @@ async def run_evaluation(vault_id: str):
         conditioned_results.append({
             "stimulus": stimulus, "response": text_a,
             "latency_ms": latency_a, "humility_triggered": triggered,
+            "query_confidence": query_conf,
             "fabrication": detect_fabrication(text_a),
             "humility_preface": detect_humility_preface(text_a),
         })

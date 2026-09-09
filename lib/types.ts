@@ -29,6 +29,8 @@ export interface Message {
   humilityTriggered?: boolean;
   latencyMs?: number;
   modelUsed?: string;
+  voiceEngine?: string;
+  queryConfidence?: number;
 }
 
 export interface PersonalityVault {

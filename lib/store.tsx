@@ -240,9 +240,12 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     let humilityTriggered = false;
     let latencyMs = 0;
     let modelUsed = '';
+    let voiceEngine: string | undefined;
+    let queryConfidence: number | undefined;
 
     // Try Python backend first, then Next.js /api/echo, then local fallback
     try {
+      const activeRole = typeof window !== 'undefined' ? (localStorage.getItem('evoke-role') || 'LivingSubject') : 'LivingSubject';
       const { sendChatMessage } = await import('./api');
       const result = await sendChatMessage(
         activeVaultId,
@@ -250,13 +253,16 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         (messagesMap[activeVaultId] || []).slice(-6).map(m => ({
           role: m.sender === 'user' ? 'user' : 'assistant',
           content: m.content,
-        }))
+        })),
+        activeRole
       );
       echoText = result.text;
       audioUrl = result.audioUrl;
       humilityTriggered = result.humilityTriggered;
       latencyMs = result.latencyMs;
       modelUsed = result.modelUsed;
+      voiceEngine = result.voiceEngine;
+      queryConfidence = result.queryConfidence;
     } catch (_) {
       // Python backend offline — fall through to Next.js route
     }
@@ -300,6 +306,8 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       humilityTriggered,
       latencyMs,
       modelUsed,
+      voiceEngine,
+      queryConfidence,
     };
 
     setMessagesMap(prev => ({

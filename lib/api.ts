@@ -8,7 +8,10 @@ export interface ConversationResult {
   latencyMs: number;
   humilityTriggered: boolean;
   schemaConfidence: number;
+  queryConfidence?: number;
   modelUsed: string;
+  voiceEngine?: string;
+  contextFields?: string[];
 }
 
 export interface EvaluationResults {
@@ -20,6 +23,19 @@ export interface EvaluationResults {
   groq_ttft_ms: { max: number };
   fleiss_kappa: number;
   infrastructure_cost_inr: number;
+}
+
+export interface AuditLogRecord {
+  timestamp_ms: number;
+  iso_timestamp: string;
+  vault_id: string;
+  query: string;
+  context_fields: string[];
+  response_preview: string;
+  latency_ms: number;
+  humility_triggered: boolean;
+  model_used: string;
+  invariant: string;
 }
 
 function schemaToVault(s: Record<string, unknown>): PersonalityVault {
@@ -49,12 +65,14 @@ export async function onboardVault(
     description: string;
     promptResponses: Record<number, string>;
     audioFile?: File;
+    dataLifetimeSeconds?: number;
   }
 ): Promise<PersonalityVault> {
   const form = new FormData();
   form.append('name', data.name);
   form.append('relationship', data.relationship);
   form.append('description', data.description);
+  form.append('data_lifetime_seconds', String(data.dataLifetimeSeconds || 0));
   const stringified: Record<string, string> = {};
   for (const [k, v] of Object.entries(data.promptResponses)) {
     stringified[k] = v;
@@ -84,11 +102,15 @@ export async function fetchVaultsList(): Promise<PersonalityVault[]> {
 export async function sendChatMessage(
   vaultId: string,
   message: string,
-  history: Array<{ role: string; content: string }> = []
+  history: Array<{ role: string; content: string }> = [],
+  role = 'LivingSubject'
 ): Promise<ConversationResult> {
   const res = await fetch(`${BACKEND}/api/converse`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Evoke-Role': role,
+    },
     body: JSON.stringify({ vault_id: vaultId, message, conversation_history: history }),
   });
   if (!res.ok) throw new Error('Converse failed');
@@ -99,8 +121,34 @@ export async function sendChatMessage(
     latencyMs: d.latency_ms,
     humilityTriggered: d.humility_triggered,
     schemaConfidence: d.schema_confidence,
+    queryConfidence: d.query_confidence,
     modelUsed: d.model_used,
+    voiceEngine: d.voice_engine,
+    contextFields: d.context_fields,
   };
+}
+
+export async function fetchAuditLogs(vaultId?: string, limit = 30): Promise<AuditLogRecord[]> {
+  try {
+    const url = vaultId
+      ? `${BACKEND}/api/audit/logs?vault_id=${vaultId}&limit=${limit}`
+      : `${BACKEND}/api/audit/logs?limit=${limit}`;
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchSystemStatus(): Promise<Record<string, unknown> | null> {
+  try {
+    const res = await fetch(`${BACKEND}/api/system/status`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
 }
 
 export async function fetchEvaluationResults(): Promise<EvaluationResults> {

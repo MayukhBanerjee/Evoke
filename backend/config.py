@@ -2,11 +2,15 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env from project root or backend folder
+# Load .env and .env.local from project root or backend folder
 root_env = Path(__file__).resolve().parent.parent / ".env"
+root_env_local = Path(__file__).resolve().parent.parent / ".env.local"
 backend_env = Path(__file__).resolve().parent / ".env"
+
 if root_env.exists():
     load_dotenv(root_env)
+if root_env_local.exists():
+    load_dotenv(root_env_local, override=True)
 elif backend_env.exists():
     load_dotenv(backend_env)
 else:

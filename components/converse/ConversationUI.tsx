@@ -7,11 +7,14 @@ import { useEvoke } from '@/lib/store';
 import { MessageBubble } from './MessageBubble';
 import { Button } from '../ui/Button';
 import { ArrowLeft, Send, Sparkles, User, History, Shield, Sun, Moon } from 'lucide-react';
+import { RoleSwitcher } from '../auth/RoleSwitcher';
+import { AuditLogDrawer } from './AuditLogDrawer';
 
 export const ConversationUI: React.FC = () => {
   const { activeVault, messages, addMessage, isGeneratingEcho, theme, toggleTheme } = useEvoke();
   const [inputText, setInputText] = useState('');
   const [showEntranceNotice, setShowEntranceNotice] = useState(true);
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -88,6 +91,9 @@ export const ConversationUI: React.FC = () => {
             </div>
           </div>
 
+          {/* Role Separation Switcher (Invariant I1 & I3) */}
+          <RoleSwitcher />
+
           {/* Theme switcher integrated in conversation side area */}
           <div className="flex items-center justify-between p-3 rounded-[10px] bg-evoke-card border border-evoke-border text-xs text-evoke-text-secondary">
             <span>Theme Preference:</span>
@@ -140,9 +146,21 @@ export const ConversationUI: React.FC = () => {
           </div>
         </div>
 
-        <div className="pt-4 border-t border-evoke-border text-[11px] text-evoke-text-muted font-mono flex items-center gap-1">
-          <Shield className="w-3.5 h-3.5 text-[#4ECCA3]" />
-          Consent Vault Active
+        <div className="pt-4 border-t border-evoke-border space-y-2">
+          <button
+            onClick={() => setIsAuditOpen(true)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-[8px] bg-evoke-card border border-evoke-border hover:border-[#4ECCA3]/50 text-xs text-evoke-text-secondary hover:text-evoke-text-primary transition-all group"
+          >
+            <span className="flex items-center gap-1.5 font-mono text-[11px]">
+              <Shield className="w-3.5 h-3.5 text-[#4ECCA3]" />
+              Audit Trail (I4)
+            </span>
+            <span className="text-[10px] text-[#4ECCA3] group-hover:underline">Inspect</span>
+          </button>
+          <div className="text-[10px] text-evoke-text-muted font-mono flex items-center gap-1 px-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#4ECCA3]" />
+            Consent Invariants Enforced
+          </div>
         </div>
       </aside>
 
@@ -278,6 +296,13 @@ export const ConversationUI: React.FC = () => {
           </form>
         </div>
       </main>
+
+      {/* Tamper-Evident Audit Log Drawer (Invariant I4) */}
+      <AuditLogDrawer
+        isOpen={isAuditOpen}
+        onClose={() => setIsAuditOpen(false)}
+        vaultId={activeVault.id}
+      />
     </div>
   );
 };

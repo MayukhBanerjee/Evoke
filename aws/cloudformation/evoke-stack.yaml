@@ -1,0 +1,241 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Evoke: A Consent-First Serverless Cloud Architecture for Structured Personality Preservation.
+  Deploys S3 (encrypted raw vault), DynamoDB with native TTL (I2), Cognito role-separated user pools (I1),
+  CloudWatch tamper-evident audit trails (I4), API Gateway REST API, and Lambda execution roles for
+  Transcribe, Comprehend, Polly, and DynamoDB.
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: prod
+    Description: Deployment environment (e.g., dev, test, prod)
+  S3BucketName:
+    Type: String
+    Default: evoke-media-vault
+    Description: S3 bucket name for AES-256 encrypted raw audio and conversational artefacts
+  DynamoDBTableName:
+    Type: String
+    Default: evoke-vaults
+    Description: DynamoDB table name for Personality Ingestion Schema (PIS) storage
+
+Resources:
+  # ============================================================================
+  # 1. S3 RAW VAULT (AES-256 Encrypted Ingestion Store)
+  # ============================================================================
+  EvokeMediaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${S3BucketName}-${AWS::AccountId}-${AWS::Region}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, PUT, POST, HEAD]
+            AllowedOrigins: ['*']
+            MaxAge: 3600
+      VersioningConfiguration:
+        Status: Enabled
+
+  # ============================================================================
+  # 2. DYNAMODB PIS STORE (Invariant I2: Subject-Defined Expiry via native TTL)
+  # ============================================================================
+  EvokeDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref DynamoDBTableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # ============================================================================
+  # 3. AMAZON COGNITO USER POOLS (Invariant I1: Role Separation)
+  # ============================================================================
+  EvokeUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Sub "evoke-user-pool-${EnvironmentName}"
+      AutoVerifiedAttributes:
+        - email
+      UsernameAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+          RequireUppercase: true
+
+  EvokeUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: evoke-web-client
+      UserPoolId: !Ref EvokeUserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
+
+  # Role Group 1: Living Subject (Primary Author - Invariant I3)
+  LivingSubjectGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: LivingSubject
+      Description: Living primary subject with exclusive authority to attest and calibrate traits
+      UserPoolId: !Ref EvokeUserPool
+      Precedence: 1
+
+  # Role Group 2: Family Contributor (Advisory Mode)
+  FamilyContributorGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: FamilyContributor
+      Description: Bereaved family members contributing advisory memories and relational prompts
+      UserPoolId: !Ref EvokeUserPool
+      Precedence: 2
+
+  # Role Group 3: Family Auditor (Invariant I4: Transparency)
+  FamilyAuditorGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: FamilyAuditor
+      Description: Family members with read-only access to PIS schema and CloudWatch audit logs
+      UserPoolId: !Ref EvokeUserPool
+      Precedence: 3
+
+  # ============================================================================
+  # 4. CLOUDWATCH TAMPER-EVIDENT AUDIT TRAILS (Invariant I4: Auditability)
+  # ============================================================================
+  EvokeAuditLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/evoke/audit-trail
+      RetentionInDays: 365
+
+  # ============================================================================
+  # 5. IAM ROLES & POLICIES FOR SERVERLESS PIPELINE
+  # ============================================================================
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "evoke-lambda-execution-role-${EnvironmentName}"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [lambda.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: EvokeServicePermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # DynamoDB Access
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource: !GetAtt EvokeDynamoDBTable.Arn
+              # S3 Access
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt EvokeMediaBucket.Arn
+                  - !Sub "${EvokeMediaBucket.Arn}/*"
+              # Amazon Transcribe
+              - Effect: Allow
+                Action:
+                  - transcribe:StartTranscriptionJob
+                  - transcribe:GetTranscriptionJob
+                Resource: '*'
+              # Amazon Comprehend
+              - Effect: Allow
+                Action:
+                  - comprehend:DetectSentiment
+                  - comprehend:DetectKeyPhrases
+                  - comprehend:DetectEntities
+                  - comprehend:DetectSyntax
+                Resource: '*'
+              # Amazon Polly
+              - Effect: Allow
+                Action:
+                  - polly:SynthesizeSpeech
+                  - polly:DescribeVoices
+                Resource: '*'
+              # CloudWatch Logs (Invariant I4)
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogStreams
+                Resource: !GetAtt EvokeAuditLogGroup.Arn
+
+  # ============================================================================
+  # 6. API GATEWAY REST API (Authenticated Gateway with Cognito Authorizer)
+  # ============================================================================
+  EvokeApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub "evoke-api-${EnvironmentName}"
+      Description: Authenticated REST Gateway enforcing Invariant I1
+
+  EvokeApiAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      Name: CognitoAuthorizer
+      Type: COGNITO_USER_POOLS
+      IdentitySource: method.request.header.Authorization
+      RestApiId: !Ref EvokeApiGateway
+      ProviderARNs:
+        - !GetAtt EvokeUserPool.Arn
+
+Outputs:
+  MediaBucketName:
+    Value: !Ref EvokeMediaBucket
+    Description: S3 Media Vault Bucket
+  DynamoDBTableName:
+    Value: !Ref EvokeDynamoDBTable
+    Description: DynamoDB PIS Storage Table
+  UserPoolId:
+    Value: !Ref EvokeUserPool
+    Description: Cognito User Pool ID
+  UserPoolClientId:
+    Value: !Ref EvokeUserPoolClient
+    Description: Cognito User Pool App Client ID
+  AuditLogGroupName:
+    Value: !Ref EvokeAuditLogGroup
+    Description: CloudWatch Tamper-Evident Audit Log Group

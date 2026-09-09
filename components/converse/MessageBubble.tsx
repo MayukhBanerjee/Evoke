@@ -35,14 +35,19 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, echoName 
         {!isUser && message.humilityTriggered && (
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[100px] bg-[#FF9A3C]/10 border border-[#FF9A3C]/30 text-[10px] font-mono text-[#FF9A3C] mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF9A3C]" />
-            Humility Gate: Preserving Value Consistency
+            Humility Gate (&tau;=0.70){message.queryConfidence !== undefined ? ` &bull; conf: ${message.queryConfidence}` : ''}
           </div>
         )}
 
-        {/* Latency + Model badge */}
+        {/* Latency + Model + Voice Engine badge */}
         {!isUser && message.latencyMs && message.latencyMs > 0 ? (
-          <div className="text-[10px] font-mono text-evoke-text-muted mb-1.5">
-            {message.latencyMs}ms via {message.modelUsed || 'Groq'}
+          <div className="flex items-center gap-2 text-[10px] font-mono text-evoke-text-muted mb-1.5">
+            <span>{message.latencyMs}ms via {message.modelUsed || 'Groq'}</span>
+            {message.voiceEngine && message.voiceEngine !== 'none' && (
+              <span className="text-[#C5A880] border-l border-evoke-border/80 pl-2">
+                Voice: {message.voiceEngine === 'amazon-polly' ? 'Amazon Polly (Neural)' : 'ElevenLabs'}
+              </span>
+            )}
           </div>
         ) : null}
 

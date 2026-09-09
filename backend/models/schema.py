@@ -87,5 +87,8 @@ class ConversationResponse(BaseModel):
     latency_ms: int = 0
     humility_triggered: bool = False
     schema_confidence: float = 0.0
+    query_confidence: float = 0.0
     model_used: str = ""
+    voice_engine: str = ""
+    context_fields: list[str] = []
 
