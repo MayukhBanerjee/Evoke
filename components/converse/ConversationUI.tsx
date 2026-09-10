@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEvoke } from '@/lib/store';
 import { MessageBubble } from './MessageBubble';
 import { Button } from '../ui/Button';
-import { ArrowLeft, Send, User, Shield, Sun, Moon, CheckCircle2, RotateCcw, Sparkles, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, Send, User, Shield, Sun, Moon, CheckCircle2, RotateCcw, Sparkles, ArrowUpRight, Mic, MicOff, AlertCircle } from 'lucide-react';
 import { AuditLogDrawer } from './AuditLogDrawer';
+import { useSpeechRecognition } from '@/lib/useSpeechRecognition';
 
 interface StarterInquiry {
   title: string;
@@ -71,6 +72,39 @@ export const ConversationUI: React.FC = () => {
   const [isAuditOpen, setIsAuditOpen] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const baseInputBeforeVoiceRef = useRef<string>('');
+
+  const {
+    isSupported: isSpeechSupported,
+    isListening,
+    isSpeaking,
+    error: speechError,
+    startListening,
+    stopListening,
+    clearError: clearSpeechError,
+  } = useSpeechRecognition();
+
+  const handleToggleVoice = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      clearSpeechError();
+      baseInputBeforeVoiceRef.current = inputText;
+      startListening({
+        continuous: true,
+        interimResults: true,
+        lang: 'en-US',
+        onResult: (spokenText) => {
+          const prefix = baseInputBeforeVoiceRef.current.trim();
+          if (prefix) {
+            setInputText(`${prefix} ${spokenText}`);
+          } else {
+            setInputText(spokenText);
+          }
+        },
+      });
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -86,8 +120,12 @@ export const ConversationUI: React.FC = () => {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim() || isGeneratingEcho) return;
+    if (isListening) {
+      stopListening();
+    }
     addMessage(inputText);
     setInputText('');
+    baseInputBeforeVoiceRef.current = '';
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -362,17 +400,116 @@ export const ConversationUI: React.FC = () => {
         {/* FIXED BOTTOM INPUT AREA */}
         <div className="p-4 md:px-16 bg-evoke-bg/95 backdrop-blur-md border-t border-evoke-border">
           <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-2">
-            <div className="relative flex items-center bg-evoke-surface border border-evoke-border rounded-[12px] focus-within:border-[#C5A880] focus-within:ring-1 focus-within:ring-[#C5A880]/30 transition-all p-2.5 shadow-sm">
+            {/* Live Listening Waveform Banner */}
+            <AnimatePresence>
+              {isListening && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, y: 5 }}
+                  animate={{ opacity: 1, height: 'auto', y: 0 }}
+                  exit={{ opacity: 0, height: 0, y: 5 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center justify-between px-3.5 py-2 rounded-[10px] bg-[#C5A880]/15 border border-[#C5A880]/40 text-xs text-[#C5A880] mb-1 backdrop-blur-md shadow-[0_0_15px_rgba(197,168,128,0.15)]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 h-4">
+                      <span className="w-1 bg-[#C5A880] rounded-full animate-[pulse_0.6s_ease-in-out_infinite] h-2" />
+                      <span className="w-1 bg-[#C5A880] rounded-full animate-[pulse_0.4s_ease-in-out_infinite_0.15s] h-4" />
+                      <span className="w-1 bg-[#C5A880] rounded-full animate-[pulse_0.7s_ease-in-out_infinite_0.3s] h-2.5" />
+                      <span className="w-1 bg-[#C5A880] rounded-full animate-[pulse_0.5s_ease-in-out_infinite_0.45s] h-3.5" />
+                      <span className="w-1 bg-[#C5A880] rounded-full animate-[pulse_0.6s_ease-in-out_infinite_0.2s] h-2" />
+                    </div>
+                    <span className="font-medium tracking-wide">
+                      {isSpeaking ? "Capturing your speech..." : `Listening... Speak naturally to ${activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name}`}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleToggleVoice}
+                      className="text-[11px] font-medium text-[#C5A880] hover:text-white bg-[#C5A880]/20 hover:bg-[#C5A880]/30 px-2.5 py-1 rounded-[6px] transition-all"
+                    >
+                      Done Speaking
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Error Notification Banner */}
+            <AnimatePresence>
+              {speechError && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  className="flex items-center justify-between px-3 py-2 rounded-[8px] bg-red-500/10 border border-red-500/30 text-xs text-red-400 mb-1 backdrop-blur-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span>{speechError}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearSpeechError}
+                    className="text-xs text-red-400 hover:text-white ml-3 font-bold"
+                  >
+                    ✕
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className={`relative flex items-center bg-evoke-surface border rounded-[12px] transition-all p-2.5 shadow-sm ${
+              isListening 
+                ? "border-[#C5A880] ring-1 ring-[#C5A880]/40 shadow-[0_0_15px_rgba(197,168,128,0.15)]" 
+                : "border-evoke-border focus-within:border-[#C5A880] focus-within:ring-1 focus-within:ring-[#C5A880]/30"
+            }`}>
               <textarea
                 value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                onChange={(e) => {
+                  setInputText(e.target.value);
+                  baseInputBeforeVoiceRef.current = e.target.value;
+                }}
                 onKeyDown={handleKeyDown}
-                placeholder={`Ask ${activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name} about philosophy, leadership, or decisions...`}
+                placeholder={
+                  isListening
+                    ? "Listening to your voice in real time... (Speak now)"
+                    : `Ask ${activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name} about philosophy, leadership, or decisions...`
+                }
                 rows={2}
                 className="w-full bg-transparent text-sm text-evoke-text-primary placeholder-evoke-text-muted focus:outline-none resize-none px-3 py-1.5"
               />
 
               <div className="flex items-center gap-2 pr-2 shrink-0">
+                {/* STT Chrome Microphone Button */}
+                <button
+                  type="button"
+                  onClick={handleToggleVoice}
+                  disabled={isGeneratingEcho}
+                  aria-label={isListening ? "Stop listening" : "Speak your message using microphone"}
+                  title={
+                    !isSpeechSupported
+                      ? "Speech recognition requires Google Chrome"
+                      : isListening
+                      ? "Stop listening"
+                      : `Speak to ${activeVault.name.includes('Kalam') ? 'Dr. Kalam' : activeVault.name.includes('Obama') ? 'Barack Obama' : activeVault.name}`
+                  }
+                  className={`relative p-2.5 rounded-[10px] transition-all duration-200 flex items-center justify-center select-none ${
+                    isListening
+                      ? "bg-[#C5A880]/20 text-[#C5A880] border border-[#C5A880] shadow-[0_0_12px_rgba(197,168,128,0.4)] active:scale-95"
+                      : "bg-transparent text-evoke-text-muted hover:text-[#C5A880] hover:bg-evoke-border/40 border border-transparent active:scale-95"
+                  } ${isGeneratingEcho ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
+                >
+                  {isListening && (
+                    <span className="absolute inset-0 rounded-[10px] bg-[#C5A880]/25 animate-ping pointer-events-none" />
+                  )}
+                  {isListening ? (
+                    <Mic className="w-4 h-4 text-[#C5A880] animate-pulse" />
+                  ) : (
+                    <Mic className="w-4 h-4" />
+                  )}
+                </button>
+
                 <Button
                   type="submit"
                   variant="gold"
@@ -387,7 +524,15 @@ export const ConversationUI: React.FC = () => {
 
             <div className="flex items-center justify-between text-[10px] text-evoke-text-muted font-mono px-1">
               <span>Persona Profile: {activeVault.name}</span>
-              <span>Epistemic Humility Gate τ = 0.70</span>
+              <div className="flex items-center gap-3">
+                {isSpeechSupported && (
+                  <span className="text-[#4ECCA3]/90 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4ECCA3]" />
+                    Chrome STT Active
+                  </span>
+                )}
+                <span>Epistemic Humility Gate τ = 0.70</span>
+              </div>
             </div>
           </form>
         </div>

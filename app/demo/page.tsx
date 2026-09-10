@@ -22,8 +22,11 @@ import {
   BrainCircuit,
   Lock,
   Compass,
-  User
+  User,
+  Mic,
+  AlertCircle
 } from 'lucide-react';
+import { useSpeechRecognition } from '@/lib/useSpeechRecognition';
 
 interface SampleQuestion {
   label: string;
@@ -85,6 +88,34 @@ export default function DemoPage() {
   
   const demoVault = vaults.find(v => v.id === selectedVaultId) || vaults[0];
   const [testInput, setTestInput] = useState('');
+  const demoVoiceBaseRef = React.useRef<string>('');
+
+  const {
+    isSupported: isSpeechSupported,
+    isListening,
+    error: speechError,
+    startListening,
+    stopListening,
+    clearError: clearSpeechError,
+  } = useSpeechRecognition();
+
+  const handleToggleVoice = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      clearSpeechError();
+      demoVoiceBaseRef.current = testInput;
+      startListening({
+        continuous: true,
+        interimResults: true,
+        lang: 'en-US',
+        onResult: (spokenText) => {
+          const prefix = demoVoiceBaseRef.current.trim();
+          setTestInput(prefix ? `${prefix} ${spokenText}` : spokenText);
+        },
+      });
+    }
+  };
 
   const sampleQuestions = SAMPLE_QUESTIONS_MAP[demoVault.id] || SAMPLE_QUESTIONS_MAP['vault-kalam'];
 
@@ -541,21 +572,62 @@ export default function DemoPage() {
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (!testInput.trim() || isGeneratingEcho) return;
+                    if (isListening) stopListening();
                     handleSendPrompt(testInput);
                     setTestInput('');
+                    demoVoiceBaseRef.current = '';
                   }}
-                  className="flex gap-2 pt-2"
+                  className="flex flex-col gap-2 pt-2"
                 >
-                  <input
-                    type="text"
-                    value={testInput}
-                    onChange={(e) => setTestInput(e.target.value)}
-                    placeholder={`Inquire with ${demoVault.name}...`}
-                    className="flex-grow bg-evoke-surface border border-evoke-border rounded-[8px] px-3 py-2 text-sm text-evoke-text-primary focus:outline-none focus:border-[#C5A880]"
-                  />
-                  <Button type="submit" variant="gold" size="md" disabled={!testInput.trim() || isGeneratingEcho}>
-                    Send
-                  </Button>
+                  {isListening && (
+                    <div className="flex items-center justify-between px-3 py-1.5 rounded-[8px] bg-[#C5A880]/15 border border-[#C5A880]/30 text-xs text-[#C5A880]">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#C5A880] animate-ping" />
+                        <span>Listening... Speak to {demoVault.name}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleToggleVoice}
+                        className="text-[11px] font-medium underline hover:text-white"
+                      >
+                        Done
+                      </button>
+                    </div>
+                  )}
+                  {speechError && (
+                    <div className="flex items-center justify-between px-3 py-1.5 rounded-[8px] bg-red-500/10 border border-red-500/30 text-xs text-red-400">
+                      <span>{speechError}</span>
+                      <button type="button" onClick={clearSpeechError} className="ml-2 font-bold">✕</button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={testInput}
+                      onChange={(e) => {
+                        setTestInput(e.target.value);
+                        demoVoiceBaseRef.current = e.target.value;
+                      }}
+                      placeholder={isListening ? "Listening... Speak now" : `Inquire with ${demoVault.name}...`}
+                      className="flex-grow bg-evoke-surface border border-evoke-border rounded-[8px] px-3 py-2 text-sm text-evoke-text-primary focus:outline-none focus:border-[#C5A880]"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleToggleVoice}
+                      disabled={isGeneratingEcho}
+                      title={isListening ? "Stop listening" : "Speak to persona"}
+                      className={`px-3 py-2 rounded-[8px] flex items-center justify-center transition-all ${
+                        isListening
+                          ? "bg-[#C5A880]/20 text-[#C5A880] border border-[#C5A880] shadow-[0_0_10px_rgba(197,168,128,0.4)]"
+                          : "bg-evoke-surface border border-evoke-border text-evoke-text-muted hover:text-[#C5A880]"
+                      }`}
+                    >
+                      <Mic className="w-4 h-4" />
+                    </button>
+                    <Button type="submit" variant="gold" size="md" disabled={!testInput.trim() || isGeneratingEcho}>
+                      Send
+                    </Button>
+                  </div>
                 </form>
               </Card>
             </motion.div>
