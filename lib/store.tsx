@@ -354,7 +354,16 @@ export const EvokeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const res = await fetch('/api/echo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: content, vault: activeVault }),
+          body: JSON.stringify({
+            message: content,
+            vault: activeVault,
+            conversationHistory: (messagesMap[activeVaultId] || [])
+              .slice(-10)
+              .map(m => ({
+                role: m.sender === 'user' ? 'user' : 'assistant',
+                content: m.content,
+              })),
+          }),
         });
         if (res.ok) {
           const data = await res.json();

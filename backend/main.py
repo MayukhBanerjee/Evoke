@@ -118,14 +118,14 @@ async def converse(req: ConversationRequest, request: Request):
     if not schema:
         raise HTTPException(status_code=404, detail="Vault not found")
 
-    base_prompt = build_system_prompt(schema)
+    base_prompt = build_system_prompt(schema, query=req.message, history=req.conversation_history)
     conditioned_prompt, humility_triggered, query_confidence, context_keys = apply_humility_gate(
         req.message, schema, base_prompt
     )
 
     t0 = time.time()
     text, llm_latency, model_used = await generate_echo(
-        schema, req.message, conditioned_prompt, req.conversation_history
+        schema, req.message, conditioned_prompt, req.conversation_history, query_confidence
     )
     total_latency_ms = int((time.time() - t0) * 1000)
 
