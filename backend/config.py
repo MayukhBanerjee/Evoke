@@ -33,3 +33,10 @@ EPISTEMIC_HUMILITY_THRESHOLD = float(os.getenv("HUMILITY_THRESHOLD", "0.70"))
 GROQ_MODEL = "llama-3.3-70b-versatile"
 GEMINI_MODEL = "gemini-1.5-flash"
 USE_AWS = bool(AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
+
+# Amazon Bedrock & Mantle Settings
+USE_BEDROCK = os.getenv("USE_BEDROCK", "true").lower() in ("true", "1", "yes")
+BEDROCK_REGION = os.getenv("BEDROCK_REGION") or os.getenv("AWS_REGION", "ap-south-1")
+BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "deepseek.v3.2")
+BEDROCK_MANTLE_API_KEY = os.getenv("BEDROCK_MANTLE_API_KEY", "")
+BEDROCK_MANTLE_ENDPOINT = os.getenv("BEDROCK_MANTLE_ENDPOINT", f"https://bedrock-mantle.{BEDROCK_REGION}.api.aws/v1/chat/completions")
